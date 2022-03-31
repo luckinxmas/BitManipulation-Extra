@@ -34,3 +34,24 @@ repositories {
     flatDir { 
         dirs 'libs'
     }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+	deobfCompile "mezz.jei:${jei_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+    inputs.property "updatejson", update_json
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version, 'updatejson':update_json
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
