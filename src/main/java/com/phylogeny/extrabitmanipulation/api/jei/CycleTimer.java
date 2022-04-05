@@ -40,4 +40,17 @@ public class CycleTimer
 	{
 		if (!GuiScreen.isShiftKeyDown())
 		{
-			if (pausedDuration 
+			if (pausedDuration > 0)
+			{
+				startTime += pausedDuration;
+				pausedDuration = 0;
+			}
+			drawTime = System.currentTimeMillis();
+		}
+		else
+		{
+			pausedDuration = System.currentTimeMillis() - drawTime;
+		}
+	}
+	
+}
