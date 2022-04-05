@@ -26,4 +26,20 @@ public class InfoRecipeBase implements IRecipeWrapper
 	protected Rectangle imageBox;
 	
 	public InfoRecipeBase(IGuiHelper guiHelper, List<ItemStack> itemStacks, int imageWidth, int imageHeight, String recipeName,
-			String imageName, String tooltipName, int imageLeft, int imageTop, int imageRight, int imageBottom, String catagoryName
+			String imageName, String tooltipName, int imageLeft, int imageTop, int imageRight, int imageBottom, String catagoryName)
+	{
+		this.itemStacks = itemStacks;
+		this.image = new ResourceLocation(Reference.MOD_ID, "textures/jei/images/" + imageName + ".png");
+		this.imageWidth = imageWidth;
+		this.imageHeight = imageHeight;
+		this.slotDrawable = guiHelper.getSlotDrawable();
+		this.name = JustEnoughItemsPlugin.translate(catagoryName + ".name." + recipeName);
+		String toolTip = ".tooltip";
+		if (!tooltipName.contains("."))
+			tooltipName += ".";
+		else
+			toolTip += ".";
+		
+		tooltipName = tooltipName.replaceFirst("[.]", toolTip);
+		tooltipLines.addAll(Arrays.asList(JustEnoughItemsPlugin.translate(tooltipName).split("\\\\n")));
+		text = JustEnoughItemsPlugin.translate(t
