@@ -63,4 +63,9 @@ public class InfoRecipeBase implements IRecipeWrapper
 		return getTooltips;
 	}
 	
-	protected String translateName(String cat
+	protected String translateName(String catagoryName, String name)
+	{
+		return JustEnoughItemsPlugin.translate(catagoryName + ".name." + name);
+	}
+	
+}
