@@ -42,4 +42,25 @@ public class InfoRecipeBase implements IRecipeWrapper
 		
 		tooltipName = tooltipName.replaceFirst("[.]", toolTip);
 		tooltipLines.addAll(Arrays.asList(JustEnoughItemsPlugin.translate(tooltipName).split("\\\\n")));
-		text = JustEnoughItemsPlugin.translate(t
+		text = JustEnoughItemsPlugin.translate(tooltipName.replace("tooltip", "text"));
+		imageBox = new Rectangle(imageLeft, imageTop, imageRight - imageLeft, imageBottom - imageTop);
+	}
+	
+	@Override
+	public void getIngredients(IIngredients ingredients)
+	{
+		ingredients.setInputLists(ItemStack.class, Collections.singletonList(itemStacks));
+		ingredients.setOutputs(ItemStack.class, itemStacks);
+	}
+	
+	@Override
+	public List<String> getTooltipStrings(int mouseX, int mouseY)
+	{
+		List<String> getTooltips = new ArrayList<String>();
+		if (imageBox.contains(mouseX, mouseY))
+			getTooltips.addAll(tooltipLines);
+		
+		return getTooltips;
+	}
+	
+	protected String translateName(String cat
