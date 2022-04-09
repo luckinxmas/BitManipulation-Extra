@@ -12,4 +12,35 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 
 import com.phylogeny.extrabitmanipulation.reference.Reference;
 
-public abstract class InfoRecipeCategoryBase<T extends IRecipeWrapper> implements IRecipeCa
+public abstract class InfoRecipeCategoryBase<T extends IRecipeWrapper> implements IRecipeCategory
+{
+	private final IDrawable background, icon;
+	private final String localizedName;
+	private final int recipeWidth, recipeHeight;
+	
+	public InfoRecipeCategoryBase(IGuiHelper guiHelper, IDrawable icon, String name, int width, int height)
+	{
+		recipeWidth = width;
+		recipeHeight = height;
+		background = guiHelper.createBlankDrawable(recipeWidth, recipeHeight);
+		localizedName = Translator.translateToLocal("jei." + Reference.MOD_ID + ".category." + name);
+		this.icon = icon;
+	}
+	
+	@Override
+	public String getTitle()
+	{
+		return localizedName;
+	}
+	
+	@Nullable
+	@Override
+	public IDrawable getIcon()
+	{
+		return icon;
+	}
+	
+	@Override
+	public IDrawable getBackground()
+	{
+		return ba
