@@ -33,4 +33,9 @@ public final class Translator
 		}
 		catch (IllegalFormatException e)
 		{
-		
+			LogHelper.getLogger().error("Format error: {}", s, e);
+			return "Format error: " + s;
+		}
+	}
+	
+}
