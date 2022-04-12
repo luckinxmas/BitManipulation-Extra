@@ -43,4 +43,26 @@ public abstract class InfoRecipeCategoryBase<T extends IRecipeWrapper> implement
 	@Override
 	public IDrawable getBackground()
 	{
-		return ba
+		return background;
+	}
+	
+	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients)
+	{
+		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
+		guiItemStacks.init(0, true, getSlotPosX(), 0);
+		guiItemStacks.set(ingredients);
+	}
+	
+	protected int getSlotPosX()
+	{
+		return 47;
+	}
+	
+	@Override
+	public String getModName()
+	{
+		return Reference.MOD_NAME;
+	}
+	
+}
