@@ -38,4 +38,22 @@ public class ChiseledArmorInfoRecipe extends InfoRecipeBase
 		this.imageIndex = imageIndex;
 		for (int i = 0; i < tooltipLines.size(); i++)
 			tooltipLines.set(i, tooltipLines.get(i).replace("@",
-					KeyBindingsExtraBitManipula
+					KeyBindingsExtraBitManipulation.OPEN_CHISELED_ARMOR_SLOTS_GUI.getKeyBinding().getDisplayName()));
+	}
+	
+	protected String translateName(String name)
+	{
+		return translateName(ChiseledArmorInfoRecipeCategory.NAME, name);
+	}
+	
+	@Override
+	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
+	{
+		int xPos = 60;
+		int yPos = 0;
+		slotDrawable.draw(minecraft, xPos, yPos);
+		ClientHelper.bindTexture(image);
+		GuiHelper.drawTexturedRect(imageBox.getMinX(), imageBox.getMinY(), imageBox.getMaxX(), imageBox.getMaxY());
+		xPos = 82;
+		yPos = slotDrawable.getHeight() / 2 - minecraft.fontRenderer.FONT_HEIGHT / 2;
+		minecraft.fontRenderer.drawString(name, xPos, yPos, Color.black.g
