@@ -56,4 +56,35 @@ public class ChiseledArmorInfoRecipe extends InfoRecipeBase
 		GuiHelper.drawTexturedRect(imageBox.getMinX(), imageBox.getMinY(), imageBox.getMaxX(), imageBox.getMaxY());
 		xPos = 82;
 		yPos = slotDrawable.getHeight() / 2 - minecraft.fontRenderer.FONT_HEIGHT / 2;
-		minecraft.fontRenderer.drawString(name, xPos, yPos, Color.black.g
+		minecraft.fontRenderer.drawString(name, xPos, yPos, Color.black.getRGB());
+		String text = this.text;
+		int wrapWidth = 60;
+		if (imageIndex == 0)
+		{
+			xPos = 53;
+			yPos = 44;
+			wrapWidth = 84;
+		}
+		else if (imageIndex == 1)
+		{
+			xPos = 37;
+			yPos = 30;
+		}
+		else
+		{
+			xPos = 37;
+			yPos = 23;
+			if (imageIndex > 2)
+			{
+				if (imageIndex == 3)
+				{
+					text = text.replace("@", KeyBindingsExtraBitManipulation.OPEN_CHISELED_ARMOR_GUI.getKeyBinding().getDisplayName());
+					wrapWidth = 73;
+					yPos += 3;
+				}
+				yPos += 3;
+			}
+		}
+		for (String s : minecraft.fontRenderer.listFormattedStringToWidth(text, wrapWidth))
+		{
+			minecraft.fontRenderer.drawString(s, xPos - minecraft.fontRenderer.getStringWidth(s) / 
