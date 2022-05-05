@@ -87,4 +87,9 @@ public class ChiseledArmorInfoRecipe extends InfoRecipeBase
 		}
 		for (String s : minecraft.fontRenderer.listFormattedStringToWidth(text, wrapWidth))
 		{
-			minecraft.fontRenderer.drawString(s, xPos - minecraft.fontRenderer.getStringWidth(s) / 
+			minecraft.fontRenderer.drawString(s, xPos - minecraft.fontRenderer.getStringWidth(s) / 2, yPos, Color.black.getRGB());
+			yPos += minecraft.fontRenderer.FONT_HEIGHT;
+		}
+	}
+	
+}
