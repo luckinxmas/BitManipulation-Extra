@@ -9,4 +9,32 @@ public abstract class CategoryIconBase implements IDrawableStatic
 	
 	public CategoryIconBase(int width, int height)
 	{
-		this.wi
+		this.width = width;
+		this.height = height;
+	}
+	
+	@Override
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	@Override
+	public int getHeight()
+	{
+		return height;
+	}
+	
+	@Override
+	public void draw(Minecraft minecraft)
+	{
+		draw(minecraft, 0, 0);
+	}
+	
+	@Override
+	public void draw(Minecraft minecraft, int xOffset, int yOffset)
+	{
+		draw(minecraft, xOffset, yOffset, 0, 0, 0, 0);
+	}
+	
+}
