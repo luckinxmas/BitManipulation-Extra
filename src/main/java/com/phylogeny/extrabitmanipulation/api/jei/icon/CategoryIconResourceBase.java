@@ -28,4 +28,7 @@ public abstract class CategoryIconResourceBase extends CategoryIconBase
 		int v = this.v + maskTop;
 		int width = this.width - maskRight - maskLeft;
 		int height = this.height - maskBottom - maskTop;
-		Gui.drawScaledCustom
+		Gui.drawScaledCustomSizeModalRect(x, y, u, v, textureWidth, textureHeight, width, height, textureWidth, textureHeight);
+	}
+	
+}
