@@ -13,4 +13,13 @@ public class ShapeInfoRecipeCategory extends InfoRecipeCategoryBase<ShapeInfoRec
 	
 	public ShapeInfoRecipeCategory(IGuiHelper guiHelper)
 	{
-		super(guiHelper, new CategoryIconList(0, 0, 16, 16, 870, 870, "textures/jei/graphics/", ShapeInfoRecipe.GRAPHIC_NAMES),
+		super(guiHelper, new CategoryIconList(0, 0, 16, 16, 870, 870, "textures/jei/graphics/", ShapeInfoRecipe.GRAPHIC_NAMES), NAME, 160, 125);
+	}
+	
+	@Override
+	public String getUid()
+	{
+		return UID;
+	}
+	
+}
