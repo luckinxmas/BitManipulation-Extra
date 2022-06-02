@@ -20,3 +20,38 @@ public class ArmorItem
 {
 	private List<GlOperation> glOperations = new ArrayList<GlOperation>();
 	private ItemStack stack;
+	
+	public ArmorItem()
+	{
+		stack = ItemStack.EMPTY;
+	}
+	
+	public ArmorItem(ItemStack stack)
+	{
+		this.stack = stack;
+	}
+	
+	public ArmorItem(NBTTagCompound nbt)
+	{
+		stack = ItemStackHelper.loadStackFromNBT(nbt, NBTKeys.ARMOR_ITEM);
+		GlOperation.loadListFromNBT(nbt, NBTKeys.ARMOR_GL_OPERATIONS, glOperations);
+	}
+	
+	public void addGlOperation(GlOperation glOperation)
+	{
+		glOperations.add(glOperation);
+	}
+	
+	public void addGlOperation(int index, GlOperation glOperation)
+	{
+		glOperations.add(index, glOperation);
+	}
+	
+	public void removeGlOperation(int index)
+	{
+		glOperations.remove(index);
+	}
+	
+	public List<GlOperation> getGlOperations()
+	{
+		List<GlOperation> glOperations
