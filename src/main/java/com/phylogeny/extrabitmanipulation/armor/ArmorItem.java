@@ -54,4 +54,22 @@ public class ArmorItem
 	
 	public List<GlOperation> getGlOperations()
 	{
-		List<GlOperation> glOperations
+		List<GlOperation> glOperations = new ArrayList<GlOperation>();
+		glOperations.addAll(this.glOperations);
+		return glOperations;
+	}
+	
+	public void render(EntityLivingBase entity, float scale, boolean isRightLegOrFoot)
+	{
+		float scale2 = 32 * scale + Configs.armorZFightingBufferScale;
+		if (isRightLegOrFoot)
+			scale2 += Configs.armorZFightingBufferScaleRightLegOrFoot;
+		
+		GlStateManager.scale(scale2, scale2, scale2);
+		if (ChiselsAndBitsAPIAccess.apiInstance.getItemType(stack) != ItemType.CHISLED_BLOCK)
+			GlStateManager.scale(0.5F, 0.5F, 0.5F);
+		
+		Minecraft.getMinecraft().getItemRenderer().renderItem(entity, stack, TransformType.NONE);
+	}
+	
+	public void executeGlOpe
