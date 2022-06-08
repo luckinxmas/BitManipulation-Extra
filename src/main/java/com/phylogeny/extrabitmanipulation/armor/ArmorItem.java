@@ -72,4 +72,30 @@ public class ArmorItem
 		Minecraft.getMinecraft().getItemRenderer().renderItem(entity, stack, TransformType.NONE);
 	}
 	
-	public void executeGlOpe
+	public void executeGlOperations()
+	{
+		GlOperation.executeList(glOperations);
+	}
+	
+	public boolean isEmpty()
+	{
+		return stack.isEmpty();
+	}
+	
+	public void saveToNBT(NBTTagCompound nbt)
+	{
+		ItemStackHelper.saveStackToNBT(nbt, stack, NBTKeys.ARMOR_ITEM);
+		GlOperation.saveListToNBT(nbt, NBTKeys.ARMOR_GL_OPERATIONS, glOperations);
+	}
+	
+	public ItemStack getStack()
+	{
+		return stack;
+	}
+	
+	public void setStack(ItemStack stack)
+	{
+		this.stack = stack;
+	}
+	
+}
