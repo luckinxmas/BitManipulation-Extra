@@ -221,3 +221,127 @@ public class ChiseledArmorStackHandeler extends ItemOverrideList
 		{
 			index = size * i;
 			x = Float.intBitsToFloat(data[index]);
+			y = Float.intBitsToFloat(data[index + 1]);
+			z = Float.intBitsToFloat(data[index + 2]);
+			vec = new Vector4f(x, y, z, 1);
+			matrix.transform(vec);
+			x = vec.x * scale + offsetX;
+			y = vec.y * scale + offsetY;
+			z = vec.z * scale;
+			if (x < bounds[0])
+				bounds[0] = x;
+			
+			if (x > bounds[3])
+				bounds[3] = x;
+			
+			if (y < bounds[1])
+				bounds[1] = y;
+			
+			if (y > bounds[4])
+				bounds[4] = y;
+			
+			if (z < bounds[2])
+				bounds[2] = z;
+			
+			if (z > bounds[5])
+				bounds[5] = z;
+			
+			data[index] = Float.floatToRawIntBits(x);
+			data[index + 1] = Float.floatToRawIntBits(y);
+			data[index + 2] = Float.floatToRawIntBits(z);
+		}
+		return new BakedQuad(data, quad.getTintIndex() == -1 ? -1 : ClientHelper.getItemColors().getColorFromItemstack(stack, quad.getTintIndex()),
+				facing, quad.getSprite(), quad.shouldApplyDiffuseLighting(), quad.getFormat());
+	}
+	
+	public static class ChiseledArmorBakedModel extends BaseBakedPerspectiveModel
+	{
+		private static Matrix4f ground, fixed;
+		private final ItemOverrideList overrides;
+		private List<BakedQuad>[] face;
+		private List<BakedQuad> generic;
+		
+		public ChiseledArmorBakedModel(List<BakedQuad>[] face, List<BakedQuad> generic)
+		{
+			this();
+			this.face = face;
+			this.generic = generic;
+		}
+		
+		public ChiseledArmorBakedModel()
+		{
+			overrides = new ChiseledArmorStackHandeler();
+			if (ground == null)
+			{
+				ground = createMatrix(TransformType.GROUND);
+				fixed = createMatrix(TransformType.FIXED);
+			}
+		}
+		
+		private Matrix4f createMatrix(TransformType transformType)
+		{
+			Matrix4f matrix = new Matrix4f();
+			matrix.set(1.35F);
+			matrix.mul(handlePerspective(transformType).getRight());
+			return matrix;
+		}
+		
+		@Override
+		public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType)
+		{
+			if (ground != null && fixed != null && (cameraTransformType == TransformType.GROUND || cameraTransformType == TransformType.FIXED))
+				return new ImmutablePair<IBakedModel, Matrix4f>(this, cameraTransformType == TransformType.GROUND ? ground : fixed);
+			
+			return super.handlePerspective(cameraTransformType);
+		}
+		
+		@Override
+		public boolean isAmbientOcclusion()
+		{
+			return true;
+		}
+		
+		@Override
+		public boolean isGui3d()
+		{
+			return true;
+		}
+		
+		@Override
+		public boolean isBuiltInRenderer()
+		{
+			return false;
+		}
+		
+		@Override
+		public TextureAtlasSprite getParticleTexture()
+		{
+			return Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
+		}
+		
+		@Override
+		public ItemCameraTransforms getItemCameraTransforms()
+		{
+			return ItemCameraTransforms.DEFAULT;
+		}
+		
+		@Override
+		public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand )
+		{
+			return generic == null ? Collections.EMPTY_LIST : (side != null ? face[side.ordinal()] : generic);
+		}
+		
+		@Override
+		public ItemOverrideList getOverrides()
+		{
+			return overrides;
+		}
+		
+	}
+	
+	public static enum ArmorStackModelRenderMode
+	{
+		DEFAULT_MODEL_IF_HOLDING_SHIFT, CUSTOM_MODEL_IF_HOLDING_SHIFT, ALWAYS_CUSTOM_MODEL, ALWAYS_DEFAULT_MODEL;
+	}
+	
+}
