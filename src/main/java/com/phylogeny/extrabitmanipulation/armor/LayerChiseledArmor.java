@@ -44,4 +44,24 @@ import net.minecraft.util.EnumHandSide;
 public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 {
 	private final Map<NBTTagCompound, List<Integer>> movingPartsDisplayListsMap = new HashMap<NBTTagCompound, List<Integer>>();
-	private ModelR
+	private ModelRenderer head, body, villagerArms, rightLeg, leftLeg, rightArm, leftArm;
+	private ModelBase model;
+	private boolean smallArms, isIllager, isVex;
+	private RenderLivingBase<? extends EntityLivingBase> livingEntityRenderer;
+	
+	public LayerChiseledArmor(RenderLivingBase<? extends EntityLivingBase> livingEntityRenderer)
+	{
+		this.livingEntityRenderer = livingEntityRenderer;
+		updateModelAndRenderers(false);
+	}
+	
+	public void updateModelAndRenderers(boolean force)
+	{
+		ModelBase modelNew = livingEntityRenderer.getMainModel();
+		if (!force && modelNew == model)
+			return;
+		
+		model = modelNew;
+		if (model instanceof ModelVillager)
+		{
+			ModelVillager modelVillager = ((ModelVil
