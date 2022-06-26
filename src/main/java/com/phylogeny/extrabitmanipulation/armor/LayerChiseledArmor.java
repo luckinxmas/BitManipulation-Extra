@@ -64,4 +64,27 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 		model = modelNew;
 		if (model instanceof ModelVillager)
 		{
-			ModelVillager modelVillager = ((ModelVil
+			ModelVillager modelVillager = ((ModelVillager) model);
+			head = modelVillager.villagerHead;
+			body = modelVillager.villagerBody;
+			rightLeg = modelVillager.rightVillagerLeg;
+			leftLeg = modelVillager.leftVillagerLeg;
+			villagerArms = modelVillager.villagerArms;
+		}
+		else if (model instanceof ModelIllager)
+		{
+			ModelIllager modelIllager = ((ModelIllager) model);
+			head = modelIllager.head;
+			body = modelIllager.body;
+			rightLeg = modelIllager.leg0;
+			leftLeg = modelIllager.leg1;
+			villagerArms = modelIllager.arms;
+			rightArm = modelIllager.rightArm;
+			leftArm = modelIllager.leftArm;
+			isIllager = true;
+		}
+		else
+		{
+			ModelBiped modelBiped = ((ModelBiped) model);
+			head = modelBiped.bipedHead;
+			body = mo
