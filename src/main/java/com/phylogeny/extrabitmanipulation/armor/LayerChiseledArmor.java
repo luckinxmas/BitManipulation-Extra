@@ -128,4 +128,15 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 			return false;
 		
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		return entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks == player.prev
+		return entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks == player.prevPosX + (player.posX - player.prevPosX) * partialTicks
+				&& entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks == player.prevPosY + (player.posY - player.prevPosY) * partialTicks
+				&& entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks == player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
+	}
+	
+	@Override
+	public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount,
+			float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+	{
+		updateModelAndRenderers(false);
+		GlStateManager.enableBlend();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0
