@@ -110,4 +110,22 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 	
 	public void removeFromDisplayListsMap(NBTTagCompound nbt)
 	{
-		deleteDisp
+		deleteDisplayLists(movingPartsDisplayListsMap.remove(nbt));
+	}
+	
+	private void deleteDisplayLists(List<Integer> displayLists)
+	{
+		if (displayLists != null)
+		{
+			for (Integer displayList : displayLists)
+				GLAllocation.deleteDisplayLists(displayList);
+		}
+	}
+	
+	public static boolean isPlayerModelAlt(EntityLivingBase entity, float partialTicks)
+	{
+		if (entity instanceof EntityPlayer || (!MorePlayerModelsReference.isLoaded && !CustomNPCsReferences.isLoaded))
+			return false;
+		
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		return entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks == player.prev
