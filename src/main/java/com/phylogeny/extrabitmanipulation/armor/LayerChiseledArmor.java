@@ -87,4 +87,27 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 		{
 			ModelBiped modelBiped = ((ModelBiped) model);
 			head = modelBiped.bipedHead;
-			body = mo
+			body = modelBiped.bipedBody;
+			rightLeg = modelBiped.bipedRightLeg;
+			leftLeg = modelBiped.bipedLeftLeg;
+			rightArm = modelBiped.bipedRightArm;
+			leftArm = modelBiped.bipedLeftArm;
+			villagerArms = null;
+			if (model instanceof ModelPlayer)
+				smallArms = ReflectionExtraBitManipulation.areArmsSmall((ModelPlayer) model);
+			
+			isVex = model instanceof ModelVex;
+		}
+	}
+	
+	public void clearDisplayListsMap()
+	{
+		for (List<Integer> displayLists : movingPartsDisplayListsMap.values())
+			deleteDisplayLists(displayLists);
+		
+		movingPartsDisplayListsMap.clear();
+	}
+	
+	public void removeFromDisplayListsMap(NBTTagCompound nbt)
+	{
+		deleteDisp
