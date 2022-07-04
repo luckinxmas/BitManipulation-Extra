@@ -139,4 +139,12 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 	{
 		updateModelAndRenderers(false);
 		GlStateManager.enableBlend();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		ClientHelper.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		EntityLivingBase entityCap = isPlayerModelAlt(entity, partialTicks) ? Minecraft.getMinecraft().player : entity;
+		IChiseledArmorSlotsHandler cap = entityCap instanceof EntityPlayer ? ChiseledArmorSlotsHandler.getCapability((EntityPlayer) entityCap) : null;
+		List<Integer> displayListsHelmet = getStackDisplayLists(entity, scale, ArmorType.HELMET);
+		List<Integer> displayListsSlotHelmet = getSlotStackDisplayLists(entity, scale, cap, ArmorType.HELMET);
+		if (displayListsHelmet != null || displayListsSlotHelmet != null)
+		{
+			GlStateManager.pushMatri
