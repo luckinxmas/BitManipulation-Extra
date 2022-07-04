@@ -163,4 +163,19 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 				GlStateManager.translate(0.0F, scale * 2, 0.0F);
 			
 			GlStateManager.pushMatrix();
-		
+			if (displayListsHelmet != null && (cap == null || !cap.hasArmorType(0)))
+				GlStateManager.callList(displayListsHelmet.get(0));
+			
+			GlStateManager.popMatrix();
+			if (displayListsSlotHelmet != null)
+			{
+				for (Integer i : displayListsSlotHelmet)
+					GlStateManager.callList(i);
+			}
+			GlStateManager.popMatrix();
+		}
+		List<Integer> displayListsChestplate = getStackDisplayLists(entity, scale, ArmorType.CHESTPLATE);
+		List<Integer> displayListsSlotChestplate = getSlotStackDisplayLists(entity, scale, cap, ArmorType.CHESTPLATE);
+		if (displayListsChestplate != null || displayListsSlotChestplate != null)
+		{
+			GlStateM
