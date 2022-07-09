@@ -178,4 +178,18 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 		List<Integer> displayListsSlotChestplate = getSlotStackDisplayLists(entity, scale, cap, ArmorType.CHESTPLATE);
 		if (displayListsChestplate != null || displayListsSlotChestplate != null)
 		{
-			GlStateM
+			GlStateManager.pushMatrix();
+			adjustForSneaking(entity);
+			adjustForChildModel();
+			boolean isPassive = !isIllager || ((AbstractIllager) entity).getArmPose() == AbstractIllager.IllagerArmPose.CROSSED;
+			GlStateManager.pushMatrix();
+			if (displayListsChestplate != null && (cap == null || !cap.hasArmorType(1)))
+			{
+				renderArmorPiece(body, displayListsChestplate.get(0), scale, 8);
+				renderSleeve(displayListsChestplate.get(1), EnumHandSide.RIGHT, scale, isPassive);
+				renderSleeve(displayListsChestplate.get(2), EnumHandSide.LEFT, scale, isPassive);
+			}
+			GlStateManager.popMatrix();
+			if (displayListsSlotChestplate != null)
+			{
+				for (int i = 0; i < displayLi
