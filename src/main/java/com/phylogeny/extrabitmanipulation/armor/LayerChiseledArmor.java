@@ -192,4 +192,19 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 			GlStateManager.popMatrix();
 			if (displayListsSlotChestplate != null)
 			{
-				for (int i = 0; i < displayLi
+				for (int i = 0; i < displayListsSlotChestplate.size(); i += 3)
+				{
+					renderArmorPiece(body, displayListsSlotChestplate.get(i), scale, 8);
+					renderSleeve(displayListsSlotChestplate.get(i + 1), EnumHandSide.RIGHT, scale, isPassive);
+					renderSleeve(displayListsSlotChestplate.get(i + 2), EnumHandSide.LEFT, scale, isPassive);
+				}
+			}
+			GlStateManager.popMatrix();
+		}
+		List<Integer> displayListsLeggings = getStackDisplayLists(entity, scale, ArmorType.LEGGINGS);
+		List<Integer> displayListsSlotLeggings = getSlotStackDisplayLists(entity, scale, cap, ArmorType.LEGGINGS);
+		if (displayListsLeggings != null || displayListsSlotLeggings != null)
+		{
+			GlStateManager.pushMatrix();
+			adjustForSneaking(entity);
+			adjustForChildMo
