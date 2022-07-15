@@ -237,4 +237,23 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 			if (displayListsBoots != null && (cap == null || !cap.hasArmorType(3)))
 				renderLegPieces(displayListsBoots.get(0), displayListsBoots.get(1), scale, 4);
 			
-			GlStateManager.popMatrix()
+			GlStateManager.popMatrix();
+			if (displayListsSlotBoots != null)
+			{
+				for (int i = 0; i < displayListsSlotBoots.size(); i += 2)
+					renderLegPieces(displayListsSlotBoots.get(i), displayListsSlotBoots.get(i + 1), scale, 4);
+			}
+			
+			GlStateManager.popMatrix();
+		}
+		GlStateManager.disableBlend();
+	}
+	
+	private List<Integer> getStackDisplayLists(EntityLivingBase entity, float scale, ArmorType armorType)
+	{
+		return getDisplayLists(entity, scale, armorType, entity.getItemStackFromSlot(armorType.getEquipmentSlot()), null);
+	}
+	
+	private List<Integer> getSlotStackDisplayLists(EntityLivingBase entity, float scale, IChiseledArmorSlotsHandler cap, ArmorType armorType)
+	{
+		if (cap == null || !cap.hasArm
