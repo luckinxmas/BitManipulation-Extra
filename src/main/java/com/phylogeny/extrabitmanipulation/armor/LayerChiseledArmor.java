@@ -256,4 +256,23 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 	
 	private List<Integer> getSlotStackDisplayLists(EntityLivingBase entity, float scale, IChiseledArmorSlotsHandler cap, ArmorType armorType)
 	{
-		if (cap == null || !cap.hasArm
+		if (cap == null || !cap.hasArmor())
+			return null;
+		
+		return getDisplayLists(entity, scale, armorType, ItemStack.EMPTY, cap);
+	}
+	
+	private List<Integer> getDisplayLists(EntityLivingBase entity, float scale, ArmorType armorType, ItemStack stack, @Nullable IChiseledArmorSlotsHandler cap)
+	{
+		List<Integer> displayLists = null;
+		int countSet = cap == null ? 1 : ChiseledArmorSlotsHandler.COUNT_SETS;
+		for (int i = 0; i < countSet; i++)
+		{
+			if (cap != null)
+			{
+				if (!cap.hasArmorSet(i))
+					continue;
+				
+				stack = cap.getStackInSlot(i * ChiseledArmorSlotsHandler.COUNT_TYPES + armorType.ordinal());
+			}
+			if (stack.hasTagCompound() && stack.getItem() instanceof Ite
