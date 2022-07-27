@@ -275,4 +275,24 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 				
 				stack = cap.getStackInSlot(i * ChiseledArmorSlotsHandler.COUNT_TYPES + armorType.ordinal());
 			}
-			if (stack.hasTagCompound() && stack.getItem() instanceof Ite
+			if (stack.hasTagCompound() && stack.getItem() instanceof ItemChiseledArmor)
+			{
+				NBTTagCompound nbt = stack.getTagCompound();
+				NBTTagCompound armoreData = ItemStackHelper.getArmorData(nbt);
+				if (!armoreData.getBoolean(NBTKeys.ARMOR_NOT_EMPTY))
+					continue;
+				
+				List<Integer> displayListsItem = movingPartsDisplayListsMap.get(armoreData);
+				if (displayListsItem == null)
+					displayListsItem = addMovingPartsDisplayListsToMap(entity, scale, nbt, armorType);
+				
+				if (displayLists == null)
+					displayLists = new ArrayList<>();
+				
+				displayLists.addAll(displayListsItem);
+			}
+		}
+		return displayLists;
+	}
+	
+	private void adjustForSneaking(EntityLivingBase entity
