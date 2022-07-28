@@ -334,4 +334,23 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 		renderArmorPiece(displayList, scale, offsetX, offsetY);
 	}
 	
-	private void renderArmorPiece(
+	private void renderArmorPiece(ModelRenderer modelArmorPiece, int displayList, float scale, float offsetY)
+	{
+		renderArmorPiece(modelArmorPiece, displayList, scale, 0.0F, offsetY);
+	}
+	
+	private void renderArmorPiece(int displayList, float scale, float offsetX, float offsetY)
+	{
+		GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+		GlStateManager.translate(offsetX, -scale * offsetY, 0.0F);
+		GlStateManager.callList(displayList);
+		GlStateManager.popMatrix();
+	}
+	
+	private void renderSleeve(int displayList, EnumHandSide handSide, float scale, boolean isPassive)
+	{
+		GlStateManager.pushMatrix();
+		int armOffset;
+		if (villagerArms != null && isPassive)
+		{
+			villagerArms.pos
