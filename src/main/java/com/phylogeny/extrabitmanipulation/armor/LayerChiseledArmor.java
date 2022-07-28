@@ -295,4 +295,25 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 		return displayLists;
 	}
 	
-	private void adjustForSneaking(EntityLivingBase entity
+	private void adjustForSneaking(EntityLivingBase entity)
+	{
+		if (entity.isSneaking())
+			GlStateManager.translate(0.0F, 0.2F, 0.0F);
+	}
+	
+	private void adjustForChildModel()
+	{
+		if (model.isChild)
+		{
+			GlStateManager.translate(0.0F, 0.75F, 0.0F);
+			GlStateManager.scale(0.5F, 0.5F, 0.5F);
+		}
+	}
+	
+	private List<Integer> addMovingPartsDisplayListsToMap(EntityLivingBase entity, float scale, NBTTagCompound armorNbt, ArmorType armorType)
+	{
+		List<Integer> movingPartsDisplayLists = new ArrayList<>();
+		for (int i = 0; i < armorType.getMovingpartCount(); i++)
+			movingPartsDisplayLists.add(new DataChiseledArmorPiece(armorNbt, armorType).generateDisplayList(i, entity, scale));
+		
+		movingPartsDisplayL
