@@ -316,4 +316,22 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 		for (int i = 0; i < armorType.getMovingpartCount(); i++)
 			movingPartsDisplayLists.add(new DataChiseledArmorPiece(armorNbt, armorType).generateDisplayList(i, entity, scale));
 		
-		movingPartsDisplayL
+		movingPartsDisplayListsMap.put(ItemStackHelper.getArmorData(armorNbt), movingPartsDisplayLists);
+		return movingPartsDisplayLists;
+	}
+	
+	private void renderLegPieces(int displayListRight, int displayListLeft, float scale, float offsetY)
+	{
+		renderArmorPiece(rightLeg, displayListRight, scale, isVex ? -scale * 2 : 0.0F, offsetY);
+		if (!isVex)
+			renderArmorPiece(leftLeg, displayListLeft, scale, offsetY);
+	}
+	
+	private void renderArmorPiece(ModelRenderer modelArmorPiece, int displayList, float scale, float offsetX, float offsetY)
+	{
+		GlStateManager.pushMatrix();
+		modelArmorPiece.postRender(scale);
+		renderArmorPiece(displayList, scale, offsetX, offsetY);
+	}
+	
+	private void renderArmorPiece(
