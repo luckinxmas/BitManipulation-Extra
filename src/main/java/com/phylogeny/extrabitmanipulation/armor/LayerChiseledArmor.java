@@ -353,4 +353,31 @@ public class LayerChiseledArmor implements LayerRenderer<EntityLivingBase>
 		int armOffset;
 		if (villagerArms != null && isPassive)
 		{
-			villagerArms.pos
+			villagerArms.postRender(scale);
+			armOffset = 6;
+		}
+		else
+		{
+			ModelRenderer modelArm = handSide == EnumHandSide.RIGHT ? rightArm : leftArm;
+			if (smallArms)
+			{
+				float f = handSide == EnumHandSide.RIGHT ? -0.5F : 0.5F;
+				modelArm.rotationPointX += f;
+				((ModelBiped) model).postRenderArm(scale, handSide);
+				modelArm.rotationPointX -= f;
+			}
+			else
+				modelArm.postRender(scale);
+			
+			armOffset = 1;
+		}
+		renderArmorPiece(displayList, scale, (handSide == EnumHandSide.LEFT ? -armOffset : armOffset) * scale, 6);
+	}
+	
+	@Override
+	public boolean shouldCombineTextures()
+	{
+		return false;
+	}
+	
+}
