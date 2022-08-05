@@ -34,4 +34,23 @@ public class ModelPartConcealer
 	
 	private ModelPartConcealer(byte[] concealedParts, byte[] concealedPartOverlays)
 	{
-		conc
+		concealedPartsCombined.addAll(this.concealedParts = indexArrayToPartSet(concealedParts));
+		concealedPartsCombined.addAll(this.concealedPartOverlays = indexArrayToPartSet(concealedPartOverlays));
+	}
+	
+	private Set<ModelMovingPart> indexArrayToPartSet(byte[] parts)
+	{
+		return IntStream.range(0, parts.length).boxed().map(index -> ModelMovingPart.values()[parts[index]]).collect(Collectors.toSet());
+	}
+	
+	public boolean isEmpty()
+	{
+		return concealedPartsCombined.isEmpty();
+	}
+	
+	public boolean isFull()
+	{
+		return concealedParts.size() == ModelMovingPart.values().length && concealedPartOverlays.size() == ModelMovingPart.values().length;
+	}
+	
+	private byte[] partsT
