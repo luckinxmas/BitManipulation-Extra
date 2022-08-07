@@ -53,4 +53,25 @@ public class ModelPartConcealer
 		return concealedParts.size() == ModelMovingPart.values().length && concealedPartOverlays.size() == ModelMovingPart.values().length;
 	}
 	
-	private byte[] partsT
+	private byte[] partsToByteArray(Set<ModelMovingPart> parts)
+	{
+		return Bytes.toArray(parts.stream().map(part -> (byte) part.ordinal()).collect(Collectors.toSet()));
+	}
+	
+	public void saveToNBT(NBTTagCompound nbt)
+	{
+		savePartsToNBT(nbt, this.concealedParts, NBTKeys.ARMOR_CONCEALED_MODEL_PARTS);
+		savePartsToNBT(nbt, this.concealedPartOverlays, NBTKeys.ARMOR_CONCEALED_MODEL_PART_OVERLAYS);
+	}
+	
+	private void savePartsToNBT(NBTTagCompound nbt, Set<ModelMovingPart> parts, String key)
+	{
+		byte[] partsArray = partsToByteArray(parts);
+		if (partsArray.length > 0)
+			nbt.setByteArray(key, partsArray);
+		else
+			nbt.removeTag(key);
+	}
+	
+	@Nullable
+	public static ModelPartConcealer loadFromNB
