@@ -111,4 +111,28 @@ public class ModelPartConcealer
 	
 	public void addOrRemove(int partIndex, boolean isOverlay, boolean remove)
 	{
-		ModelMovingPart part = ModelMo
+		ModelMovingPart part = ModelMovingPart.values()[partIndex];
+		Set<ModelMovingPart> parts = getParts(isOverlay);
+		if (remove)
+			parts.remove(part);
+		else
+			parts.add(part);
+	}
+	
+	public void restoreModelPartVisiblity(ModelBiped model)
+	{
+		concealedPartRenderers.keySet().forEach(part ->
+		{
+			ModelRenderer renderer = concealedPartRenderers.get(part);
+			switch (part)
+			{
+				case HEAD:		model.bipedHead = renderer;
+								break;
+				case BODY:		model.bipedBody = renderer;
+								break;
+				case ARM_RIGHT:	model.bipedRightArm = renderer;
+								break;
+				case ARM_LEFT:	model.bipedLeftArm = renderer;
+								break;
+				case LEG_RIGHT:	model.bipedRightLeg = renderer;
+								bre
