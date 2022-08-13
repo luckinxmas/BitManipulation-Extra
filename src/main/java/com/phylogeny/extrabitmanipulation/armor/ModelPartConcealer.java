@@ -74,4 +74,19 @@ public class ModelPartConcealer
 	}
 	
 	@Nullable
-	public static ModelPartConcealer loadFromNB
+	public static ModelPartConcealer loadFromNBT(NBTTagCompound nbt)
+	{
+		if (!nbt.hasKey(NBTKeys.ARMOR_CONCEALED_MODEL_PARTS) && !nbt.hasKey(NBTKeys.ARMOR_CONCEALED_MODEL_PART_OVERLAYS))
+			return null;
+		
+		byte[] concealedParts = nbt.getByteArray(NBTKeys.ARMOR_CONCEALED_MODEL_PARTS);
+		byte[] concealedPartOverlays = nbt.getByteArray(NBTKeys.ARMOR_CONCEALED_MODEL_PART_OVERLAYS);
+		return concealedParts.length > 0 || concealedPartOverlays.length > 0 ? new ModelPartConcealer(concealedParts, concealedPartOverlays).copy() : null;
+	}
+	
+	public void merge(@Nullable ModelPartConcealer modelPartConcealer)
+	{
+		if (modelPartConcealer != null)
+		{
+			concealedParts.addAll(modelPartConcealer.concealedParts);
+			concealedPartOverlays.addAll(mode
