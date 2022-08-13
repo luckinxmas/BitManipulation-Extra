@@ -135,4 +135,25 @@ public class ModelPartConcealer
 				case ARM_LEFT:	model.bipedLeftArm = renderer;
 								break;
 				case LEG_RIGHT:	model.bipedRightLeg = renderer;
-								bre
+								break;
+				case LEG_LEFT:	model.bipedLeftLeg = renderer;
+			}
+		});
+	}
+	
+	public ModelPartConcealer applyToModel(ModelBiped model)
+	{
+		concealedParts.forEach(part ->
+		{
+			switch (part)
+			{
+				case HEAD:		concealedPartRenderers.put(part, model.bipedHead);
+								model.bipedHead = getEmptyModelRenderer(model, model.bipedHead, part);
+								break;
+				case BODY:		concealedPartRenderers.put(part, model.bipedBody);
+								model.bipedBody = getEmptyModelRenderer(model, model.bipedBody, part);
+								break;
+				case ARM_RIGHT:	concealedPartRenderers.put(part, model.bipedRightArm);
+								model.bipedRightArm = getEmptyModelRenderer(model, model.bipedRightArm, part);
+								break;
+				case ARM_LEFT:	conc
