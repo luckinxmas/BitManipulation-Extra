@@ -89,4 +89,26 @@ public class ModelPartConcealer
 		if (modelPartConcealer != null)
 		{
 			concealedParts.addAll(modelPartConcealer.concealedParts);
-			concealedPartOverlays.addAll(mode
+			concealedPartOverlays.addAll(modelPartConcealer.concealedPartOverlays);
+			concealedPartsCombined.addAll(modelPartConcealer.concealedPartsCombined);
+		}
+	}
+	
+	public ModelPartConcealer copy()
+	{
+		return new ModelPartConcealer(partsToByteArray(concealedParts), partsToByteArray(concealedPartOverlays));
+	}
+	
+	private Set<ModelMovingPart> getParts(boolean isOverlay)
+	{
+		return isOverlay ? concealedPartOverlays : concealedParts;
+	}
+	
+	public boolean contains(ModelMovingPart part, boolean isOverlay)
+	{
+		return getParts(isOverlay).contains(part);
+	}
+	
+	public void addOrRemove(int partIndex, boolean isOverlay, boolean remove)
+	{
+		ModelMovingPart part = ModelMo
