@@ -211,4 +211,18 @@ public class ModelPartConcealer
 		return new ModelRendererEmpty(renderer);
 	}
 	
-	public static cl
+	public static class ModelRendererEmpty extends ModelRenderer
+	{
+		private static final ModelBase MODEL_EMPTY = new ModelBase(){};
+		
+		public ModelRendererEmpty(ModelRenderer renderer)
+		{
+			super(MODEL_EMPTY);
+			ModelBiped.copyModelAngles(renderer, this);
+		}
+		
+		@Override
+		public void render(float scale) {}
+		
+	}
+}
