@@ -174,4 +174,24 @@ public class ModelPartConcealer
 		{
 			switch (part)
 			{
-				case HEAD:		modelPlayer.bipedHeadwear.showMode
+				case HEAD:		modelPlayer.bipedHeadwear.showModel = false;
+								break;
+				case BODY:		modelPlayer.bipedBodyWear.showModel = false;
+								break;
+				case ARM_RIGHT:	modelPlayer.bipedRightArmwear.showModel = false;
+								break;
+				case ARM_LEFT:	modelPlayer.bipedLeftArmwear.showModel = false;
+								break;
+				case LEG_RIGHT:	modelPlayer.bipedRightLegwear.showModel = false;
+								break;
+				case LEG_LEFT:	modelPlayer.bipedLeftLegwear.showModel = false;
+			}
+		});
+		return this;
+	}
+	
+	private ModelRenderer getEmptyModelRenderer(ModelBiped model, ModelRenderer renderer, ModelMovingPart part)
+	{
+		if (MorePlayerModelsReference.isLoaded && MorePlayerModelsModels.isModelRendererMPM(renderer))
+		{
+			Mod
