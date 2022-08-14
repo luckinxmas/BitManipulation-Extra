@@ -156,4 +156,22 @@ public class ModelPartConcealer
 				case ARM_RIGHT:	concealedPartRenderers.put(part, model.bipedRightArm);
 								model.bipedRightArm = getEmptyModelRenderer(model, model.bipedRightArm, part);
 								break;
-				case ARM_LEFT:	conc
+				case ARM_LEFT:	concealedPartRenderers.put(part, model.bipedLeftArm);
+								model.bipedLeftArm = getEmptyModelRenderer(model, model.bipedLeftArm, part);
+								break;
+				case LEG_RIGHT:	concealedPartRenderers.put(part, model.bipedRightLeg);
+								model.bipedRightLeg = getEmptyModelRenderer(model, model.bipedRightLeg, part);
+								break;
+				case LEG_LEFT:	concealedPartRenderers.put(part, model.bipedLeftLeg);
+								model.bipedLeftLeg = getEmptyModelRenderer(model, model.bipedLeftLeg, part);
+			}
+		});
+		if (!(model instanceof ModelPlayer))
+			return this;
+		
+		ModelPlayer modelPlayer = (ModelPlayer) model;
+		concealedPartOverlays.forEach(part ->
+		{
+			switch (part)
+			{
+				case HEAD:		modelPlayer.bipedHeadwear.showMode
