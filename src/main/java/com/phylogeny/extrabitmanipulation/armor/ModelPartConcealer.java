@@ -194,4 +194,21 @@ public class ModelPartConcealer
 	{
 		if (MorePlayerModelsReference.isLoaded && MorePlayerModelsModels.isModelRendererMPM(renderer))
 		{
-			Mod
+			ModelRenderer modelRenderer = MorePlayerModelsModels.getEmptyModelRenderer(model, renderer, part);
+			if (part.ordinal() > 3)
+				modelRenderer.rotationPointX += part == ModelMovingPart.LEG_LEFT ? 1.9 : -1.9;
+			
+			return modelRenderer;
+		}
+		if (CustomNPCsReferences.isLoaded && CustomNPCsModels.isModelRendererCNPC(renderer))
+		{
+			ModelRenderer modelRenderer = CustomNPCsModels.getEmptyModelRenderer(model, renderer, part);
+			if (part.ordinal() > 3)
+				modelRenderer.rotationPointX += part == ModelMovingPart.LEG_LEFT ? 1.9 : -1.9;
+			
+			return modelRenderer;
+		}
+		return new ModelRendererEmpty(renderer);
+	}
+	
+	public static cl
