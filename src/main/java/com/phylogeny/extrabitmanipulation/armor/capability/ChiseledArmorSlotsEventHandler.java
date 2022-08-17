@@ -44,4 +44,23 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerT
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+public class ChiseledArmorSlotsEventHandler
+{
+	private static final Map<String, Integer> COMMAND_VANITY_SLOTS = Maps.newHashMap();
+	
+	static
+	{
+		for (int i = 0; i < ChiseledArmorSlotsHandler.COUNT_SLOTS_TOTAL; i++)
+		{
+			COMMAND_VANITY_SLOTS.put("slot.vanity.set" + i / ChiseledArmorSlotsHandler.COUNT_TYPES +
+					"." + EntityEquipmentSlot.values()[5 - i % ChiseledArmorSlotsHandler.COUNT_TYPES].toString().toLowerCase(), i);
+		}
+	}
+	
+	public static void addCommandTabCompletions()
+	{
+		ReflectionExtraBitManipulation.addShortcutsToCommandReplace
