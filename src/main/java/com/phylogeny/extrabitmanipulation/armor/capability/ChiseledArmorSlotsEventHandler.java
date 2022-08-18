@@ -113,4 +113,25 @@ public class ChiseledArmorSlotsEventHandler
 			return;
 		
 		IChiseledArmorSlotsHandler capOld = ChiseledArmorSlotsHandler.getCapability(event.getOriginal());
+		if (capOld != null)
+		{
+			IChiseledArmorSlotsHandler capNew = ChiseledArmorSlotsHandler.getCapability((EntityPlayer) event.getEntity());
+			if (capNew != null)
+				((ChiseledArmorSlotsHandler) capNew).deserializeNBT(((ChiseledArmorSlotsHandler) capOld).serializeNBT());
+		}
+	}
+	
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void dropArmorOnDeath(PlayerDropsEvent event)
+	{
+		EntityPlayer player = event.getEntityPlayer();
+		IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(player);
+		if (cap == null)
+			return;
 		
+		for (int i = 0; i < cap.getSlots(); i++)
+		{
+			if (!cap.getStackInSlot(i).isEmpty())
+			{
+				player.captureDrops = true;
+				play
