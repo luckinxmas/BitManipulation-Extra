@@ -89,4 +89,28 @@ public class ChiseledArmorSlotsEventHandler
 	{
 		if (!(player instanceof EntityPlayerMP))
 			return;
+		
+		IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability((EntityPlayer) player);
+		if (cap != null)
+			cap.markAllSlotsDirty();
+	}
 	
+	@SubscribeEvent
+	public void syncPlayerSlots(PlayerTickEvent event)
+	{
+		if (event.phase != Phase.END || !(event.player instanceof EntityPlayerMP))
+			return;
+		
+		IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(event.player);
+		if (cap != null)
+			cap.syncAllSlots(event.player);
+	}
+	
+	@SubscribeEvent
+	public void syncDataForClonedPlayers(PlayerEvent.Clone event)
+	{
+		if (!event.isWasDeath())
+			return;
+		
+		IChiseledArmorSlotsHandler capOld = ChiseledArmorSlotsHandler.getCapability(event.getOriginal());
+		
