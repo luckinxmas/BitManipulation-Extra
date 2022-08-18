@@ -63,4 +63,30 @@ public class ChiseledArmorSlotsEventHandler
 	
 	public static void addCommandTabCompletions()
 	{
-		ReflectionExtraBitManipulation.addShortcutsToCommandReplace
+		ReflectionExtraBitManipulation.addShortcutsToCommandReplaceItem(new CommandReplaceItem(), COMMAND_VANITY_SLOTS);
+	}
+	
+	@SubscribeEvent
+	public void onEntityConstruct(AttachCapabilitiesEvent<Entity> event)
+	{
+		if (event.getObject() instanceof EntityPlayer)
+			event.addCapability(new ResourceLocation(Reference.MOD_ID, "chiseled_armor_slots"), new ChiseledArmorSlotsHandler());
+	}
+	
+	@SubscribeEvent
+	public void markPlayerSlotsDirty(EntityJoinWorldEvent event)
+	{
+		markPlayerSlotsDirty(event.getEntity());
+	}
+	
+	@SubscribeEvent
+	public void markPlayerSlotsDirty(StartTracking event)
+	{
+		markPlayerSlotsDirty(event.getTarget());
+	}
+	
+	private void markPlayerSlotsDirty(Entity player)
+	{
+		if (!(player instanceof EntityPlayerMP))
+			return;
+	
