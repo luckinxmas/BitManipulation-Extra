@@ -134,4 +134,30 @@ public class ChiseledArmorSlotsEventHandler
 			if (!cap.getStackInSlot(i).isEmpty())
 			{
 				player.captureDrops = true;
-				play
+				player.dropItem(cap.getStackInSlot(i).copy(), true, false);
+				player.captureDrops = false;
+				cap.setStackInSlot(i, ItemStack.EMPTY);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void vanitySlotCommandAccess(CommandEvent event)
+	{
+		if (!(event.getCommand() instanceof CommandReplaceItem))
+			return;
+		
+		String[] args = event.getParameters();
+		if (args.length < 4 || !"entity".equals(args[0]))
+			return;
+		
+		int i = 2;
+		String slotName = args[i];
+		if (!slotName.contains("vanity"))
+			return;
+		
+		event.setCanceled(true);
+		if (!COMMAND_VANITY_SLOTS.containsKey(slotName))
+		{
+			notifyCommandListener(event, "commands.generic.parameter.invalid", slotName);
+			return;
