@@ -187,4 +187,31 @@ public class ChiseledArmorSlotsEventHandler
 				notifyCommandListener(event, "commands.replaceitem.tagError", e.getMessage());
 				return;
 			}
-		
+		}
+		else
+		{
+			notifyCommandListener(event, "nbt");
+			return;
+		}
+		if (!stack.isEmpty() && !ChiseledArmorSlotsHandler.isItemValid(slot, stack))
+		{
+			notifyCommandListener(event, "commands.replaceitem.failed", slotName, 1, stack.getTextComponent());
+			return;
+		}
+		Entity entity;
+		try
+		{
+			entity = CommandBase.getEntity(sender.getServer(), sender, args[1]);
+		}
+		catch (CommandException e)
+		{
+			notifyCommandListener(event, e);
+			return;
+		}
+		if (!(entity instanceof EntityPlayer))
+		{
+			notifyCommandListener(event, "player");
+			return;
+		}
+		EntityPlayer player = (EntityPlayer) entity;
+		IChiseledArmorSlotsHandler cap = ChiseledArmo
