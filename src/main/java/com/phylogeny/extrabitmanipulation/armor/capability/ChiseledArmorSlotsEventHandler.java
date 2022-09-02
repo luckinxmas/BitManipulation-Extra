@@ -161,3 +161,30 @@ public class ChiseledArmorSlotsEventHandler
 		{
 			notifyCommandListener(event, "commands.generic.parameter.invalid", slotName);
 			return;
+		}
+		ICommandSender sender = event.getSender();
+		int slot = COMMAND_VANITY_SLOTS.get(args[i++]);
+		Item item;
+		try
+		{
+			item = CommandBase.getItemByText(sender, args[i++]);
+		}
+		catch (NumberInvalidException e)
+		{
+			notifyCommandListener(event, e);
+			return;
+		}
+		ItemStack stack = new ItemStack(item);
+		if (args.length > i)
+		{
+			String nbtTagJson = CommandBase.buildString(args, args.length > 5 ? 6 : 4);
+			try
+			{
+				stack.setTagCompound(JsonToNBT.getTagFromJson(nbtTagJson));
+			}
+			catch (NBTException e)
+			{
+				notifyCommandListener(event, "commands.replaceitem.tagError", e.getMessage());
+				return;
+			}
+		
