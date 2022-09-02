@@ -230,4 +230,25 @@ public class ChiseledArmorSlotsEventHandler
 	
 	private void notifyCommandListener(CommandEvent event, String suffix)
 	{
-		notifyCommandListener(event, "command." + Reference.MOD_ID + ".vanity.failure." + suf
+		notifyCommandListener(event, "command." + Reference.MOD_ID + ".vanity.failure." + suffix, new Object[0]);
+	}
+	
+	private void notifyCommandListener(CommandEvent event, CommandException e)
+	{
+		notifyCommandListener(event, e.getMessage(), e.getErrorObjects());
+	}
+	
+	private void notifyCommandListener(CommandEvent event, String translationKey, Object... translationArgs)
+	{
+		CommandBase.notifyCommandListener(event.getSender(), event.getCommand(), translationKey, translationArgs);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void addArmorButtonToGui(GuiScreenEvent.InitGuiEvent.Post event)
+	{
+		EntityPlayer player = ClientHelper.getPlayer();
+		if (player == null || player.capabilities.isCreativeMode)
+			return;
+		
+	
