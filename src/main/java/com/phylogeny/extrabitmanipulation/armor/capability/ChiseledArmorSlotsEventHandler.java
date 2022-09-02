@@ -214,4 +214,20 @@ public class ChiseledArmorSlotsEventHandler
 			return;
 		}
 		EntityPlayer player = (EntityPlayer) entity;
-		IChiseledArmorSlotsHandler cap = ChiseledArmo
+		IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(player);
+		if (cap == null)
+		{
+			notifyCommandListener(event, "capability");
+			return;
+		}
+		sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
+		player.openContainer.detectAndSendChanges();
+		cap.setStackInSlot(slot, stack);
+		player.openContainer.detectAndSendChanges();
+		sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 1);
+		notifyCommandListener(event, "commands.replaceitem.success", slotName, 1, stack.isEmpty() ? "Air" : stack.getTextComponent());
+	}
+	
+	private void notifyCommandListener(CommandEvent event, String suffix)
+	{
+		notifyCommandListener(event, "command." + Reference.MOD_ID + ".vanity.failure." + suf
