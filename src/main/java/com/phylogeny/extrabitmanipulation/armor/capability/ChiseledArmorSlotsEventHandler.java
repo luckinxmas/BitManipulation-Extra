@@ -251,4 +251,26 @@ public class ChiseledArmorSlotsEventHandler
 		if (player == null || player.capabilities.isCreativeMode)
 			return;
 		
-	
+		boolean isArmorSlots = event.getGui() instanceof GuiInventoryArmorSlots;
+		if (!isArmorSlots && !(event.getGui() instanceof GuiInventory))
+			return;
+		
+		GuiContainer gui = (GuiContainer) event.getGui();
+		boolean add = false;
+		IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(player);
+		if (cap != null)
+		{
+			for (int i = 0; i < cap.getSlots(); i++)
+			{
+				if (!cap.getStackInSlot(i).isEmpty())
+				{
+					add = true;
+					break;
+				}
+			}
+		}
+		if (!add)
+		{
+			ArmorButtonVisibiltyMode mode = Configs.armorButtonVisibiltyMode;
+			add = isArmorSlots || mode == ArmorButtonVisibiltyMode.ALWAYS;
+			if (!isArmorSlots && mode != ArmorButto
