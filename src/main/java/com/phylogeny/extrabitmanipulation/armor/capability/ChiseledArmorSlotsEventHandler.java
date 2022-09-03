@@ -273,4 +273,24 @@ public class ChiseledArmorSlotsEventHandler
 		{
 			ArmorButtonVisibiltyMode mode = Configs.armorButtonVisibiltyMode;
 			add = isArmorSlots || mode == ArmorButtonVisibiltyMode.ALWAYS;
-			if (!isArmorSlots && mode != ArmorButto
+			if (!isArmorSlots && mode != ArmorButtonVisibiltyMode.NEVER && mode != ArmorButtonVisibiltyMode.ALWAYS)
+			{
+				for (int i = 0; i < player.inventory.getSizeInventory(); i++)
+				{
+					ItemStack stack = player.inventory.getStackInSlot(i);
+					if (stack.isEmpty())
+						continue;
+					
+					if (mode == ArmorButtonVisibiltyMode.ANY_ITEMS || mode == ArmorButtonVisibiltyMode.CHISELED_ARMOR_ITEMS)
+					{
+						if (mode == ArmorButtonVisibiltyMode.ANY_ITEMS || ItemStackHelper.isChiseledArmorStack(stack))
+						{
+							add = true;
+							break;
+						}
+						continue;
+					}
+					Item item = stack.getItem();
+					if (item != null)
+					{
+						ResourceLocation name = item.ge
