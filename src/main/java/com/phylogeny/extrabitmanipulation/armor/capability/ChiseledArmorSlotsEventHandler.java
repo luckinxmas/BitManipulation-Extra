@@ -318,4 +318,21 @@ public class ChiseledArmorSlotsEventHandler
 	@SubscribeEvent
 	public void resetArmorButtonPosition(GuiScreenEvent.KeyboardInputEvent.Post event)
 	{
-		if (!Keyboard.isKeyDown(Keybo
+		if (!Keyboard.isKeyDown(Keyboard.KEY_R) || !GuiButtonArmorSlots.shouldMoveButton() ||
+				!(event.getGui() instanceof GuiInventoryArmorSlots) && !(event.getGui() instanceof GuiInventory) ||
+				(Configs.armorButtonX.isAtDefaultValue() && Configs.armorButtonY.isAtDefaultValue()))
+			return;
+		
+		List<GuiButton> buttonList = ReflectionExtraBitManipulation.getButtonList(event.getGui());
+		for (GuiButton button : buttonList)
+		{
+			if (button instanceof GuiButtonArmorSlots)
+			{
+				BitToolSettingsHelper.setArmorButtonPosition(Configs.armorButtonX.getDefaultValue(), Configs.armorButtonY.getDefaultValue());
+				((GuiButtonArmorSlots) button).setPosition();
+				break;
+			}
+		}
+	}
+	
+	public static enum ArmorButtonVi
