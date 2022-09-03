@@ -293,4 +293,29 @@ public class ChiseledArmorSlotsEventHandler
 					Item item = stack.getItem();
 					if (item != null)
 					{
-						ResourceLocation name = item.ge
+						ResourceLocation name = item.getRegistryName();
+						if (name != null && (name.getResourceDomain().equals(Reference.MOD_ID)
+								|| (mode == ArmorButtonVisibiltyMode.EBM_OR_CNB_ITEMS && name.getResourceDomain().equals(ChiselsAndBitsReferences.MOD_ID))))
+						{
+							add = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+		if (add)
+		{
+			GuiButtonArmorSlots button = new GuiButtonArmorSlots(gui, isArmorSlots ? "Back" : "Chiseled Armor");
+			if (isArmorSlots)
+				button.setHelpMode(((GuiInventoryArmorSlots) gui).isInHelpMode());
+			
+			event.getButtonList().add(button);
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void resetArmorButtonPosition(GuiScreenEvent.KeyboardInputEvent.Post event)
+	{
+		if (!Keyboard.isKeyDown(Keybo
