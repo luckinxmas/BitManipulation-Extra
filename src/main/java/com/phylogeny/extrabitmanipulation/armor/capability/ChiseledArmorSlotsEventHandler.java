@@ -335,4 +335,9 @@ public class ChiseledArmorSlotsEventHandler
 		}
 	}
 	
-	public static enum ArmorButtonVi
+	public static enum ArmorButtonVisibiltyMode
+	{
+		CHISELED_ARMOR_ITEMS, EBM_ITEMS, EBM_OR_CNB_ITEMS, ANY_ITEMS, ALWAYS, NEVER;
+	}
+	
+}
