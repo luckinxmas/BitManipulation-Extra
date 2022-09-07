@@ -1,0 +1,129 @@
+
+package com.phylogeny.extrabitmanipulation.armor.model.cnpc;
+
+import com.phylogeny.extrabitmanipulation.reference.Configs;
+
+import net.minecraft.client.model.ModelRenderer;
+import noppes.npcs.client.model.ModelScaleRenderer;
+import noppes.npcs.constants.EnumParts;
+
+public class ModelChiseledArmorCNPC extends ModelChiseledArmorBaseCNPC
+{
+	
+	public ModelChiseledArmorCNPC()
+	{
+		super(1);
+		float angle90 = (float) Math.toRadians(90);
+		float angle180 = (float) Math.toRadians(180);
+		float angle270 = (float) Math.toRadians(270);
+		
+		//Head
+		bipedHeadwear = createScaledModel(0, 0, EnumParts.HEAD);
+		bipedHead = createScaledModel(0, 0, EnumParts.HEAD);
+		bipedHead.addBox(-5.0F, -9.0F, -5.0F, 10, 1, 10, scale);
+		ModelScaleRenderer headFront1 = new ModelScaleRenderer(this, 44, 0, EnumParts.HEAD);
+		headFront1.addBox(-5.0F, -8.0F, -4.0F, 1, 3, 9, scale);
+		setRotationAngles(headFront1, 0.0F, angle270, 0.0F);
+		ModelScaleRenderer headFront2 = new ModelScaleRenderer(this, 0, 0, EnumParts.HEAD);
+		headFront2.setRotationPoint(-1.0F, -5.0F, -5.0F);
+		headFront2.addBox(0.0F, 0.0F, 0.0F, 2, 2, 1, scale);
+		ModelScaleRenderer headBack1 = new ModelScaleRenderer(this, 44, 0, EnumParts.HEAD);
+		headBack1.addBox(-5.0F, -8.0F, -4.0F, 1, 3, 9, scale);
+		setRotationAngles(headBack1, 0.0F, angle90, 0.0F);
+		ModelScaleRenderer headBack2 = new ModelScaleRenderer(this, 31, 0, EnumParts.HEAD);
+		headBack2.setRotationPoint(-5.0F, -5.0F, 4.0F);
+		headBack2.addBox(0.0F, 0.0F, 0.0F, 10, 3, 1, scale);
+		ModelScaleRenderer headBack3 = new ModelScaleRenderer(this, 0, 4, EnumParts.HEAD);
+		headBack3.setRotationPoint(-2.0F, -2.0F, 4.0F);
+		headBack3.addBox(0.0F, 0.0F, 0.0F, 4, 1, 1, scale);
+		ModelScaleRenderer headRight1 = new ModelScaleRenderer(this, 44, 0, EnumParts.HEAD);
+		headRight1.addBox(-5.0F, -8.0F, -4.0F, 1, 3, 9, scale);
+		ModelScaleRenderer headRight2 = new ModelScaleRenderer(this, 0, 12, EnumParts.HEAD);
+		headRight2.setRotationPoint(4.0F, -5.0F, -5.0F);
+		headRight2.addBox(0.0F, 0.0F, 0.0F, 1, 1, 5, scale);
+		ModelScaleRenderer headRight3 = new ModelScaleRenderer(this, 26, 12, EnumParts.HEAD);
+		headRight3.setRotationPoint(4.0F, -5.0F, 0.0F);
+		headRight3.addBox(0.0F, 0.0F, 0.0F, 1, 2, 4, scale);
+		ModelScaleRenderer headLeft1 = new ModelScaleRenderer(this, 44, 0, EnumParts.HEAD);
+		headLeft1.addBox(-5.0F, -8.0F, -4.0F, 1, 3, 9, scale);
+		setRotationAngles(headLeft1, 0.0F, angle180, 0.0F);
+		ModelScaleRenderer headLeft2 = new ModelScaleRenderer(this, 13, 12, EnumParts.HEAD);
+		headLeft2.setRotationPoint(-5.0F, -5.0F, -5.0F);
+		headLeft2.addBox(0.0F, 0.0F, 0.0F, 1, 1, 5, scale);
+		ModelScaleRenderer headLeft3 = new ModelScaleRenderer(this, 37, 12, EnumParts.HEAD);
+		headLeft3.setRotationPoint(-5.0F, -5.0F, 0.0F);
+		headLeft3.addBox(0.0F, 0.0F, 0.0F, 1, 2, 4, scale);
+		bipedHead.addChild(headFront1);
+		bipedHead.addChild(headFront2);
+		bipedHead.addChild(headBack1);
+		bipedHead.addChild(headBack2);
+		bipedHead.addChild(headBack3);
+		bipedHead.addChild(headRight1);
+		bipedHead.addChild(headRight2);
+		bipedHead.addChild(headRight3);
+		bipedHead.addChild(headLeft1);
+		bipedHead.addChild(headLeft2);
+		bipedHead.addChild(headLeft3);
+		
+		//Body
+		bipedBody = createScaledModel(64, 52, EnumParts.BODY);
+		bipedBody.addBox(-5.0F, -1.0F, 2.0F, 10, 11, 1, scale);
+		ModelRenderer bodyRight = new ModelRenderer(this, 64, 30);
+		bodyRight.addBox(-5.0F, 4.0F, -2.0F, 1, 6, 4, scale);
+		ModelRenderer bodyLeft = new ModelRenderer(this, 75, 30);
+		bodyLeft.addBox(4.0F, 4.0F, -2.0F, 1, 6, 4, scale);
+		ModelRenderer bodyBack = new ModelRenderer(this, 68, 12);
+		bodyBack.addBox(-4.0F, 10.0F, 2.0F, 8, 1, 1, scale);
+		ModelRenderer bodyTop1 = new ModelRenderer(this, 68, 23);
+		bodyTop1.addBox(-5.0F, -1.0F, -3.0F, 3, 1, 5, scale);
+		ModelRenderer bodyTop2 = new ModelRenderer(this, 68, 16);
+		bodyTop2.addBox(2.0F, -1.0F, -3.0F, 3, 1, 5, scale);
+		ModelRenderer bodyFront1 = new ModelRenderer(this, 64, 41);
+		bodyFront1.addBox(-5.0F, 1.0F, -3.0F, 10, 9, 1, scale);
+		ModelRenderer bodyFront2 = new ModelRenderer(this, 68, 9);
+		bodyFront2.addBox(-4.0F, 10.0F, -3.0F, 8, 1, 1, scale);
+		ModelRenderer 	bodyFront3 = new ModelRenderer(this, 68, 6);
+		bodyFront3.addBox(-3.0F, 11.0F, -3.0F, 6, 1, 1, scale);
+		ModelRenderer bodyFront4 = new ModelRenderer(this, 68, 3);
+		bodyFront4.addBox(-5.0F, 0.0F, -3.0F, 4, 1, 1, scale);
+		ModelRenderer bodyFront5 = new ModelRenderer(this, 68, 0);
+		bodyFront5.addBox(1.0F, 0.0F, -3.0F, 4, 1, 1, scale);
+		bipedBody.addChild(bodyRight);
+		bipedBody.addChild(bodyLeft);
+		bipedBody.addChild(bodyBack);
+		bipedBody.addChild(bodyTop1);
+		bipedBody.addChild(bodyTop2);
+		bipedBody.addChild(bodyFront1);
+		bipedBody.addChild(bodyFront2);
+		bipedBody.addChild(bodyFront3);
+		bipedBody.addChild(bodyFront4);
+		bipedBody.addChild(bodyFront5);
+		
+		//Right Arm
+		bipedRightArm = createScaledModel(0, 0, EnumParts.ARM_RIGHT);
+		bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
+		ModelRenderer armRightTop = new ModelRenderer(this, 0, 22);
+		armRightTop.setRotationPoint(-5.0F, 8.0F, 0.0F);
+		armRightTop.addBox(-7.0F, -11.0F, -3.0F, 6, 1, 6, scale);
+		setRotationAngles(armRightTop, 0.0F, angle180, 0.0F);
+		ModelRenderer armRightfront1 = new ModelRenderer(this, 25, 23);
+		armRightfront1.setRotationPoint(5.0F, 0.0F, 0.0F);
+		armRightfront1.addBox(6.0F, -2.0F, -3.0F, 3, 5, 1, scale);
+		setRotationAngles(armRightfront1, 0.0F, angle180, 0.0F);
+		ModelRenderer armRightFront2 = new ModelRenderer(this, 43, 25);
+		armRightFront2.setRotationPoint(5.0F, 0.0F, 0.0F);
+		armRightFront2.addBox(3.0F, -2.0F, -3.0F, 3, 3, 1, scale);
+		setRotationAngles(armRightFront2, 0.0F, angle180, 0.0F);
+		ModelRenderer armRightBack1 = new ModelRenderer(this, 34, 31);
+		armRightBack1.setRotationPoint(5.0F, 0.0F, 0.0F);
+		armRightBack1.addBox(6.0F, -2.0F, 2.0F, 3, 5, 1, scale);
+		setRotationAngles(armRightBack1, 0.0F, angle180, 0.0F);
+		ModelRenderer armRightBack2 = new ModelRenderer(this, 52, 25);
+		armRightBack2.setRotationPoint(5.0F, 0.0F, 0.0F);
+		armRightBack2.addBox(3.0F, -2.0F, 2.0F, 3, 3, 1, scale);
+		setRotationAngles(armRightBack2, 0.0F, angle180, 0.0F);
+		ModelRenderer armRightSide = new ModelRenderer(this, 49, 40);
+		armRightSide.setRotationPoint(7.0F, 0.0F, 0.0F);
+		armRightSide.addBox(10.0F, -3.0F, -3.0F, 1, 6, 6, scale);
+		setRotationAngles(armRightSide, 0.0F, angle180, 0.0F);
+		bipedRightArm.addChild(armRightTop);

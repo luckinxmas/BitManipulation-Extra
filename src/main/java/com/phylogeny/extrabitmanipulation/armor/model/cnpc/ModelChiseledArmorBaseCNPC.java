@@ -32,4 +32,20 @@ public class ModelChiseledArmorBaseCNPC extends ModelBipedAlt
 		modelRenderer.rotateAngleZ = angleZ;
 	}
 	
-	protected ModelScaleRenderer createScaledModel(int texOffX, 
+	protected ModelScaleRenderer createScaledModel(int texOffX, int texOffY, EnumParts part)
+	{
+		ModelScaleRenderer model = new ModelScaleRenderer(this, texOffX, texOffY, part);
+		model.textureHeight = textureHeight;
+		model.textureWidth = textureWidth;
+		Map<EnumParts, List<ModelScaleRenderer>> map = (Map<EnumParts, List<ModelScaleRenderer>>)
+				ObfuscationReflectionHelper.getPrivateValue(ModelBipedAlt.class, this, "map");
+		List<ModelScaleRenderer> list = map.get(part);
+		if (list == null)
+		{
+		  map.put(part, list = new ArrayList());
+		}
+		list.add(model);
+		return model;
+	}
+	
+}
