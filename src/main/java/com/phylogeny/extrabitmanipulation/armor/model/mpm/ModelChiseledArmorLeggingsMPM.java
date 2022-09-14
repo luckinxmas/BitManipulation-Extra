@@ -24,4 +24,7 @@ public class ModelChiseledArmorLeggingsMPM extends ModelChiseledArmorBaseMPM
 		//Left Leg
 		bipedLeftLeg = createScaledModel(25, 40, EnumParts.LEG_LEFT);
 		bipedLeftLeg.setRotationPoint(1.9F, 12.0F, 0.0F);
-		bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 10, 4,
+		bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 10, 4, scale);
+	}
+	
+}
