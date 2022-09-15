@@ -24,4 +24,7 @@ public class BlockBodyPartTemplate extends BlockExtraBitManipulationBase
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
 	{
-		tooltip.add("The bits of this block are used as bodypart placeholders in the creation of chisel
+		tooltip.add("The bits of this block are used as bodypart placeholders in the creation of chiseled armor.");
+	}
+	
+}
