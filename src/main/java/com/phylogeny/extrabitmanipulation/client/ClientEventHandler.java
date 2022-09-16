@@ -25,4 +25,12 @@ import com.phylogeny.extrabitmanipulation.config.ConfigShapeRenderPair;
 import com.phylogeny.extrabitmanipulation.helper.BitAreaHelper;
 import com.phylogeny.extrabitmanipulation.helper.BitAreaHelper.ModelingBoxSet;
 import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper;
-import com.phylogeny.extra
+import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper.ArmorBodyPartTemplateBoxData;
+import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper.ArmorCollectionData;
+import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper.ModelReadData;
+import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper.SculptingData;
+import com.phylogeny.extrabitmanipulation.helper.ItemStackHelper;
+import com.phylogeny.extrabitmanipulation.init.KeyBindingsExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.init.RenderLayersExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor;
+import com.phylogeny.extrabitm
