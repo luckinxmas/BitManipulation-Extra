@@ -33,4 +33,13 @@ import com.phylogeny.extrabitmanipulation.helper.ItemStackHelper;
 import com.phylogeny.extrabitmanipulation.init.KeyBindingsExtraBitManipulation;
 import com.phylogeny.extrabitmanipulation.init.RenderLayersExtraBitManipulation;
 import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor;
-import com.phylogeny.extrabitm
+import com.phylogeny.extrabitmanipulation.item.ItemModelingTool;
+import com.phylogeny.extrabitmanipulation.item.ItemSculptingTool;
+import com.phylogeny.extrabitmanipulation.packet.PacketCollectArmorBlocks;
+import com.phylogeny.extrabitmanipulation.packet.PacketCycleBitWrenchMode;
+import com.phylogeny.extrabitmanipulation.packet.PacketOpenBitMappingGui;
+import com.phylogeny.extrabitmanipulation.packet.PacketOpenChiseledArmorGui;
+import com.phylogeny.extrabitmanipulation.packet.PacketOpenInventoryGui;
+import com.phylogeny.extrabitmanipulation.packet.PacketReadBlockStates;
+import com.phylogeny.extrabitmanipulation.packet.PacketSculpt;
+import com.phylogeny.extrabitmanipu
