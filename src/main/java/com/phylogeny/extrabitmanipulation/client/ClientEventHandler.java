@@ -55,4 +55,17 @@ import mod.chiselsandbits.api.IBitBrush;
 import mod.chiselsandbits.api.IBitLocation;
 import mod.chiselsandbits.api.IChiselAndBitsAPI;
 import mod.chiselsandbits.api.ItemType;
-im
+import mod.chiselsandbits.api.ModKeyBinding;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.SimpleTexture;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemS
