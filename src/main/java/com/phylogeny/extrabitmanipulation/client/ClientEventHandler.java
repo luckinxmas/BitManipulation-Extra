@@ -42,4 +42,17 @@ import com.phylogeny.extrabitmanipulation.packet.PacketOpenChiseledArmorGui;
 import com.phylogeny.extrabitmanipulation.packet.PacketOpenInventoryGui;
 import com.phylogeny.extrabitmanipulation.packet.PacketReadBlockStates;
 import com.phylogeny.extrabitmanipulation.packet.PacketSculpt;
-import com.phylogeny.extrabitmanipu
+import com.phylogeny.extrabitmanipulation.packet.PacketSetCollectionBox;
+import com.phylogeny.extrabitmanipulation.packet.PacketThrowBit;
+import com.phylogeny.extrabitmanipulation.reference.Configs;
+import com.phylogeny.extrabitmanipulation.reference.NBTKeys;
+import com.phylogeny.extrabitmanipulation.reference.Reference;
+import com.phylogeny.extrabitmanipulation.reference.Utility;
+
+import mod.chiselsandbits.api.APIExceptions.CannotBeChiseled;
+import mod.chiselsandbits.api.IBitAccess;
+import mod.chiselsandbits.api.IBitBrush;
+import mod.chiselsandbits.api.IBitLocation;
+import mod.chiselsandbits.api.IChiselAndBitsAPI;
+import mod.chiselsandbits.api.ItemType;
+im
