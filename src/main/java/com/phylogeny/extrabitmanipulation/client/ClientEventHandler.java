@@ -97,4 +97,10 @@ public class ClientEventHandler
 {
 	private float millisecondsElapsed;
 	private static Stopwatch timer;
-	private Vec3d d
+	private Vec3d drawnStartPoint = null;
+	private Vec3i drawnStartPointModelingTool = null;
+	private static final ResourceLocation ARROW_HEAD = new ResourceLocation(Reference.MOD_ID, "textures/overlays/arrow_head.png");
+	private static final ResourceLocation ARROW_BIDIRECTIONAL = new ResourceLocation(Reference.MOD_ID, "textures/overlays/arrow_bidirectional.png");
+	private static final ResourceLocation ARROW_CYCLICAL = new ResourceLocation(Reference.MOD_ID, "textures/overlays/arrow_cyclical.png");
+	private static final ResourceLocation CIRCLE = new ResourceLocation(Reference.MOD_ID, "textures/overlays/circle.png");
+	private static final ResourceLocation INV
