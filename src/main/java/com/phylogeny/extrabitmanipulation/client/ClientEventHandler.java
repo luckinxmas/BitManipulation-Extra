@@ -103,4 +103,12 @@ public class ClientEventHandler
 	private static final ResourceLocation ARROW_BIDIRECTIONAL = new ResourceLocation(Reference.MOD_ID, "textures/overlays/arrow_bidirectional.png");
 	private static final ResourceLocation ARROW_CYCLICAL = new ResourceLocation(Reference.MOD_ID, "textures/overlays/arrow_cyclical.png");
 	private static final ResourceLocation CIRCLE = new ResourceLocation(Reference.MOD_ID, "textures/overlays/circle.png");
-	private static final ResourceLocation INV
+	private static final ResourceLocation INVERSION = new ResourceLocation(Reference.MOD_ID, "textures/overlays/inversion.png");
+	private static final int[] DIRECTION_FORWARD = new int[]{2, 0, 5, 4, 1, 3};
+	private static final int[] DIRECTION_BACKWARD = new int[]{1, 4, 0, 5, 3, 2};
+	private static final int[] AXIS_FORWARD = new int[]{2, 3, 4, 5, 0, 1};
+	private static final int[] AXIS_BACKWARD = new int[]{4, 5, 0, 1, 2, 3};
+	private static final int[] SHAPE_CURVED = new int[]{1, 2, 0, 0, 0, 0, 0};
+//	private static final int[] SHAPE_FLAT = new int[]{3, 3, 3, 4, 5, 6, 3}; TODO
+	private static final int[] SHAPE_FLAT = new int[]{3, 3, 3, 6, 3, 3, 3};
+	private boolean 
