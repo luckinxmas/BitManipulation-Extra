@@ -111,4 +111,20 @@ public class ClientEventHandler
 	private static final int[] SHAPE_CURVED = new int[]{1, 2, 0, 0, 0, 0, 0};
 //	private static final int[] SHAPE_FLAT = new int[]{3, 3, 3, 4, 5, 6, 3}; TODO
 	private static final int[] SHAPE_FLAT = new int[]{3, 3, 3, 6, 3, 3, 3};
-	private boolean 
+	private boolean keyThrowBitIsDown;
+	private static double BOUNDING_BOX_OFFSET = 0.0020000000949949026D;
+	private static Map<UUID, ItemStack[]> invisibleArmorMap = new HashMap<>();
+	private static Map<UUID, ModelPartConcealer> concealedModelPartsMap = new HashMap<>();
+	
+	@SubscribeEvent
+	public void registerTextures(@SuppressWarnings("unused") TextureStitchEvent.Pre event)
+	{
+		registerTexture(ARROW_HEAD);
+		registerTexture(ARROW_BIDIRECTIONAL);
+		registerTexture(ARROW_CYCLICAL);
+		registerTexture(CIRCLE);
+		registerTexture(INVERSION);
+		RenderLayersExtraBitManipulation.clearRenderMaps();
+	}
+	
+	private void registerTexture(ResourceLocation resourceLoc
