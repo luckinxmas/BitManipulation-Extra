@@ -127,4 +127,26 @@ public class ClientEventHandler
 		RenderLayersExtraBitManipulation.clearRenderMaps();
 	}
 	
-	private void registerTexture(ResourceLocation resourceLoc
+	private void registerTexture(ResourceLocation resourceLocation)
+	{
+		SimpleTexture texture = new SimpleTexture(resourceLocation);
+		Minecraft.getMinecraft().renderEngine.loadTexture(resourceLocation, texture);
+	}
+	
+	@SubscribeEvent
+	public void clearDisplayListsMaps(@SuppressWarnings("unused") ClientConnectedToServerEvent event)
+	{
+		ClientHelper.getThreadListener().addScheduledTask(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				RenderLayersExtraBitManipulation.clearRenderMaps();
+			}
+		});
+	}
+	
+	@SubscribeEvent
+	public void preventArmorAndPlayerModelPartRendering(RenderLivingEvent.Pre event)
+	{
+		boolean isPlayerModelAlt = LayerChiseledArmor.i
