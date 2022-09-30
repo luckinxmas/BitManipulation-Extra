@@ -149,4 +149,20 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public void preventArmorAndPlayerModelPartRendering(RenderLivingEvent.Pre event)
 	{
-		boolean isPlayerModelAlt = LayerChiseledArmor.i
+		boolean isPlayerModelAlt = LayerChiseledArmor.isPlayerModelAlt(event.getEntity(), event.getPartialRenderTick());
+		Entity entity = isPlayerModelAlt ? Minecraft.getMinecraft().player : event.getEntity();
+		if (!(entity instanceof EntityPlayer))
+			return;
+		
+		EntityPlayer player = (EntityPlayer) entity;
+		IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(player);
+		if (cap == null || !cap.hasArmor() || !cap.hasArmorSet(0))
+			return;
+		
+		ItemStack[] armor = new ItemStack[4];
+		NonNullList<ItemStack> armorInventory = player.inventory.armorInventory;
+		boolean found = false;
+		for (int i = 0; i < 4; i++)
+		{
+			ItemStack stack = armorInventory.get(i);
+			ItemStack stackVanity = cap.getStackInSl
