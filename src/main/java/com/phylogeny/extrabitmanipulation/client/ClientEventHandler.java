@@ -165,4 +165,23 @@ public class ClientEventHandler
 		for (int i = 0; i < 4; i++)
 		{
 			ItemStack stack = armorInventory.get(i);
-			ItemStack stackVanity = cap.getStackInSl
+			ItemStack stackVanity = cap.getStackInSlot(3 - i);
+			if (!stackVanity.isEmpty() && !stack.isEmpty())
+			{
+				armor[i] = stack;
+				armorInventory.set(i, ItemStack.EMPTY);
+				found = true;
+			}
+		}
+		if (found)
+			invisibleArmorMap.put(player.getUniqueID(), armor);
+		
+		ModelBase model = event.getRenderer().getMainModel();
+		if (!(model instanceof ModelBiped))
+			return;
+		
+		ModelPartConcealer modelPartConcealer = cap.getAndApplyModelPartConcealer((ModelBiped) model);
+		if (modelPartConcealer != null && !modelPartConcealer.isEmpty())
+		{
+			concealedModelPartsMap.put(player.getUniqueID(), modelPartConcealer);
+			RenderLayersExtraBitManipulation.for
