@@ -202,3 +202,26 @@ public class ClientEventHandler
 			return;
 		
 		ItemStack[] armor = invisibleArmorMap.get(player.getUniqueID());
+		if (armor != null)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (armor[i] != null)
+					player.inventory.armorInventory.set(i, armor[i]);
+			}
+			invisibleArmorMap.remove(player.getUniqueID());
+		}
+		ModelPartConcealer modelPartConcealer = concealedModelPartsMap.get(player.getUniqueID());
+		if (modelPartConcealer == null)
+			return;
+		
+		ModelBase model = event.getRenderer().getMainModel();
+		if (model instanceof ModelBiped)
+			modelPartConcealer.restoreModelPartVisiblity((ModelBiped) model);
+		
+		concealedModelPartsMap.remove(player.getUniqueID());
+		RenderLayersExtraBitManipulation.forceUpdateModels(!isPlayerModelAlt);
+	}
+	
+	@SubscribeEvent
+	public void o
