@@ -184,4 +184,21 @@ public class ClientEventHandler
 		if (modelPartConcealer != null && !modelPartConcealer.isEmpty())
 		{
 			concealedModelPartsMap.put(player.getUniqueID(), modelPartConcealer);
-			RenderLayersExtraBitManipulation.for
+			RenderLayersExtraBitManipulation.forceUpdateModels(!isPlayerModelAlt);
+		}
+	}
+	
+	@SubscribeEvent
+	public void preventArmorAndPlayerModelPartRendering(RenderLivingEvent.Post event)
+	{
+		boolean isPlayerModelAlt = LayerChiseledArmor.isPlayerModelAlt(event.getEntity(), event.getPartialRenderTick());
+		Entity entity = isPlayerModelAlt ? Minecraft.getMinecraft().player : event.getEntity();
+		if (!(entity instanceof EntityPlayer))
+			return;
+		
+		EntityPlayer player = (EntityPlayer) entity;
+		IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(player);
+		if (cap == null)
+			return;
+		
+		ItemStack[] armor = invisibleArmorMap.get(player.getUniqueID());
