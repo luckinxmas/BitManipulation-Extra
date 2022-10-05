@@ -235,3 +235,19 @@ public class ClientEventHandler
 		if (ChiselsAndBitsAPIAccess.apiInstance.getKeyBinding(ModKeyBinding.MODE_MENU).isKeyDown()
 				|| KeyBindingsExtraBitManipulation.OPEN_BIT_MAPPING_GUI.isKeyDown()
 				|| KeyBindingsExtraBitManipulation.EDIT_DESIGN.isKeyDown()
+				|| KeyBindingsExtraBitManipulation.OPEN_CHISELED_ARMOR_GUI.isKeyDown()
+				|| KeyBindingsExtraBitManipulation.OPEN_CHISELED_ARMOR_SLOTS_GUI.isKeyDown())
+		{
+			if (KeyBindingsExtraBitManipulation.OPEN_BIT_MAPPING_GUI.isKeyDown())
+			{
+				if (ItemStackHelper.isModelingToolStack(stack) && ItemStackHelper.hasKey(stack, NBTKeys.SAVED_STATES))
+					openBitMappingGui();
+			}
+			else if (KeyBindingsExtraBitManipulation.EDIT_DESIGN.isKeyDown())
+			{
+				if (stack.hasTagCompound() && ItemStackHelper.isDesignStack(stack))
+					openBitMappingGui();
+			}
+			else if (KeyBindingsExtraBitManipulation.OPEN_CHISELED_ARMOR_GUI.isKeyDown())
+			{
+				if (ChiseledArmorSlotsHandle
