@@ -224,4 +224,14 @@ public class ClientEventHandler
 	}
 	
 	@SubscribeEvent
-	public void o
+	public void onKeyInput(@SuppressWarnings("unused") InputEvent.KeyInputEvent event)
+	{
+		if (timer == null)
+			timer = Stopwatch.createStarted();
+		
+		ItemStack stack = ClientHelper.getHeldItemMainhand();
+		keyThrowBitIsDown = (ChiselsAndBitsAPIAccess.apiInstance.getItemType(stack) == ItemType.CHISLED_BIT ?
+				KeyBindingsExtraBitManipulation.THROW_BIT : KeyBindingsExtraBitManipulation.THROW_BIT_BIT_BAG).isKeyDown();
+		if (ChiselsAndBitsAPIAccess.apiInstance.getKeyBinding(ModKeyBinding.MODE_MENU).isKeyDown()
+				|| KeyBindingsExtraBitManipulation.OPEN_BIT_MAPPING_GUI.isKeyDown()
+				|| KeyBindingsExtraBitManipulation.EDIT_DESIGN.isKeyDown()
