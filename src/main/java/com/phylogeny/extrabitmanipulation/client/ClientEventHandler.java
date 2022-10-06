@@ -250,4 +250,16 @@ public class ClientEventHandler
 			}
 			else if (KeyBindingsExtraBitManipulation.OPEN_CHISELED_ARMOR_GUI.isKeyDown())
 			{
-				if (ChiseledArmorSlotsHandle
+				if (ChiseledArmorSlotsHandler.findNextArmorSetIndex(ChiseledArmorSlotsHandler.COUNT_SETS) >= 0)
+					ExtraBitManipulation.packetNetwork.sendToServer(new PacketOpenChiseledArmorGui());
+				else
+					ClientHelper.printChatMessageWithDeletion("You must be wearing at least one piece of Chiseled Armor to open the Chiseled Armor GUI.");
+			}
+			else if (KeyBindingsExtraBitManipulation.OPEN_CHISELED_ARMOR_SLOTS_GUI.isKeyDown())
+			{
+				ExtraBitManipulation.packetNetwork.sendToServer(new PacketOpenInventoryGui(false));
+			}
+			else if (ItemStackHelper.isBitToolStack(stack) || ItemStackHelper.isChiseledArmorStack(stack))
+			{
+				Minecraft.getMinecraft().displayGuiScreen(new GuiBitToolSettingsMenu());
+			}
