@@ -282,4 +282,25 @@ public class ClientEventHandler
 			
 			ExtraBitManipulation.packetNetwork.sendToServer(new PacketThrowBit());
 		}
+	}
 	
+	private void openBitMappingGui()
+	{
+		ExtraBitManipulation.packetNetwork.sendToServer(new PacketOpenBitMappingGui());
+	}
+
+	@SubscribeEvent
+	public void interceptMouseInput(MouseEvent event)
+	{
+		EntityPlayer player = ClientHelper.getPlayer();
+		if (event.getDwheel() != 0)
+		{
+			ItemStack stack = player.getHeldItemMainhand();
+			if (ItemStackHelper.isBitToolStack(stack))
+			{
+				boolean forward = event.getDwheel() < 0;
+				if (KeyBindingsExtraBitManipulation.SHIFT.isKeyDown())
+				{
+					if (ItemStackHelper.isBitWrenchItem(stack.getItem()))
+					{
+						ExtraBitManipulation.packetNetwork.sendToServer(new PacketCycleBitWrenchMode(forward));
