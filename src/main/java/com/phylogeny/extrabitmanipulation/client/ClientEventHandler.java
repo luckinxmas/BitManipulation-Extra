@@ -304,3 +304,31 @@ public class ClientEventHandler
 					if (ItemStackHelper.isBitWrenchItem(stack.getItem()))
 					{
 						ExtraBitManipulation.packetNetwork.sendToServer(new PacketCycleBitWrenchMode(forward));
+					}
+					else
+					{
+						cycleSemiDiameter(player, stack, forward);
+					}
+					event.setCanceled(true);
+				}
+				else if (ItemStackHelper.isSculptingToolItem(stack.getItem())
+						&& (KeyBindingsExtraBitManipulation.CONTROL.isKeyDown()
+								|| KeyBindingsExtraBitManipulation.ALT.isKeyDown()))
+				{
+					if (KeyBindingsExtraBitManipulation.CONTROL.isKeyDown())
+					{
+						cycleDirection(player, stack, forward);
+					}
+					else
+					{
+						cycleWallThickness(player, stack, forward);
+					}
+					event.setCanceled(true);
+				}
+			}
+			else
+			{
+				drawnStartPoint = null;
+			}
+		}
+		else if ((KeyBindingsExtraBitManipula
