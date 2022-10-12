@@ -331,4 +331,27 @@ public class ClientEventHandler
 				drawnStartPoint = null;
 			}
 		}
-		else if ((KeyBindingsExtraBitManipula
+		else if ((KeyBindingsExtraBitManipulation.CONTROL.isKeyDown() || KeyBindingsExtraBitManipulation.ALT.isKeyDown()) && event.isButtonstate())
+		{
+			ItemStack stack = player.getHeldItemMainhand();
+			Item item = stack.getItem();
+			if (ItemStackHelper.isSculptingToolItem(item))
+			{
+				if (KeyBindingsExtraBitManipulation.CONTROL.isKeyDown())
+				{
+					if (event.getButton() == 1)
+						cycleShapeType(player, stack, item);
+					
+					if (event.getButton() == 0)
+						toggleBitGridTargeted(player, stack);
+				}
+				else
+				{
+					if (event.getButton() == 1)
+						toggleHollowShape(player, stack, item);
+					
+					if (event.getButton() == 0)
+						toggleOpenEnds(player, stack);
+				}
+				event.setCanceled(true);
+		
