@@ -354,4 +354,22 @@ public class ClientEventHandler
 						toggleOpenEnds(player, stack);
 				}
 				event.setCanceled(true);
-		
+			}
+		}
+		else if (event.getButton() == 0)
+		{
+			if (!player.capabilities.allowEdit)
+				return;
+			
+			ItemStack stack = player.getHeldItemMainhand();
+			Item item = stack.getItem();
+			if (event.isButtonstate() && ItemStackHelper.isChiseledArmorItem(item))
+			{
+				RayTraceResult target = ClientHelper.getObjectMouseOver();
+				if (target != null && target.typeOfHit == RayTraceResult.Type.BLOCK)
+				{
+					NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+					int mode = BitToolSettingsHelper.getArmorMode(nbt);
+					if (mode == 0)
+					{
+						ExtraBitManipulation.packetNetwork.sendToServer(new PacketSetCollectionBox(player.rotationYaw, 
