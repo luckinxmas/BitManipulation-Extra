@@ -372,4 +372,18 @@ public class ClientEventHandler
 					int mode = BitToolSettingsHelper.getArmorMode(nbt);
 					if (mode == 0)
 					{
-						ExtraBitManipulation.packetNetwork.sendToServer(new PacketSetCollectionBox(player.rotationYaw, 
+						ExtraBitManipulation.packetNetwork.sendToServer(new PacketSetCollectionBox(player.rotationYaw, player.isSneaking(),
+								player.getHorizontalFacing().getOpposite(), target.getBlockPos(), target.sideHit, target.hitVec));
+						ClientHelper.printChatMessageWithDeletion("Set collection reference area for a " +
+								ItemChiseledArmor.getPartAndScaleText(BitToolSettingsHelper.getArmorMovingPart(nbt,
+										(ItemChiseledArmor) item), BitToolSettingsHelper.getArmorScale(nbt)));
+						event.setCanceled(true);
+					}
+				}
+			}
+			if (event.isButtonstate() && ItemStackHelper.isBitWrenchItem(item))
+			{
+				event.setCanceled(true);
+			}
+			else if ((ItemStackHelper.isChiseledArmorItem(item) && BitToolSettingsHelper.getArmorMode(ItemStackHelper.getNBTOrNew(stack)) == 1)
+					|| ItemStackHelper.isSculptingToolItem(i
