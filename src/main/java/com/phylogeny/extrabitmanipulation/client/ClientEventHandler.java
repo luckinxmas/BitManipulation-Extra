@@ -386,4 +386,18 @@ public class ClientEventHandler
 				event.setCanceled(true);
 			}
 			else if ((ItemStackHelper.isChiseledArmorItem(item) && BitToolSettingsHelper.getArmorMode(ItemStackHelper.getNBTOrNew(stack)) == 1)
-					|| ItemStackHelper.isSculptingToolItem(i
+					|| ItemStackHelper.isSculptingToolItem(item))
+			{
+				boolean isArmor = ItemStackHelper.isChiseledArmorItem(item);
+				boolean drawnMode = isArmor ? true : BitToolSettingsHelper.getSculptMode(stack.getTagCompound()) == 2;
+				if (!drawnMode)
+					drawnStartPoint = null;
+				
+				if (event.isButtonstate() || (drawnMode && drawnStartPoint != null))
+				{
+					boolean removeBits = isArmor ? true : ((ItemSculptingTool) item).removeBits();
+					RayTraceResult target = ClientHelper.getObjectMouseOver();
+					boolean shiftDown = KeyBindingsExtraBitManipulation.SHIFT.isKeyDown();
+					if (target != null && target.typeOfHit != RayTraceResult.Type.MISS)
+					{
+						if (target.typeOfHit == Ra
