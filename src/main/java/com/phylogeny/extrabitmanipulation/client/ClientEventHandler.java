@@ -432,4 +432,18 @@ public class ClientEventHandler
 										float y2 = y + bitLoc.getBitY() * Utility.PIXEL_F;
 										float z2 = z + bitLoc.getBitZ() * Utility.PIXEL_F;
 										if (!removeBits)
-				
+										{
+											x2 += side.getFrontOffsetX() * Utility.PIXEL_F;
+											y2 += side.getFrontOffsetY() * Utility.PIXEL_F;
+											z2 += side.getFrontOffsetZ() * Utility.PIXEL_F;
+										}
+										drawnStartPoint = new Vec3d(x2, y2, z2);
+										if (isArmor && player.isSneaking())
+										{
+											Vec3d vec = new Vec3d(side.getFrontOffsetX(), side.getFrontOffsetY(), side.getFrontOffsetZ());
+											if (BitToolSettingsHelper.areArmorBitsTargeted(ItemStackHelper.getNBTOrNew(stack)))
+												vec = vec.scale(Utility.PIXEL_D);
+											
+											drawnStartPoint = drawnStartPoint.add(vec);
+										}
+					
