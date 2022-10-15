@@ -416,4 +416,20 @@ public class ClientEventHandler
 								if (isArmor && !ItemStackHelper.getNBTOrNew(stack).hasKey(NBTKeys.ARMOR_HIT))
 								{
 									ClientHelper.printChatMessageWithDeletion("You must set a bodypart template reference area in 'Template Creation' " +
-											"mode 
+											"mode before collecting block copies.");
+									swingTool = false;
+								}
+								else
+								{
+									IBitLocation bitLoc = ChiselsAndBitsAPIAccess.apiInstance.getBitPos((float) hit.x - pos.getX(),
+											(float) hit.y - pos.getY(), (float) hit.z - pos.getZ(), side, pos, false);
+									if (bitLoc != null)
+									{
+										int x = pos.getX();
+										int y = pos.getY();
+										int z = pos.getZ();
+										float x2 = x + bitLoc.getBitX() * Utility.PIXEL_F;
+										float y2 = y + bitLoc.getBitY() * Utility.PIXEL_F;
+										float z2 = z + bitLoc.getBitZ() * Utility.PIXEL_F;
+										if (!removeBits)
+				
