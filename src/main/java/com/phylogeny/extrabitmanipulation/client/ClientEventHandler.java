@@ -400,4 +400,20 @@ public class ClientEventHandler
 					boolean shiftDown = KeyBindingsExtraBitManipulation.SHIFT.isKeyDown();
 					if (target != null && target.typeOfHit != RayTraceResult.Type.MISS)
 					{
-						if (target.typeOfHit == Ra
+						if (target.typeOfHit == RayTraceResult.Type.BLOCK)
+						{
+							BlockPos pos = target.getBlockPos();
+							EnumFacing side = target.sideHit;
+							Vec3d hit = target.hitVec;
+							boolean swingTool = true;
+							if (drawnMode && event.isButtonstate() && drawnStartPoint != null)
+							{
+								event.setCanceled(true);
+								return;
+							}
+							if ((isArmor || !shiftDown) && drawnMode && event.isButtonstate())
+							{
+								if (isArmor && !ItemStackHelper.getNBTOrNew(stack).hasKey(NBTKeys.ARMOR_HIT))
+								{
+									ClientHelper.printChatMessageWithDeletion("You must set a bodypart template reference area in 'Template Creation' " +
+											"mode 
