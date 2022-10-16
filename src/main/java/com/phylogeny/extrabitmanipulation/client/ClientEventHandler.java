@@ -467,4 +467,21 @@ public class ClientEventHandler
 										{
 											IBitAccess bitAccess = api.getBitAccess(player.world, pos);
 											IBitBrush bit = bitAccess.getBitAt(bitLoc.getBitX(), bitLoc.getBitY(), bitLoc.getBitZ());
-											BitToolSettingsHelper.setBitStack(player, stack
+											BitToolSettingsHelper.setBitStack(player, stack, removeBits, bit,
+													removeBits ? Configs.sculptSetBitWire : Configs.sculptSetBitSpade);
+											if ((removeBits ? Configs.sculptSetBitWire : Configs.sculptSetBitSpade).shouldDisplayInChat())
+											{
+												ClientHelper.printChatMessageWithDeletion((removeBits ? "Removing only " : "Sculpting with ")
+														+ BitToolSettingsHelper.getBitName(bit.getItemStack(1)));
+											}
+										}
+										catch (CannotBeChiseled e)
+										{
+											event.setCanceled(true);
+											return;
+										}
+									}
+								}
+								else if (!shiftDown || removeBits || drawnMode)
+								{
+									i
