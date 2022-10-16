@@ -446,4 +446,25 @@ public class ClientEventHandler
 											
 											drawnStartPoint = drawnStartPoint.add(vec);
 										}
-					
+									}
+									else
+									{
+										drawnStartPoint = null;
+										swingTool = false;
+									}
+								}
+							}
+							else
+							{
+								if (shiftDown && !isArmor)
+								{
+									IChiselAndBitsAPI api = ChiselsAndBitsAPIAccess.apiInstance;
+									IBitLocation bitLoc = api.getBitPos((float) hit.x - pos.getX(), (float) hit.y - pos.getY(),
+											(float) hit.z - pos.getZ(), side, pos, false);
+									if (bitLoc != null)
+									{
+										try
+										{
+											IBitAccess bitAccess = api.getBitAccess(player.world, pos);
+											IBitBrush bit = bitAccess.getBitAt(bitLoc.getBitX(), bitLoc.getBitY(), bitLoc.getBitZ());
+											BitToolSettingsHelper.setBitStack(player, stack
