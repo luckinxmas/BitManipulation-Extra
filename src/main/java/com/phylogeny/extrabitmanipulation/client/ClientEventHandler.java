@@ -511,4 +511,27 @@ public class ClientEventHandler
 					else if (shiftDown && event.isButtonstate() && removeBits && !isArmor)
 					{
 						BitToolSettingsHelper.setBitStack(player, stack, true, null, Configs.sculptSetBitWire);
-						if ((removeBits ? Configs.sculptSetBitWire : Configs.sculptSetBitSpade).shouldDisp
+						if ((removeBits ? Configs.sculptSetBitWire : Configs.sculptSetBitSpade).shouldDisplayInChat())
+							ClientHelper.printChatMessageWithDeletion("Removing any/all bits");
+					}
+					else if (drawnMode)
+					{
+						drawnStartPoint = null;
+					}
+				}
+			}
+		}
+		else if (event.getButton() == 1 && event.isButtonstate())
+		{
+			ItemStack stack = player.getHeldItemMainhand();
+			if (ItemStackHelper.isModelingToolStack(stack) && ItemStackHelper.hasKey(stack, NBTKeys.SAVED_STATES)
+					&& KeyBindingsExtraBitManipulation.SHIFT.isKeyDown())
+			{
+				openBitMappingGui();
+				event.setCanceled(true);
+			}
+		}
+		if (!event.isCanceled() && event.getButton() == 1 && event.isButtonstate())
+		{
+			ItemStack stack = player.getHeldItemMainhand();
+			if (ItemStackHelper.isSculptingTo
