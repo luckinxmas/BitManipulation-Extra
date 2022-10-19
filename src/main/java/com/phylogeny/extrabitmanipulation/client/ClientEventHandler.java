@@ -495,4 +495,20 @@ public class ClientEventHandler
 									else
 									{
 										SculptingData sculptingData = new SculptingData(stack.getTagCompound(), (ItemSculptingTool) item);
-										swingTool = ((ItemSculptingTool) item).sculptBlocks(stack, player, pla
+										swingTool = ((ItemSculptingTool) item).sculptBlocks(stack, player, player.world, pos, side, hit, drawnStartPoint, sculptingData);
+										ExtraBitManipulation.packetNetwork.sendToServer(new PacketSculpt(pos, side, hit, drawnStartPoint, sculptingData));
+									}
+								}
+								if (drawnMode && !event.isButtonstate())
+									drawnStartPoint = null;
+							}
+							if (swingTool)
+								player.swingArm(EnumHand.MAIN_HAND);
+							
+							event.setCanceled(true);
+						}
+					}
+					else if (shiftDown && event.isButtonstate() && removeBits && !isArmor)
+					{
+						BitToolSettingsHelper.setBitStack(player, stack, true, null, Configs.sculptSetBitWire);
+						if ((removeBits ? Configs.sculptSetBitWire : Configs.sculptSetBitSpade).shouldDisp
