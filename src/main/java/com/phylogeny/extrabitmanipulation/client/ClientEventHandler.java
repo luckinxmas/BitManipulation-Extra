@@ -484,4 +484,15 @@ public class ClientEventHandler
 								}
 								else if (!shiftDown || removeBits || drawnMode)
 								{
-									i
+									if (isArmor)
+									{
+										NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+										ArmorCollectionData collectionData = new ArmorCollectionData(nbt, (ItemChiseledArmor) item,
+												getDrawnArmorCollectionBox(player, nbt, side, pos, hit));
+										swingTool = ItemChiseledArmor.collectArmorBlocks(player, collectionData);
+										ExtraBitManipulation.packetNetwork.sendToServer(new PacketCollectArmorBlocks(collectionData));
+									}
+									else
+									{
+										SculptingData sculptingData = new SculptingData(stack.getTagCompound(), (ItemSculptingTool) item);
+										swingTool = ((ItemSculptingTool) item).sculptBlocks(stack, player, pla
