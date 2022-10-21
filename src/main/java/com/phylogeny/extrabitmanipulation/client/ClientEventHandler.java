@@ -550,4 +550,28 @@ public class ClientEventHandler
 					if (controlDown)
 					{
 						if (isArmor)
-							c
+							cycleArmorScale(player, stack, forward);
+						else
+							cycleModelSnapMode(player, stack, forward);
+					}
+					else
+					{
+						if (isArmor)
+							cycleArmorMovingPart(player, stack, forward);
+						else
+							cycleModelAreaMode(player, stack, forward);
+					}
+					event.setCanceled(true);
+				}
+			}
+			else
+			{
+				drawnStartPointModelingTool = null;
+			}
+		}
+		else if ((KeyBindingsExtraBitManipulation.CONTROL.isKeyDown() || KeyBindingsExtraBitManipulation.ALT.isKeyDown()) && event.isButtonstate())
+		{
+			ItemStack stack = player.getHeldItemMainhand();
+			boolean isArmor = ItemStackHelper.isChiseledArmorStack(stack);
+			boolean controlDown = KeyBindingsExtraBitManipulation.CONTROL.isKeyDown();
+			if (isArmor 
