@@ -534,4 +534,20 @@ public class ClientEventHandler
 		if (!event.isCanceled() && event.getButton() == 1 && event.isButtonstate())
 		{
 			ItemStack stack = player.getHeldItemMainhand();
-			if (ItemStackHelper.isSculptingTo
+			if (ItemStackHelper.isSculptingToolStack(stack))
+				cycleSculptMode(player, stack, !KeyBindingsExtraBitManipulation.SHIFT.isKeyDown());	
+		}
+		if (event.getDwheel() != 0)
+		{
+			ItemStack stack = player.getHeldItemMainhand();
+			boolean isArmor = ItemStackHelper.isChiseledArmorStack(stack);
+			if (isArmor || ItemStackHelper.isModelingToolStack(stack))
+			{
+				boolean forward = event.getDwheel() < 0;
+				boolean controlDown = KeyBindingsExtraBitManipulation.CONTROL.isKeyDown();
+				if (controlDown || (isArmor ? KeyBindingsExtraBitManipulation.ALT.isKeyDown() : KeyBindingsExtraBitManipulation.SHIFT.isKeyDown()))
+				{
+					if (controlDown)
+					{
+						if (isArmor)
+							c
