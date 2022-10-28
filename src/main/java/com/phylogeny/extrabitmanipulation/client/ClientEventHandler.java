@@ -574,4 +574,31 @@ public class ClientEventHandler
 			ItemStack stack = player.getHeldItemMainhand();
 			boolean isArmor = ItemStackHelper.isChiseledArmorStack(stack);
 			boolean controlDown = KeyBindingsExtraBitManipulation.CONTROL.isKeyDown();
-			if (isArmor 
+			if (isArmor || (ItemStackHelper.isModelingToolStack(stack) && controlDown))
+			{
+				if (event.getButton() == 1)
+				{
+					if (isArmor)
+					{
+						if (controlDown)
+							toggleArmorMode(player, stack);
+						else
+							toggleArmorBitsTargeted(player, stack);
+					}
+					else
+					{
+						toggleModelGuiOpen(player, stack);
+					}
+				}
+				event.setCanceled(true);
+			}
+		}
+		else if (event.getButton() == 0)
+		{
+			ItemStack stack = player.getHeldItemMainhand();
+			if (ItemStackHelper.isModelingToolStack(stack))
+			{
+				Item item = stack.getItem();
+				if (item != null)
+				{
+					boolean drawnMode = BitToolSettingsHelper.getModelAreaMode(stack.getTagCompound()) == 2;
