@@ -620,4 +620,15 @@ public class ClientEventHandler
 									event.setCanceled(true);
 									return;
 								}
-								if
+								if (!KeyBindingsExtraBitManipulation.SHIFT.isKeyDown() && drawnMode && event.isButtonstate())
+								{
+									drawnStartPointModelingTool = new Vec3i(pos.getX(), pos.getY(), pos.getZ());
+								}
+								else
+								{
+									if (!KeyBindingsExtraBitManipulation.SHIFT.isKeyDown() || drawnMode)
+									{
+										ModelReadData modelingData = new ModelReadData(stack.getTagCompound());
+										swingTool = BitAreaHelper.readBlockStates(stack, player, player.world, pos, hit,
+												drawnStartPointModelingTool, modelingData);
+										ExtraBitManipulation.packetNetwork.sendToServer(new PacketReadBlockStates(po
