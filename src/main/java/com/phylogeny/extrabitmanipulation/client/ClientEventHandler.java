@@ -602,3 +602,22 @@ public class ClientEventHandler
 				if (item != null)
 				{
 					boolean drawnMode = BitToolSettingsHelper.getModelAreaMode(stack.getTagCompound()) == 2;
+					if (!drawnMode)
+						drawnStartPointModelingTool = null;
+					
+					if (event.isButtonstate() || (drawnMode && drawnStartPointModelingTool != null))
+					{
+						RayTraceResult target = ClientHelper.getObjectMouseOver();
+						if (target != null && target.typeOfHit != RayTraceResult.Type.MISS)
+						{
+							if (target.typeOfHit == RayTraceResult.Type.BLOCK)
+							{
+								BlockPos pos = target.getBlockPos();
+								Vec3d hit = target.hitVec;
+								boolean swingTool = true;
+								if (drawnMode && event.isButtonstate() && drawnStartPointModelingTool != null)
+								{
+									event.setCanceled(true);
+									return;
+								}
+								if
