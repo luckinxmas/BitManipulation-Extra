@@ -631,4 +631,29 @@ public class ClientEventHandler
 										ModelReadData modelingData = new ModelReadData(stack.getTagCompound());
 										swingTool = BitAreaHelper.readBlockStates(stack, player, player.world, pos, hit,
 												drawnStartPointModelingTool, modelingData);
-										ExtraBitManipulation.packetNetwork.sendToServer(new PacketReadBlockStates(po
+										ExtraBitManipulation.packetNetwork.sendToServer(new PacketReadBlockStates(pos, hit,
+												drawnStartPointModelingTool, modelingData));
+									}
+									if (drawnMode && !event.isButtonstate())
+										drawnStartPointModelingTool = null;
+								}
+								if (swingTool)
+									player.swingArm(EnumHand.MAIN_HAND);
+								
+								event.setCanceled(true);
+							}
+						}
+						else if (drawnMode)
+						{
+							drawnStartPointModelingTool = null;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	private void toggleArmorMode(EntityPlayer player, ItemStack stack)
+	{
+		int mode = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getArmorMode(stack.getTagCompound()), true, ItemChiseledArmor.MODE_TITLES.length);
+		BitToolSett
