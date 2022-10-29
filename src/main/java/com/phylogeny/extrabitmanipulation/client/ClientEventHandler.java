@@ -681,4 +681,13 @@ public class ClientEventHandler
 	private void cycleArmorMovingPart(EntityPlayer player, ItemStack stack, boolean forward)
 	{
 		ItemChiseledArmor armorPiece = (ItemChiseledArmor) stack.getItem();
-		int partIndex = BitToolSettingsHelper.getArmorMovin
+		int partIndex = BitToolSettingsHelper.getArmorMovingPart(stack.getTagCompound(), armorPiece).getPartIndex();
+		partIndex = BitToolSettingsHelper.cycleData(partIndex, forward, armorPiece.MOVING_PART_TITLES.length);
+		BitToolSettingsHelper.setArmorMovingPart(player, stack, armorPiece, partIndex);
+		if (BitToolSettingsHelper.getArmorMovingPartConfig(armorPiece.armorType).shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getArmorMovingPartText(armorPiece.MOVING_PARTS[partIndex], armorPiece));
+	}
+	
+	private void cycleModelAreaMode(EntityPlayer player, ItemStack stack, boolean forward)
+	{
+		int mode = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getModelAreaMode
