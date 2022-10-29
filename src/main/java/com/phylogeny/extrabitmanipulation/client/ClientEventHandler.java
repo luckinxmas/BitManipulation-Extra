@@ -669,4 +669,16 @@ public class ClientEventHandler
 			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getArmorBitsTargetedText(targetBits));
 	}
 	
-	priv
+	private void cycleArmorScale(EntityPlayer player, ItemStack stack, boolean forward)
+	{
+		int scale = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getArmorScale(stack.getTagCompound()),
+				forward, ItemChiseledArmor.SCALE_TITLES.length);
+		BitToolSettingsHelper.setArmorScale(player, stack, scale, Configs.armorScale);
+		if (Configs.armorScale.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getArmorScaleText(scale));
+	}
+	
+	private void cycleArmorMovingPart(EntityPlayer player, ItemStack stack, boolean forward)
+	{
+		ItemChiseledArmor armorPiece = (ItemChiseledArmor) stack.getItem();
+		int partIndex = BitToolSettingsHelper.getArmorMovin
