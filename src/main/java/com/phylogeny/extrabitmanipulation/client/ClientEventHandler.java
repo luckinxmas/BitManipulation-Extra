@@ -656,4 +656,17 @@ public class ClientEventHandler
 	private void toggleArmorMode(EntityPlayer player, ItemStack stack)
 	{
 		int mode = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getArmorMode(stack.getTagCompound()), true, ItemChiseledArmor.MODE_TITLES.length);
-		BitToolSett
+		BitToolSettingsHelper.setArmorMode(player, stack, mode, Configs.armorMode);
+		if (Configs.armorMode.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getArmorModeText(mode));
+	}
+	
+	private void toggleArmorBitsTargeted(EntityPlayer player, ItemStack stack)
+	{
+		boolean targetBits = !BitToolSettingsHelper.areArmorBitsTargeted(stack.getTagCompound());
+		BitToolSettingsHelper.setArmorBitsTargeted(player, stack, targetBits, Configs.armorTargetBits);
+		if (Configs.armorTargetBits.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getArmorBitsTargetedText(targetBits));
+	}
+	
+	priv
