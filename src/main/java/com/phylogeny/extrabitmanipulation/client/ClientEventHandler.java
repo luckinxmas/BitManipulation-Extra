@@ -714,4 +714,16 @@ public class ClientEventHandler
 			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getModelGuiOpenText(modelGuiOpen));
 	}
 	
-	private void cycleSculptMode(Entit
+	private void cycleSculptMode(EntityPlayer player, ItemStack stack, boolean forward)
+	{
+		int mode = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getSculptMode(stack.getTagCompound()), forward, ItemSculptingTool.MODE_TITLES.length);
+		BitToolSettingsHelper.setSculptMode(player, stack, mode, Configs.sculptMode);
+		if (Configs.sculptMode.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getSculptModeText(mode));
+	}
+	
+	private void cycleDirection(EntityPlayer player, ItemStack stack, boolean forward)
+	{
+		NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+		int direction = BitToolSettingsHelper.getDirection(nbt);
+		int shapeType = BitToolSettingsHelper.
