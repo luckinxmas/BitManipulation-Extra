@@ -690,4 +690,15 @@ public class ClientEventHandler
 	
 	private void cycleModelAreaMode(EntityPlayer player, ItemStack stack, boolean forward)
 	{
-		int mode = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getModelAreaMode
+		int mode = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getModelAreaMode(stack.getTagCompound()),
+				forward, ItemModelingTool.AREA_MODE_TITLES.length);
+		BitToolSettingsHelper.setModelAreaMode(player, stack, mode, Configs.modelAreaMode);
+		if (Configs.modelAreaMode.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getModelAreaModeText(mode));
+	}
+	
+	private void cycleModelSnapMode(EntityPlayer player, ItemStack stack, boolean forward)
+	{
+		int mode = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getModelSnapMode(stack.getTagCompound()),
+				forward, ItemModelingTool.SNAP_MODE_TITLES.length);
+		BitToolSettingsHelper.setModelSnapMode(player, stack, 
