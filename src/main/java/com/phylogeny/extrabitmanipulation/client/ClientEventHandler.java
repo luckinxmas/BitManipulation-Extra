@@ -701,4 +701,17 @@ public class ClientEventHandler
 	{
 		int mode = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getModelSnapMode(stack.getTagCompound()),
 				forward, ItemModelingTool.SNAP_MODE_TITLES.length);
-		BitToolSettingsHelper.setModelSnapMode(player, stack, 
+		BitToolSettingsHelper.setModelSnapMode(player, stack, mode, Configs.modelSnapMode);
+		if (Configs.modelSnapMode.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getModelSnapModeText(mode));
+	}
+	
+	private void toggleModelGuiOpen(EntityPlayer player, ItemStack stack)
+	{
+		boolean modelGuiOpen = !BitToolSettingsHelper.getModelGuiOpen(stack.getTagCompound());
+		BitToolSettingsHelper.setModelGuiOpen(player, stack, modelGuiOpen, Configs.modelGuiOpen);
+		if (Configs.modelGuiOpen.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getModelGuiOpenText(modelGuiOpen));
+	}
+	
+	private void cycleSculptMode(Entit
