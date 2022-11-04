@@ -726,4 +726,17 @@ public class ClientEventHandler
 	{
 		NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
 		int direction = BitToolSettingsHelper.getDirection(nbt);
-		int shapeType = BitToolSettingsHelper.
+		int shapeType = BitToolSettingsHelper.getShapeType(nbt, ((ItemSculptingTool) stack.getItem()).isCurved());
+		int rotation = direction / 6;
+		direction %= 6;
+		if (!(shapeType == 4 && (forward ? rotation != 1 : rotation != 0)) && !(shapeType == 5 && (forward ? rotation != 3 : rotation != 0)))
+		{
+			direction = shapeType == 2 || shapeType > 3 ? (forward ? DIRECTION_FORWARD[direction] : DIRECTION_BACKWARD[direction])
+					: (forward ? AXIS_FORWARD[direction] : AXIS_BACKWARD[direction]);
+			rotation = forward ? 0 : (shapeType == 4 ? 1 : 3);
+		}
+		else
+		{
+			rotation = shapeType == 4 ? (rotation == 0 ? 1 : 0) : BitToolSettingsHelper.cycleData(rotation, forward, 4);
+		}
+		direction += 6 * rot
