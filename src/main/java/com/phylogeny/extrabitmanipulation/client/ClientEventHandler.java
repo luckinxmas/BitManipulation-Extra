@@ -739,4 +739,16 @@ public class ClientEventHandler
 		{
 			rotation = shapeType == 4 ? (rotation == 0 ? 1 : 0) : BitToolSettingsHelper.cycleData(rotation, forward, 4);
 		}
-		direction += 6 * rot
+		direction += 6 * rotation;
+		BitToolSettingsHelper.setDirection(player, stack, direction, Configs.sculptDirection);
+		if (Configs.sculptDirection.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getDirectionText(direction, shapeType == 4 || shapeType == 5));
+	}
+	
+	private void cycleShapeType(EntityPlayer player, ItemStack stack, Item item)
+	{
+		boolean isCurved = ((ItemSculptingTool) item).isCurved();
+		NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+		int shapeType = BitToolSettingsHelper.getShapeType(nbt, isCurved);
+		shapeType = isCurved ? SHAPE_CURVED[shapeType] : SHAPE_FLAT[shapeType];
+		BitToolSettingsHelper.setShapeType(playe
