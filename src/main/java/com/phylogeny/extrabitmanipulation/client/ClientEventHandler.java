@@ -751,4 +751,14 @@ public class ClientEventHandler
 		NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
 		int shapeType = BitToolSettingsHelper.getShapeType(nbt, isCurved);
 		shapeType = isCurved ? SHAPE_CURVED[shapeType] : SHAPE_FLAT[shapeType];
-		BitToolSettingsHelper.setShapeType(playe
+		BitToolSettingsHelper.setShapeType(player, stack, isCurved, shapeType, isCurved ? Configs.sculptShapeTypeCurved : Configs.sculptShapeTypeFlat);
+		if ((isCurved ? Configs.sculptShapeTypeCurved : Configs.sculptShapeTypeFlat).shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getShapeTypeText(shapeType));
+	}
+	
+	private void toggleBitGridTargeted(EntityPlayer player, ItemStack stack)
+	{
+		boolean targetBitGrid = !BitToolSettingsHelper.isBitGridTargeted(stack.getTagCompound());
+		BitToolSettingsHelper.setBitGridTargeted(player, stack, targetBitGrid, Configs.sculptTargetBitGridVertexes);
+		if (Configs.sculptTargetBitGridVertexes.shouldDisplayInChat())
+		
