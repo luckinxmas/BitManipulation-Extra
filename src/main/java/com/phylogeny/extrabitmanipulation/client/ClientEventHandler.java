@@ -761,4 +761,16 @@ public class ClientEventHandler
 		boolean targetBitGrid = !BitToolSettingsHelper.isBitGridTargeted(stack.getTagCompound());
 		BitToolSettingsHelper.setBitGridTargeted(player, stack, targetBitGrid, Configs.sculptTargetBitGridVertexes);
 		if (Configs.sculptTargetBitGridVertexes.shouldDisplayInChat())
-		
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getBitGridTargetedText(targetBitGrid));
+	}
+	
+	private void cycleSemiDiameter(EntityPlayer player, ItemStack stack, boolean forward)
+	{
+		int semiDiameter = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getSemiDiameter(stack.getTagCompound()),
+				forward, Configs.maxSemiDiameter);
+		BitToolSettingsHelper.setSemiDiameter(player, stack, semiDiameter, Configs.sculptSemiDiameter);
+		if (Configs.sculptSemiDiameter.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getSemiDiameterText(stack.getTagCompound(), semiDiameter));
+	}
+	
+	private void toggleHollowShape(EntityPlayer player, ItemStack stack
