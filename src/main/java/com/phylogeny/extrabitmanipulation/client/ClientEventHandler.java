@@ -795,4 +795,21 @@ public class ClientEventHandler
 		int wallThickness = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getWallThickness(stack.getTagCompound()),
 				forward, Configs.maxWallThickness);
 		BitToolSettingsHelper.setWallThickness(player, stack, wallThickness, Configs.sculptWallThickness);
-		if (Configs.sculp
+		if (Configs.sculptWallThickness.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getWallThicknessText(wallThickness));
+	}
+	
+	@SubscribeEvent
+	public void cancelBoundingBoxDraw(DrawBlockHighlightEvent event)
+	{
+		ItemStack stack = event.getPlayer().getHeldItemMainhand();
+		if (ItemStackHelper.isSculptingToolStack(stack) && BitToolSettingsHelper.getSculptMode(stack.getTagCompound()) == 1)
+			event.setCanceled(true);
+	}
+	
+	@SubscribeEvent
+	public void renderBoxesSpheresAndOverlays(RenderWorldLastEvent event)
+	{
+		EntityPlayer player = ClientHelper.getPlayer();
+		World world = player.world;
+		ItemS
