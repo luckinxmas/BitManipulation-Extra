@@ -773,4 +773,15 @@ public class ClientEventHandler
 			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getSemiDiameterText(stack.getTagCompound(), semiDiameter));
 	}
 	
-	private void toggleHollowShape(EntityPlayer player, ItemStack stack
+	private void toggleHollowShape(EntityPlayer player, ItemStack stack, Item item)
+	{
+		boolean isWire = ((ItemSculptingTool) item).removeBits();
+		boolean isHollowShape = !BitToolSettingsHelper.isHollowShape(stack.getTagCompound(), isWire);
+		BitToolSettingsHelper.setHollowShape(player, stack, isWire, isHollowShape, isWire ? Configs.sculptHollowShapeWire : Configs.sculptHollowShapeSpade);
+		if ((isWire ? Configs.sculptHollowShapeWire : Configs.sculptHollowShapeSpade).shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getHollowShapeText(isHollowShape));
+	}
+	
+	private void toggleOpenEnds(EntityPlayer player, ItemStack stack)
+	{
+		boolean areEndsOpen = !BitToolSettingsH
