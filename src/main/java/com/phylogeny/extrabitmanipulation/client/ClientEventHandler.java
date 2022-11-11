@@ -784,4 +784,15 @@ public class ClientEventHandler
 	
 	private void toggleOpenEnds(EntityPlayer player, ItemStack stack)
 	{
-		boolean areEndsOpen = !BitToolSettingsH
+		boolean areEndsOpen = !BitToolSettingsHelper.areEndsOpen(stack.getTagCompound());
+		BitToolSettingsHelper.setEndsOpen(player, stack, areEndsOpen, Configs.sculptOpenEnds);
+		if (Configs.sculptOpenEnds.shouldDisplayInChat())
+			ClientHelper.printChatMessageWithDeletion(BitToolSettingsHelper.getOpenEndsText(areEndsOpen));
+	}
+	
+	private void cycleWallThickness(EntityPlayer player, ItemStack stack, boolean forward)
+	{
+		int wallThickness = BitToolSettingsHelper.cycleData(BitToolSettingsHelper.getWallThickness(stack.getTagCompound()),
+				forward, Configs.maxWallThickness);
+		BitToolSettingsHelper.setWallThickness(player, stack, wallThickness, Configs.sculptWallThickness);
+		if (Configs.sculp
