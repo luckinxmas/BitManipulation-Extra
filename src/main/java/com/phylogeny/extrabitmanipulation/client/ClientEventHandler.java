@@ -826,4 +826,21 @@ public class ClientEventHandler
 		IChiselAndBitsAPI api = ChiselsAndBitsAPIAccess.apiInstance;
 		float ticks = event.getPartialTicks();
 		double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * ticks;
-		double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * tic
+		double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * ticks;
+		double playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * ticks;
+		Tessellator t = Tessellator.getInstance();
+		BufferBuilder buffer = t.getBuffer();
+		if (isArmor)
+		{
+			NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+			if (nbt.hasKey(NBTKeys.ARMOR_HIT))
+			{
+				ArmorBodyPartTemplateBoxData boxData = new ArmorBodyPartTemplateBoxData(nbt, (ItemChiseledArmor) item);
+				renderBodyPartTemplate(playerX, playerY, playerZ, boxData.getFacingBox(), t, buffer, boxData.getBox(), 0.0F);
+			}
+			if (!hitBlock)
+				return;
+		}
+		@SuppressWarnings("null")
+		EnumFacing dir = target.sideHit;
+		BlockPos pos = target.getBlockPos(
