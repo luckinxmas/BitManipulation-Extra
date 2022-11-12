@@ -812,4 +812,18 @@ public class ClientEventHandler
 	{
 		EntityPlayer player = ClientHelper.getPlayer();
 		World world = player.world;
-		ItemS
+		ItemStack stack = player.getHeldItemMainhand();
+		if (stack.isEmpty())
+			return;
+		
+		RayTraceResult target = ClientHelper.getObjectMouseOver();
+		Item item = stack.getItem();
+		boolean hitBlock = target != null && target.typeOfHit.equals(RayTraceResult.Type.BLOCK);
+		boolean isArmor = ItemStackHelper.isChiseledArmorItem(item);
+		if (!isArmor && (!hitBlock || !ItemStackHelper.isBitToolItem(item)))
+			return;
+		
+		IChiselAndBitsAPI api = ChiselsAndBitsAPIAccess.apiInstance;
+		float ticks = event.getPartialTicks();
+		double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * ticks;
+		double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * tic
