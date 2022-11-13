@@ -843,4 +843,23 @@ public class ClientEventHandler
 		}
 		@SuppressWarnings("null")
 		EnumFacing dir = target.sideHit;
-		BlockPos pos = target.getBlockPos(
+		BlockPos pos = target.getBlockPos();
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+		double diffX = playerX - x;
+		double diffY = playerY - y;
+		double diffZ = playerZ - z;
+		Vec3d hit = target.hitVec;
+		if (ItemStackHelper.isBitWrenchItem(item) && api.isBlockChiseled(world, target.getBlockPos()) && !Configs.disableOverlays)
+		{
+			int mode = ItemStackHelper.getNBTOrNew(stack).getInteger(NBTKeys.WRENCH_MODE);
+			if (timer == null)
+				timer = Stopwatch.createStarted();
+			
+			millisecondsElapsed = timer.elapsed(TimeUnit.MILLISECONDS);
+			int side = dir.ordinal();
+			boolean upDown = side <= 1;
+			boolean eastWest = side >= 4;
+			boolean northSouth = !upDown && !eastWest;
+			AxisAlign
