@@ -862,4 +862,18 @@ public class ClientEventHandler
 			boolean upDown = side <= 1;
 			boolean eastWest = side >= 4;
 			boolean northSouth = !upDown && !eastWest;
-			AxisAlign
+			AxisAlignedBB box = new AxisAlignedBB(eastWest ? hit.x : x, upDown ? hit.y : y, northSouth ? hit.z : z,
+					eastWest ? hit.x : x + 1, upDown ? hit.y : y + 1, northSouth ? hit.z : z + 1);
+			
+			int offsetX = Math.abs(dir.getFrontOffsetX());
+			int offsetY = Math.abs(dir.getFrontOffsetY());
+			int offsetZ = Math.abs(dir.getFrontOffsetZ());
+			double invOffsetX = offsetX ^ 1;
+			double invOffsetY = offsetY ^ 1;
+			double invOffsetZ = offsetZ ^ 1;
+			
+			boolean invertDirection = KeyBindingsExtraBitManipulation.SHIFT.isKeyDown();
+			GlStateManager.pushMatrix();
+			GlStateManager.disableLighting();
+			GlStateManager.enableAlpha();
+			GlStateManag
