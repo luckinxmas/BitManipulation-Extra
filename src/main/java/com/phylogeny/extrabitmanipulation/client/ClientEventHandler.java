@@ -908,3 +908,18 @@ public class ClientEventHandler
 					angle += 180;
 			}
 			double offsetX2 = 0.5 * invOffsetX;
+			double offsetY2 = 0.5 * invOffsetY;
+			double offsetZ2 = 0.5 * invOffsetZ;
+			
+			double mirTravel = mode == 1 ? Configs.mirrorAmplitude * Math.cos(Math.PI * 2 * millisecondsElapsed / Configs.mirrorPeriod) : 0;
+			double mirTravel1 = mirTravel;
+			double mirTravel2 = 0;
+			boolean mirrorInversion = invertDirection && mode == 1;
+			if (mirrorInversion && side <= 1 && player.getHorizontalFacing().ordinal() > 3)
+			{
+				angle += 90;
+				mirTravel1 = 0;
+				mirTravel2 = mirTravel;
+			}
+			translateAndRotateTexture(playerX, playerY, playerZ, dir, upDown, eastWest, offsetX, offsetY,
+					offsetZ, angle, diffX, diffY, diffZ, offsetX2, offsetY2, offsetZ2, mirTr
