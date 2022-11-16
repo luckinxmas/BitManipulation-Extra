@@ -876,4 +876,35 @@ public class ClientEventHandler
 			GlStateManager.pushMatrix();
 			GlStateManager.disableLighting();
 			GlStateManager.enableAlpha();
-			GlStateManag
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GlStateManager.enableTexture2D();
+			GlStateManager.pushMatrix();
+			double angle = getInitialAngle(mode);
+			if (mode == 3)
+			{
+				if (side % 2 == 1)
+					angle += 180;
+				
+				if (side >= 4)
+					angle -= 90;
+			}
+			else
+			{
+				if (mode == 0)
+				{
+					if (side % 2 == (invertDirection ? 0 : 1))
+						angle *= -1;
+				}
+				else
+				{
+					if (side < 2 || side > 3)
+						angle *= -1;
+				}
+				if (eastWest)
+					angle += 90;
+				
+				if (side == (mode == 1 ? 1 : 0) || side == 3 || side == 4)
+					angle += 180;
+			}
+			double offsetX2 = 0.5 * invOffsetX;
