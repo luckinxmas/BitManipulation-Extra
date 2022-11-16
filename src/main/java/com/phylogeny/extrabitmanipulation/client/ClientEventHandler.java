@@ -922,4 +922,25 @@ public class ClientEventHandler
 				mirTravel2 = mirTravel;
 			}
 			translateAndRotateTexture(playerX, playerY, playerZ, dir, upDown, eastWest, offsetX, offsetY,
-					offsetZ, angle, diffX, diffY, diffZ, offsetX2, offsetY2, offsetZ2, mirTr
+					offsetZ, angle, diffX, diffY, diffZ, offsetX2, offsetY2, offsetZ2, mirTravel1, mirTravel2);
+			
+			Minecraft.getMinecraft().renderEngine.bindTexture(mode == 0 ? ARROW_CYCLICAL
+					: (mode == 1 ? ARROW_BIDIRECTIONAL : (mode == 2 ? CIRCLE : INVERSION)));
+			float minU = 0;
+			float maxU = 1;
+			float minV = 0;
+			float maxV = 1;
+			if (mode == 0)
+			{
+				if (invertDirection)
+				{
+					float minU2 = minU;
+					minU = maxU;
+					maxU = minU2;
+				}
+			}
+			else if (mode == 2)
+			{
+				EnumFacing dir2 = side <= 1 ? EnumFacing.WEST : (side <= 3 ? EnumFacing.WEST : EnumFacing.DOWN);
+				box = contractBoxOrRenderArrows(true, t, buffer, side, northSouth, dir2, box, invOffsetX,
+						invOffsetY, invOffsetZ, invertDirection, minU, maxU, 
