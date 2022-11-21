@@ -943,4 +943,23 @@ public class ClientEventHandler
 			{
 				EnumFacing dir2 = side <= 1 ? EnumFacing.WEST : (side <= 3 ? EnumFacing.WEST : EnumFacing.DOWN);
 				box = contractBoxOrRenderArrows(true, t, buffer, side, northSouth, dir2, box, invOffsetX,
-						invOffsetY, invOffsetZ, invertDirection, minU, maxU, 
+						invOffsetY, invOffsetZ, invertDirection, minU, maxU, minV, maxV);
+			}
+			
+			renderTexturedSide(t, buffer, side, northSouth, box, minU, maxU, minV, maxV, 1);
+			GlStateManager.popMatrix();
+			
+			AxisAlignedBB box3 = world.getBlockState(pos).getSelectedBoundingBox(world, pos);
+			for (int s = 0; s < 6; s++)
+			{
+				if (s != side)
+				{
+					GlStateManager.pushMatrix();
+					upDown = s <= 1;
+					eastWest = s >= 4;
+					northSouth = !upDown && !eastWest;
+					dir = EnumFacing.getFront(s);
+					box = new AxisAlignedBB(eastWest ? (s == 5 ? box3.maxX : box3.minX) : x,
+														upDown ? (s == 1 ? box3.maxY : box3.minY) : y,
+														northSouth ? (s == 3 ? box3.maxZ : box3.minZ) : z,
+														east
