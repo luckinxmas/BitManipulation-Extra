@@ -1006,4 +1006,33 @@ public class ClientEventHandler
 							}
 							else
 							{
-								Minecr
+								Minecraft.getMinecraft().renderEngine.bindTexture(CIRCLE);
+							}
+						}
+					}
+					mirTravel1 = mirTravel;
+					mirTravel2 = 0;
+					if (mode != 3 && (((side <= 1 && mirrorInversion ? side > 1 : side <= 1) && s > 1)
+							|| ((mirrorInversion ? (oppRotation ? player.getHorizontalFacing().ordinal() > 3 : side > 3)
+									: (side == 2 || side == 3)) && s <= 1)))
+					{
+						angle += 90;
+						mirTravel1 = 0;
+						mirTravel2 = mirTravel;
+					}
+					if (mode == 3)
+					{
+						if (s % 2 == 1)
+							angle += 180;
+						
+						if (s >= 4)
+							angle -= 90;
+					}
+					else
+					{
+						if (mode2 == 0)
+						{
+							if (s % 2 == (invertDirection ? 0 : 1))
+								angle *= -1;
+							
+			
