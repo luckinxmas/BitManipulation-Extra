@@ -984,4 +984,26 @@ public class ClientEventHandler
 								if (invertDirection)
 									angle += 180;
 								
-						
+								mode2 = 2;
+							}
+							else
+							{
+								Minecraft.getMinecraft().renderEngine.bindTexture(ARROW_CYCLICAL);
+								mode2 = 0;
+							}
+						}
+						else if (mode == 2)
+						{
+							if (!oppRotation)
+							{
+								Minecraft.getMinecraft().renderEngine.bindTexture(ARROW_HEAD);
+								if (side == 0 ? s == 2 || s == 5 : (side == 1 ? s == 3 || s == 4 : (side == 2 ? s == 1 || s == 5
+										: (side == 3 ? s == 0 || s == 4 : (side == 4 ? s == 1 || s == 2 : s == 0 || s == 3)))))
+									angle += 180;
+								
+								if (invertDirection)
+									angle += 180;
+							}
+							else
+							{
+								Minecr
