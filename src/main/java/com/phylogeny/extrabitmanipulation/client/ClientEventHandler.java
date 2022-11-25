@@ -962,4 +962,26 @@ public class ClientEventHandler
 					box = new AxisAlignedBB(eastWest ? (s == 5 ? box3.maxX : box3.minX) : x,
 														upDown ? (s == 1 ? box3.maxY : box3.minY) : y,
 														northSouth ? (s == 3 ? box3.maxZ : box3.minZ) : z,
-														east
+														eastWest ? (s == 4 ? box3.minX : box3.maxX) : x + 1,
+														upDown ? (s == 0 ? box3.minY : box3.maxY) : y + 1,
+														northSouth ? (s == 2 ? box3.minZ : box3.maxZ) : z + 1);
+					angle = getInitialAngle(mode);
+					
+					boolean oppRotation = false;
+					int mode2 = mode;
+					if (mode != 3)
+					{
+						oppRotation = dir == EnumFacing.getFront(side).getOpposite();
+						if (mode == 0)
+						{
+							if (!oppRotation)
+							{
+								Minecraft.getMinecraft().renderEngine.bindTexture(ARROW_HEAD);
+								angle = 90;
+								if (side % 2 == 0)
+									angle += 180;
+								
+								if (invertDirection)
+									angle += 180;
+								
+						
