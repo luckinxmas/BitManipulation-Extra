@@ -1035,4 +1035,28 @@ public class ClientEventHandler
 							if (s % 2 == (invertDirection ? 0 : 1))
 								angle *= -1;
 							
-			
+							if (oppRotation)
+								angle *= -1;
+						}
+						else
+						{
+							if (s < 2 || s > 3)
+								angle *= -1;
+						}
+						if (eastWest)
+							angle -= 90;
+						
+						if (s == (mode2 == 1 ? 1 : 0) || s == 3 || s == 5)
+							angle += 180;
+					}
+					offsetX = Math.abs(dir.getFrontOffsetX());
+					offsetY = Math.abs(dir.getFrontOffsetY());
+					offsetZ = Math.abs(dir.getFrontOffsetZ());
+					invOffsetX = offsetX ^ 1;
+					invOffsetY = offsetY ^ 1;
+					invOffsetZ = offsetZ ^ 1;
+					offsetX2 = 0.5 * invOffsetX;
+					offsetY2 = 0.5 * invOffsetY;
+					offsetZ2 = 0.5 * invOffsetZ;
+					translateAndRotateTexture(playerX, playerY, playerZ, dir, upDown, eastWest, offsetX, offsetY,
+	
