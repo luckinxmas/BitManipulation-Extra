@@ -1059,4 +1059,27 @@ public class ClientEventHandler
 					offsetY2 = 0.5 * invOffsetY;
 					offsetZ2 = 0.5 * invOffsetZ;
 					translateAndRotateTexture(playerX, playerY, playerZ, dir, upDown, eastWest, offsetX, offsetY,
-	
+							offsetZ, angle, diffX, diffY, diffZ, offsetX2, offsetY2, offsetZ2, mirTravel1, mirTravel2);
+					minU = 0;
+					maxU = 1;
+					minV = 0;
+					maxV = 1;
+					if (mode2 == 0)
+					{
+						if (oppRotation)
+						{
+							minU = 1;
+							maxU = 0;
+						}
+						if (invertDirection)
+						{
+							float minU2 = minU;
+							minU = maxU;
+							maxU = minU2;
+						}
+					}
+					else if (mode2 == 2)
+					{
+						EnumFacing dir2 = side <= 1 ? (s == 2 || s == 3 ? EnumFacing.WEST : EnumFacing.DOWN)
+								: (side >= 4 ? EnumFacing.WEST : (s <= 1 ? EnumFacing.WEST : EnumFacing.DOWN));
+						box = contractBoxOrRenderA
