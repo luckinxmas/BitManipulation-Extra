@@ -1101,4 +1101,20 @@ public class ClientEventHandler
 		{
 			ItemSculptingTool toolItem = (ItemSculptingTool) item;
 			boolean removeBits = toolItem.removeBits();
-			int m
+			int mode = BitToolSettingsHelper.getSculptMode(stack.getTagCompound());
+			if (!removeBits || mode > 0 || api.canBeChiseled(world, target.getBlockPos()))
+			{
+				float hitX = (float) hit.x - pos.getX();
+				float hitY = (float) hit.y - pos.getY();
+				float hitZ = (float) hit.z - pos.getZ();
+				IBitLocation bitLoc = api.getBitPos(hitX, hitY, hitZ, dir, pos, false);
+				if (bitLoc != null)
+				{
+					NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+					int x2 = bitLoc.getBitX();
+					int y2 = bitLoc.getBitY();
+					int z2 = bitLoc.getBitZ();
+					if (!toolItem.removeBits())
+					{
+						x2 += dir.getFrontOffsetX();
+						y2 += dir.getFront
