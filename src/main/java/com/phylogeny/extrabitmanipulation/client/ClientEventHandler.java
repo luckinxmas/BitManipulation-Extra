@@ -1082,4 +1082,23 @@ public class ClientEventHandler
 					{
 						EnumFacing dir2 = side <= 1 ? (s == 2 || s == 3 ? EnumFacing.WEST : EnumFacing.DOWN)
 								: (side >= 4 ? EnumFacing.WEST : (s <= 1 ? EnumFacing.WEST : EnumFacing.DOWN));
-						box = contractBoxOrRenderA
+						box = contractBoxOrRenderArrows(oppRotation, t, buffer, side, northSouth, dir2, box, invOffsetX,
+								invOffsetY, invOffsetZ, invertDirection, minU, maxU, minV, maxV);
+					}
+					if (mode2 != 2 || oppRotation)
+						renderTexturedSide(t, buffer, s, northSouth, box, minU, maxU, minV, maxV, 1);
+					
+					GlStateManager.popMatrix();
+				}
+			}
+			
+			GlStateManager.enableLighting();
+			GlStateManager.disableBlend();
+			GlStateManager.enableTexture2D();
+			GlStateManager.popMatrix();
+		}
+		else if (ItemStackHelper.isSculptingToolItem(item))
+		{
+			ItemSculptingTool toolItem = (ItemSculptingTool) item;
+			boolean removeBits = toolItem.removeBits();
+			int m
