@@ -1129,4 +1129,27 @@ public class ClientEventHandler
 					ConfigShapeRenderPair configPair = Configs.itemShapeMap.get(toolItem);
 					ConfigShapeRender configBox = configPair.boundingBox;
 					AxisAlignedBB box = null, shapeBox = null;
-					double x3 = x + x2 * Utility.PIXE
+					double x3 = x + x2 * Utility.PIXEL_D;
+					double y3 = y + y2 * Utility.PIXEL_D;
+					double z3 = z + z2 * Utility.PIXEL_D;
+					if (configBox.renderInnerShape || configBox.renderOuterShape)
+					{
+						GlStateManager.pushMatrix();
+						GL11.glLineWidth(configBox.lineWidth);
+						boolean inside = ItemSculptingTool.wasInsideClicked(dir, hit, pos);
+						if (drawnBox)
+						{
+							double x4 = drawnStartPoint.x;
+							double y4 = drawnStartPoint.y;
+							double z4 = drawnStartPoint.z;
+							if (Math.max(x3, x4) == x3)
+							{
+								x3 += Utility.PIXEL_D;
+							}
+							else
+							{
+								x4 += Utility.PIXEL_D;
+							}
+							if (Math.max(y3, y4) == y3)
+							{
+								y3 += Utility.PIXEL_
