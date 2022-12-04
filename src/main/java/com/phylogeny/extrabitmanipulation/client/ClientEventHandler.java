@@ -1117,4 +1117,16 @@ public class ClientEventHandler
 					if (!toolItem.removeBits())
 					{
 						x2 += dir.getFrontOffsetX();
-						y2 += dir.getFront
+						y2 += dir.getFrontOffsetY();
+						z2 += dir.getFrontOffsetZ();
+					}
+					boolean isDrawn = drawnStartPoint != null;
+					boolean drawnBox = mode == 2 && isDrawn;
+					int shapeType = BitToolSettingsHelper.getShapeType(nbt, toolItem.isCurved());
+					boolean fixedNotSym = !drawnBox && shapeType == 2 || shapeType > 4;
+					glStart();
+					double r = BitToolSettingsHelper.getSemiDiameter(nbt) * Utility.PIXEL_D;
+					ConfigShapeRenderPair configPair = Configs.itemShapeMap.get(toolItem);
+					ConfigShapeRender configBox = configPair.boundingBox;
+					AxisAlignedBB box = null, shapeBox = null;
+					double x3 = x + x2 * Utility.PIXE
