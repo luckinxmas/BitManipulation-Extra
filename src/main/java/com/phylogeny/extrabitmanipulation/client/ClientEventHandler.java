@@ -1152,4 +1152,32 @@ public class ClientEventHandler
 							}
 							if (Math.max(y3, y4) == y3)
 							{
-								y3 += Utility.PIXEL_
+								y3 += Utility.PIXEL_D;
+							}
+							else
+							{
+								y4 += Utility.PIXEL_D;
+							}
+							if (Math.max(z3, z4) == z3)
+							{
+								z3 += Utility.PIXEL_D;
+							}
+							else
+							{
+								z4 += Utility.PIXEL_D;
+							}
+							box = new AxisAlignedBB(x4, y4, z4, x3, y3, z3);
+						}
+						else
+						{
+							double f = 0;
+							Vec3d vecOffset = new Vec3d(0, 0, 0);
+							boolean targetBitGrid = BitToolSettingsHelper.isBitGridTargeted(nbt);
+							if (mode == 2)
+							{
+								r = 0;
+							}
+							else if (targetBitGrid)
+							{
+								f = Utility.PIXEL_D * 0.5;
+								vecOffset = BitAreaHelper.getBitGridOffset(dir, inside, hitX, hitY, hitZ, remo
