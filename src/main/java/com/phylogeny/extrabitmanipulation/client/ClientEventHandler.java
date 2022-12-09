@@ -1180,4 +1180,15 @@ public class ClientEventHandler
 							else if (targetBitGrid)
 							{
 								f = Utility.PIXEL_D * 0.5;
-								vecOffset = BitAreaHelper.getBitGridOffset(dir, inside, hitX, hitY, hitZ, remo
+								vecOffset = BitAreaHelper.getBitGridOffset(dir, inside, hitX, hitY, hitZ, removeBits);
+								r -= f;
+							}
+							box = new AxisAlignedBB(x - r, y - r, z - r, x + r + Utility.PIXEL_D, y + r + Utility.PIXEL_D, z + r + Utility.PIXEL_D)
+										.offset(x2 * Utility.PIXEL_D + f * vecOffset.x,
+												y2 * Utility.PIXEL_D + f * vecOffset.y,
+												z2 * Utility.PIXEL_D + f * vecOffset.z);
+							boolean placementOffset = BitToolSettingsHelper.isShapeOffset(nbt) && !removeBits && mode != 2;
+							double r2 = r + (targetBitGrid ? Utility.PIXEL_D * 0.5 : 0);
+							if (placementOffset)
+								box = box.offset(dir.getFrontOffsetX() * r2, dir.getFrontOffsetY() * r2, dir.getFrontOffsetZ() * r2);
+						
