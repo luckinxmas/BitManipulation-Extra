@@ -1191,4 +1191,25 @@ public class ClientEventHandler
 							double r2 = r + (targetBitGrid ? Utility.PIXEL_D * 0.5 : 0);
 							if (placementOffset)
 								box = box.offset(dir.getFrontOffsetX() * r2, dir.getFrontOffsetY() * r2, dir.getFrontOffsetZ() * r2);
+							
+							if (targetBitGrid && mode != 2)
+							{
+								x3 = (box.maxX + box.minX) * 0.5 - f;
+								y3 = (box.maxY + box.minY) * 0.5 - f;
+								z3 = (box.maxZ + box.minZ) * 0.5 - f;
+							}
+							if (!targetBitGrid && placementOffset)
+							{
+								x3 += dir.getFrontOffsetX() * r2;
+								y3 += dir.getFrontOffsetY() * r2;
+								z3 += dir.getFrontOffsetZ() * r2;
+							}
+						}
+						if (fixedNotSym)
+							shapeBox = box.grow(0);
 						
+						if (mode == 0)
+						{
+							BlockPos pos2 = !removeBits && !inside ? pos.offset(dir) : pos;
+							AxisAlignedBB box2 = !removeBits ? new AxisAlignedBB(pos2) :
+								world.getBlockState(pos2).getSelectedBounding
