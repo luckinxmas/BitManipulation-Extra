@@ -1237,4 +1237,21 @@ public class ClientEventHandler
 							drawnBox, r, configPair, shapeBox, x3, y3, z3, 0, isOpen);
 					float wallThickness = BitToolSettingsHelper.getWallThickness(nbt) * Utility.PIXEL_F;
 					if (wallThickness > 0 && isHollow && !(mode == 2 && !drawnBox))
-						renderEnvelopedShapes(shapeType, nbt, playerX, playerY, playerZ, isDrawn, drawnBox, r, configPair, shapeBox
+						renderEnvelopedShapes(shapeType, nbt, playerX, playerY, playerZ, isDrawn, drawnBox, r, configPair, shapeBox,
+								x3, y3, z3, wallThickness, isOpen);
+					
+					glEnd();
+				}
+			}
+		}
+		else if (ItemStackHelper.isModelingToolItem(item))
+		{
+			glStart();
+			ModelingBoxSet boxSet = BitAreaHelper.getModelingToolBoxSet(player, x, y, z, hit,
+					drawnStartPointModelingTool, true, BitToolSettingsHelper.getModelAreaMode(stack.getTagCompound()),
+					BitToolSettingsHelper.getModelSnapMode(stack.getTagCompound()));
+			if (!boxSet.isEmpty())
+			{
+				renderBoundingBox(boxSet.getBoundingBox().offset(-playerX, -playerY, -playerZ), 1, 1, 1, 115);
+				if (boxSet.hasPoint())
+					renderBoundingBox(boxSet.getPoint().offset(-playerX, -playerY, -playerZ), 1, 1, 1, 155);
