@@ -1212,4 +1212,18 @@ public class ClientEventHandler
 						{
 							BlockPos pos2 = !removeBits && !inside ? pos.offset(dir) : pos;
 							AxisAlignedBB box2 = !removeBits ? new AxisAlignedBB(pos2) :
-								world.getBlockState(pos2).getSelectedBounding
+								world.getBlockState(pos2).getSelectedBoundingBox(world, pos2);
+							box = limitBox(box, box2);
+						}
+						if (configBox.renderOuterShape)
+							RenderGlobal.drawSelectionBoundingBox(box.grow(BOUNDING_BOX_OFFSET).offset(-playerX, -playerY, -playerZ),
+									configBox.red, configBox.green, configBox.blue, configBox.outerShapeAlpha);
+						
+						if (configBox.renderInnerShape)
+						{
+							GlStateManager.depthFunc(GL11.GL_GREATER);
+							RenderGlobal.drawSelectionBoundingBox(box.grow(BOUNDING_BOX_OFFSET).offset(-playerX, -playerY, -playerZ),
+									configBox.red, configBox.green, configBox.blue, configBox.innerShapeAlpha);
+							GlStateManager.depthFunc(GL11.GL_LEQUAL);
+						}
+					
