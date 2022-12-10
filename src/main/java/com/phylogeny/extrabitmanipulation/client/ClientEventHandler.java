@@ -1226,4 +1226,15 @@ public class ClientEventHandler
 									configBox.red, configBox.green, configBox.blue, configBox.innerShapeAlpha);
 							GlStateManager.depthFunc(GL11.GL_LEQUAL);
 						}
+						GlStateManager.popMatrix();
+					}
+					if (!fixedNotSym && box != null)
+						shapeBox = box.grow(0);
 					
+					boolean isHollow = BitToolSettingsHelper.isHollowShape(nbt, removeBits);
+					boolean isOpen = isHollow && BitToolSettingsHelper.areEndsOpen(nbt);
+					renderEnvelopedShapes(shapeType, nbt, playerX, playerY, playerZ, isDrawn,
+							drawnBox, r, configPair, shapeBox, x3, y3, z3, 0, isOpen);
+					float wallThickness = BitToolSettingsHelper.getWallThickness(nbt) * Utility.PIXEL_F;
+					if (wallThickness > 0 && isHollow && !(mode == 2 && !drawnBox))
+						renderEnvelopedShapes(shapeType, nbt, playerX, playerY, playerZ, isDrawn, drawnBox, r, configPair, shapeBox
