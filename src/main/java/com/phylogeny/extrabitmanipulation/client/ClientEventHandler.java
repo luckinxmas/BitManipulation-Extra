@@ -1272,4 +1272,24 @@ public class ClientEventHandler
 					if (box != null)
 						renderBodyPartTemplate(playerX, playerY, playerZ, facingBox, t, buffer, box, 1.0F);
 				}
-				els
+				else
+				{
+					glStart();
+					renderBoundingBox(getDrawnArmorCollectionBox(player, nbt, dir, pos, hit)
+							.offset(-playerX, -playerY, -playerZ).grow(BOUNDING_BOX_OFFSET), 0, 0, 0, 155);
+					glEnd();
+				}
+			}
+		}
+	}
+	
+	private AxisAlignedBB getDrawnArmorCollectionBox(EntityPlayer player, NBTTagCompound nbt, EnumFacing dir, BlockPos pos, Vec3d hit)
+	{
+		boolean targetBits = BitToolSettingsHelper.areArmorBitsTargeted(nbt);
+		double x3 = 0, y3 = 0, z3 = 0;
+		if (targetBits)
+		{
+			float hitX = (float) hit.x - pos.getX();
+			float hitY = (float) hit.y - pos.getY();
+			float hitZ = (float) hit.z - pos.getZ();
+			IBitLocation bitLoc = ChiselsAndBitsAPIAccess.apiInstance.getBitPos(hitX, hitY, hitZ, di
