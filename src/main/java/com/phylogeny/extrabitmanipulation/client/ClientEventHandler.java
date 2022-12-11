@@ -1255,3 +1255,21 @@ public class ClientEventHandler
 				renderBoundingBox(boxSet.getBoundingBox().offset(-playerX, -playerY, -playerZ), 1, 1, 1, 115);
 				if (boxSet.hasPoint())
 					renderBoundingBox(boxSet.getPoint().offset(-playerX, -playerY, -playerZ), 1, 1, 1, 155);
+			}
+			glEnd();
+		}
+		else if (ItemStackHelper.isChiseledArmorItem(item))
+		{
+			NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+			int mode = BitToolSettingsHelper.getArmorMode(nbt);
+			if (hitBlock)
+			{
+				if (mode == 0)
+				{
+					EnumFacing facingBox = player.getHorizontalFacing().getOpposite();
+					AxisAlignedBB box = ItemChiseledArmor.getBodyPartTemplateBox(player, dir, pos, hit,
+							BitToolSettingsHelper.getArmorScale(nbt), BitToolSettingsHelper.getArmorMovingPart(nbt, (ItemChiseledArmor) item));
+					if (box != null)
+						renderBodyPartTemplate(playerX, playerY, playerZ, facingBox, t, buffer, box, 1.0F);
+				}
+				els
