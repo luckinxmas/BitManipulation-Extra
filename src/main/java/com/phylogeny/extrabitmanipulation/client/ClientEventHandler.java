@@ -1318,4 +1318,55 @@ public class ClientEventHandler
 			{
 				x3 += dir.getFrontOffsetX();
 				y3 += dir.getFrontOffsetY();
-				z3 += dir.g
+				z3 += dir.getFrontOffsetZ();
+			}
+		}
+		double x4, y4, z4;
+		if (drawnStartPoint != null)
+		{
+			x4 = drawnStartPoint.x;
+			y4 = drawnStartPoint.y;
+			z4 = drawnStartPoint.z;
+		}
+		else
+		{
+			x4 = x3;
+			y4 = y3;
+			z4 = z3;
+		}
+		double offset;
+		if (!targetBits)
+		{
+			x4 = Math.floor(x4);
+			y4 = Math.floor(y4);
+			z4 = Math.floor(z4);
+			offset = 1;
+		}
+		else
+		{
+			offset = Utility.PIXEL_D;
+		}
+		if (Math.max(x3, x4) == x3)
+		{
+			x3 += offset;
+		}
+		else
+		{
+			x4 += offset;
+		}
+		if (Math.max(y3, y4) == y3)
+		{
+			y3 += offset;
+		}
+		else
+		{
+			y4 += offset;
+		}
+		if (Math.max(z3, z4) == z3)
+		{
+			z3 += offset;
+		}
+		else
+		{
+			z4 += offset;
+	
