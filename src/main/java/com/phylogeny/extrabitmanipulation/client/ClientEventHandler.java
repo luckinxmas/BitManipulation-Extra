@@ -1292,4 +1292,30 @@ public class ClientEventHandler
 			float hitX = (float) hit.x - pos.getX();
 			float hitY = (float) hit.y - pos.getY();
 			float hitZ = (float) hit.z - pos.getZ();
-			IBitLocation bitLoc = ChiselsAndBitsAPIAccess.apiInstance.getBitPos(hitX, hitY, hitZ, di
+			IBitLocation bitLoc = ChiselsAndBitsAPIAccess.apiInstance.getBitPos(hitX, hitY, hitZ, dir, pos, false);
+			if (bitLoc != null)
+			{
+				int x2 = bitLoc.getBitX();
+				int y2 = bitLoc.getBitY();
+				int z2 = bitLoc.getBitZ();
+				x3 = pos.getX() + x2 * Utility.PIXEL_D;
+				y3 = pos.getY() + y2 * Utility.PIXEL_D;
+				z3 = pos.getZ() + z2 * Utility.PIXEL_D;
+				if (player.isSneaking())
+				{
+					x3 += dir.getFrontOffsetX() * Utility.PIXEL_D;
+					y3 += dir.getFrontOffsetY() * Utility.PIXEL_D;
+					z3 += dir.getFrontOffsetZ() * Utility.PIXEL_D;
+				}
+			}
+		}
+		else
+		{
+			x3 = pos.getX();
+			y3 = pos.getY();
+			z3 = pos.getZ();
+			if (player.isSneaking())
+			{
+				x3 += dir.getFrontOffsetX();
+				y3 += dir.getFrontOffsetY();
+				z3 += dir.g
