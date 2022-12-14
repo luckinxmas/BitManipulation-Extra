@@ -1369,4 +1369,23 @@ public class ClientEventHandler
 		else
 		{
 			z4 += offset;
+		}
+		return new AxisAlignedBB(x4, y4, z4, x3, y3, z3);
+	}
 	
+	private void renderBodyPartTemplate(double playerX, double playerY, double playerZ,
+			EnumFacing facingBox, Tessellator t, BufferBuilder buffer, AxisAlignedBB box, float redBlue)
+	{
+		glStart();
+		box = box.offset(-playerX, -playerY, -playerZ).grow(BOUNDING_BOX_OFFSET);
+		renderBoundingBox(box, redBlue, 1, redBlue, 155);
+		for (EnumFacing face : EnumFacing.VALUES)
+		{
+			boolean isFront = face == facingBox;
+			if (isFront)
+				GL11.glColor4d(0, 0, 1, 0.5);
+			else
+				GL11.glColor4d(1, 1, 1, 0.5);
+			
+			boolean northSouth = face.getAxis() == Axis.Z;
+			double minX = box.
