@@ -1419,4 +1419,29 @@ public class ClientEventHandler
 				buffer.pos(maxX, northSouth ? minY : maxY, minZ).endVertex();
 				buffer.pos(minX, minY, minZ).endVertex();
 				t.draw();
-		
+			}
+		}
+		glEnd();
+	}
+	
+	private void glStart()
+	{
+		GlStateManager.enableBlend();
+		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		GlStateManager.disableTexture2D();
+		GlStateManager.depthMask(false);
+	}
+	
+	private void glEnd()
+	{
+		GlStateManager.depthMask(true);
+		GlStateManager.enableTexture2D();
+		GlStateManager.disableBlend();
+	}
+	
+	private void renderBoundingBox(AxisAlignedBB boxBounding, float red, float green, float blue, int outerAlpha)
+	{
+		RenderGlobal.drawSelectionBoundingBox(boxBounding, red, green, blue, outerAlpha / 255.0F);
+		GlStateManager.depthFunc(GL11.GL_GREATER);
+		RenderGlobal.drawSelectionBoundingBox(boxBounding, red, green, blue, 28 / 255.0F);
+		GlStateManager.dept
