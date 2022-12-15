@@ -1388,4 +1388,20 @@ public class ClientEventHandler
 				GL11.glColor4d(1, 1, 1, 0.5);
 			
 			boolean northSouth = face.getAxis() == Axis.Z;
-			double minX = box.
+			double minX = box.minX;
+			double minY = box.minY;
+			double minZ = box.minZ;
+			double maxX = box.maxX;
+			double maxY = box.maxY;
+			double maxZ = box.maxZ;
+			if (face.getAxis() == Axis.X)
+				minX = maxX = face.getAxisDirection() == AxisDirection.POSITIVE ? box.maxX : box.minX;
+			else if (face.getAxis() == Axis.Y)
+				minY = maxY = face.getAxisDirection() == AxisDirection.POSITIVE ? box.maxY : box.minY;
+			else
+				minZ = maxZ = face.getAxisDirection() == AxisDirection.POSITIVE ? box.maxZ : box.minZ;
+			
+			boolean flag = face.getAxisDirection() == (face.getAxis() == Axis.Y ? AxisDirection.NEGATIVE : AxisDirection.POSITIVE);
+			if (flag || isFront)
+			{
+				buffer.
