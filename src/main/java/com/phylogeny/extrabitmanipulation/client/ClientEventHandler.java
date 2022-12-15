@@ -1404,4 +1404,19 @@ public class ClientEventHandler
 			boolean flag = face.getAxisDirection() == (face.getAxis() == Axis.Y ? AxisDirection.NEGATIVE : AxisDirection.POSITIVE);
 			if (flag || isFront)
 			{
-				buffer.
+				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+				buffer.pos(minX, minY, minZ).endVertex();
+				buffer.pos(maxX, northSouth ? minY : maxY, minZ).endVertex();
+				buffer.pos(maxX, maxY, maxZ).endVertex();
+				buffer.pos(minX,  northSouth ? maxY : minY, maxZ).endVertex();
+				t.draw();
+			}
+			if (!flag || isFront)
+			{
+				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+				buffer.pos(minX,  northSouth ? maxY : minY, maxZ).endVertex();
+				buffer.pos(maxX, maxY, maxZ).endVertex();
+				buffer.pos(maxX, northSouth ? minY : maxY, minZ).endVertex();
+				buffer.pos(minX, minY, minZ).endVertex();
+				t.draw();
+		
