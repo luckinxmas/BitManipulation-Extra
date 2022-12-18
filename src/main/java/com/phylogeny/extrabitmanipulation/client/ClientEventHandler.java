@@ -1462,4 +1462,24 @@ public class ClientEventHandler
 			 * 4 = triangular prism
 			 * 5 = triangular pyramid
 			 * 6 = square pyramid
-	
+			 */
+			int dir = BitToolSettingsHelper.getDirection(nbt);
+//			int rotation = dir / 6;
+			dir %= 6;
+			boolean notFullSym = shapeType != 0 && shapeType != 3;
+			boolean notSym = shapeType == 2 || shapeType > 4;
+			double ri = r + Utility.PIXEL_D * 0.5;
+			r = Math.max(ri - contraction, 0);
+			boolean drawnNotSym = notSym && drawnBox;
+			double base = 0;
+			double v;
+			if (drawnBox || notSym)
+			{
+				double f = 0.5;
+				double minX = box.minX * f;
+				double minY = box.minY * f;
+				double minZ = box.minZ * f;
+				double maxX = box.maxX * f;
+				double maxY = box.maxY * f;
+				double maxZ = box.maxZ * f;
+				doubl
