@@ -1482,4 +1482,33 @@ public class ClientEventHandler
 				double maxX = box.maxX * f;
 				double maxY = box.maxY * f;
 				double maxZ = box.maxZ * f;
-				doubl
+				double x2 = maxX - minX;
+				double y2 = maxY - minY;
+				double z2 = maxZ - minZ;
+				if (drawnNotSym)
+				{
+					if (dir == 2 || dir == 3)
+					{
+						v = y2;
+						y2 = z2;
+						z2 = v;
+					}
+					else if (dir > 3)
+					{
+						v = y2;
+						y2 = x2;
+						x2 = v;
+					}
+				}
+				if (notSym && contraction > 0)
+				{
+					if (!isOpen)
+						base = contraction;
+					
+					y2 *= 2;
+					double y2sq = y2 * y2;
+					double aInset = (Math.sqrt(x2 * x2 + y2sq) * contraction) / x2 + base;
+					double cInset = (Math.sqrt(z2 * z2 + y2sq) * contraction) / z2 + base;
+					a = Math.max((y2 - aInset) * (x2 / y2), 0);
+					c = Math.max((y2 - cInset) * (z2 / y2), 0);
+					contraction = Math.min(aInset - bas
