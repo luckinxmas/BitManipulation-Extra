@@ -1444,4 +1444,22 @@ public class ClientEventHandler
 		RenderGlobal.drawSelectionBoundingBox(boxBounding, red, green, blue, outerAlpha / 255.0F);
 		GlStateManager.depthFunc(GL11.GL_GREATER);
 		RenderGlobal.drawSelectionBoundingBox(boxBounding, red, green, blue, 28 / 255.0F);
-		GlStateManager.dept
+		GlStateManager.depthFunc(GL11.GL_LEQUAL);
+	}
+	
+	private void renderEnvelopedShapes(int shapeType, NBTTagCompound nbt, double playerX,
+			double playerY, double playerZ, boolean isDrawn, boolean drawnBox, double r, ConfigShapeRenderPair configPair,
+			AxisAlignedBB box, double x, double y, double z, double contraction, boolean isOpen)
+	{
+		ConfigShapeRender configShape = configPair.envelopedShape;
+		if (configShape.renderInnerShape || configShape.renderOuterShape)
+		{
+			double a = 0, b = 0, c = 0;
+			/* 0 = sphere
+			 * 1 = cylinder
+			 * 2 = cone
+			 * 3 = cube
+			 * 4 = triangular prism
+			 * 5 = triangular pyramid
+			 * 6 = square pyramid
+	
