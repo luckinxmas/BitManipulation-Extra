@@ -1511,4 +1511,30 @@ public class ClientEventHandler
 					double cInset = (Math.sqrt(z2 * z2 + y2sq) * contraction) / z2 + base;
 					a = Math.max((y2 - aInset) * (x2 / y2), 0);
 					c = Math.max((y2 - cInset) * (z2 / y2), 0);
-					contraction = Math.min(aInset - bas
+					contraction = Math.min(aInset - base, cInset - base);
+					b = Math.max(y2 * 0.5 - contraction * 0.5 - base * 0.5, 0);
+				}
+				else
+				{
+					a = Math.max(x2 - (!isOpen || !notFullSym || dir < 4 ? contraction : 0), 0);
+					c = Math.max(z2 - (!isOpen || !notFullSym || dir != 2 && dir != 3 ? contraction : 0), 0);
+					b = Math.max(y2 - (!isOpen || !notFullSym || dir > 1 ? contraction : 0), 0);
+				}
+				r = Math.max(Math.max(a, b), c);
+				x = maxX + minX;
+				y = maxY + minY;
+				z = maxZ + minZ;
+				if (drawnBox)
+				{
+					if (notSym || !notFullSym)
+					{
+						if (dir < 2 || dir > 3 || !notFullSym)
+						{
+							v = b;
+							b = c;
+							c = v;
+						}
+					}
+					else
+					{
+						if
