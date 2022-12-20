@@ -1537,4 +1537,37 @@ public class ClientEventHandler
 					}
 					else
 					{
-						if
+						if (dir < 2)
+						{
+							v = b;
+							b = c;
+							c = v;
+						}
+						else if (dir > 3)
+						{
+							v = a;
+							a = c;
+							c = v;
+						}
+						else
+						{
+							v = b;
+							b = a;
+							a = v;
+						}
+					}
+				}
+			}
+			else
+			{
+				a = b = c = r;
+				if (b > 0 && notFullSym && isOpen)
+					b += contraction * (isDrawn ? 0 : 1);
+			}
+			Quadric shape = shapeType > 2 ? new Prism(shapeType > 4, shapeType == 4 || shapeType == 5) : (notFullSym ? new Cylinder() : new Sphere());
+			shape.setDrawStyle(GLU.GLU_LINE);
+			Quadric lid = new Disk();
+			lid.setDrawStyle(GLU.GLU_LINE);
+			GlStateManager.pushMatrix();
+			GL11.glLineWidth(configShape.lineWidth);
+			double x2 = x 
