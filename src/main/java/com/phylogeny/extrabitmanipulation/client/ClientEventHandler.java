@@ -1570,4 +1570,33 @@ public class ClientEventHandler
 			lid.setDrawStyle(GLU.GLU_LINE);
 			GlStateManager.pushMatrix();
 			GL11.glLineWidth(configShape.lineWidth);
-			double x2 = x 
+			double x2 = x - playerX;
+			double y2 = y - playerY;
+			double z2 = z - playerZ;
+			if (!notSym && !isDrawn)
+			{
+				double hp = Utility.PIXEL_D * 0.5;
+				x2 += hp;
+				y2 += hp;
+				z2 += hp;
+			}
+			if (notFullSym)
+			{
+				if (isOpen && contraction > 0 && !notSym)
+				{
+					double offset = contraction * (notSym ? 0.5 : (drawnBox ? 0 : -1));
+					if (dir != 3)
+						y2 += dir == 0 ? offset : -offset;
+					
+					if (dir > 2)
+						x2 += dir == 5 ? -offset : offset;
+					
+					if (dir == 2 || dir == 3)
+						z2 += dir == 2 ? offset : -offset;
+				}
+			}
+			GlStateManager.translate(x2, y2, z2);
+			int rot2 = dir;
+			if (!(drawnNotSym && dir == 2))
+			{
+				if (notF
