@@ -1599,4 +1599,35 @@ public class ClientEventHandler
 			int rot2 = dir;
 			if (!(drawnNotSym && dir == 2))
 			{
-				if (notF
+				if (notFullSym && rot2 != 1)
+				{
+					int angle = 90;
+					if (rot2 == 3)
+					{
+						rot2 = 0;
+						angle = 180;
+						if (!(drawnNotSym && dir == 3))
+							GlStateManager.rotate(90, 0, 0, 1);
+					}
+					else if (rot2 > 1)
+					{
+						rot2 %= 4;
+					}
+					else
+					{
+						rot2 = rot2 ^ 1 + 4;
+					}
+					Vec3i vec = EnumFacing.getFront(rot2).getOpposite().getDirectionVec();
+					GlStateManager.rotate(angle, vec.getX(), vec.getY(), vec.getZ());
+				}
+				else
+				{
+					GlStateManager.rotate(90, 1, 0, 0);
+				}
+			}
+			boolean openSym = notFullSym && !notSym && isOpen && !isDrawn;
+			if (notFullSym)
+			{
+				double offset1 = 0;
+				double offset2 = 0;
+		
