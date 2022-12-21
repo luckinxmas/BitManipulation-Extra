@@ -1630,4 +1630,53 @@ public class ClientEventHandler
 			{
 				double offset1 = 0;
 				double offset2 = 0;
-		
+				double r2 = r;
+				if (notSym)
+				{
+					r2 -= contraction * 0.5 - base * 0.5;
+				}
+				else if (openSym)
+				{
+					double m = -contraction;
+					if (dir == 0)
+						m *= 2;
+					
+					if (dir != 1)
+						r -= m;
+					
+					if (dir > 1)
+					{
+						if (dir < 3)
+						{
+							offset1 = m;
+						}
+						else
+						{
+							offset2 = m;
+						}
+					}
+				}
+				GlStateManager.translate(offset1, offset2, -r2);
+			}
+			if (openSym)
+			{
+				v = b;
+				b = c;
+				c = v;
+			}
+			if (drawnNotSym)
+			{
+				if (dir == 2 || dir == 3)
+				{
+					v = b;
+					b = c;
+					c = v;
+				}
+				else if (dir > 3)
+				{
+					v = b;
+					b = a;
+					a = v;
+				}
+			}
+			if (n
