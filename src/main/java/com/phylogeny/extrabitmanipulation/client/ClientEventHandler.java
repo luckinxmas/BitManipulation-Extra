@@ -1704,4 +1704,23 @@ public class ClientEventHandler
 		}
 	}
 	
-	private void drawEnvelopedShapes(double r,
+	private void drawEnvelopedShapes(double r, ConfigShapeRender configShape, int shapeType, Quadric shape,
+			Quadric lid, boolean isOuter, boolean isCylinder, boolean isOpen)
+	{
+		GlStateManager.pushMatrix();
+		drawEnvelopedShape(shape, r, isOuter, configShape, isCylinder, isOpen);
+		if (shapeType > 0 && shapeType < 3 && !isOpen)
+		{
+			if (shapeType == 1)
+				drawEnvelopedShape(lid, r, isOuter, configShape, isCylinder, isOpen);
+			
+			GlStateManager.translate(0, 0, r * 2);
+			drawEnvelopedShape(lid, r, isOuter, configShape, isCylinder, isOpen);
+		}
+		GlStateManager.popMatrix();
+	}
+	
+	private void drawEnvelopedShape(Quadric shape, double radius, boolean isOuter,
+			ConfigShapeRender configShape, boolean isCone, boolean isOpen)
+	{
+		GlStateManager.push
