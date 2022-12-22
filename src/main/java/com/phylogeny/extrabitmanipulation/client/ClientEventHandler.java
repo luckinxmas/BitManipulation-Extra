@@ -1679,4 +1679,29 @@ public class ClientEventHandler
 					a = v;
 				}
 			}
-			if (n
+			if (notFullSym && drawnBox)
+			{
+				if (b > c && b > a)
+				{
+					GlStateManager.translate(0, 0, b - c);
+				}
+				else if (a > c && a >= b)
+				{
+					GlStateManager.translate(0, 0, a - c);
+				}
+			}
+			GlStateManager.scale(a / ri, b / ri, c / ri);
+			if (configShape.renderOuterShape)
+				drawEnvelopedShapes(ri, configShape, shapeType, shape, lid, true, notSym, isOpen);
+			
+			if (configShape.renderInnerShape)
+			{
+				GlStateManager.depthFunc(GL11.GL_GREATER);
+				drawEnvelopedShapes(ri, configShape, shapeType, shape, lid, false, notSym, isOpen);
+				GlStateManager.depthFunc(GL11.GL_LEQUAL);
+			}
+			GlStateManager.popMatrix();
+		}
+	}
+	
+	private void drawEnvelopedShapes(double r,
