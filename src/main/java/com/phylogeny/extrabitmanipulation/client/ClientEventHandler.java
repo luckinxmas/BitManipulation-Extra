@@ -1780,4 +1780,15 @@ public class ClientEventHandler
 		{
 			GL11.glTranslated(diffX * cos - diffY * sin - diffX + mirTravel1, diffX * sin + diffY * cos - diffY + mirTravel2, 0);
 		}
-		GL11.glTranslated(offsetX2, offsetY2, off
+		GL11.glTranslated(offsetX2, offsetY2, offsetZ2);
+		GL11.glRotated(angle, offsetX, offsetY, offsetZ);
+		GL11.glTranslated(-offsetX2, -offsetY2, -offsetZ2);
+		GL11.glTranslated(-playerX + 0.002 * dir.getFrontOffsetX(), -playerY + 0.002 * dir.getFrontOffsetY(), -playerZ + 0.002 * dir.getFrontOffsetZ());
+	}
+	
+	private AxisAlignedBB contractBoxOrRenderArrows(boolean contractBox, Tessellator t, BufferBuilder buffer, int side, boolean northSouth, EnumFacing dir,
+			AxisAlignedBB box, double invOffsetX, double invOffsetY, double invOffsetZ, boolean invertDirection, float minU, float maxU, float minV, float maxV)
+	{
+		if (contractBox)
+		{
+			double amount = (millisecondsElapsed % Configs.transl
