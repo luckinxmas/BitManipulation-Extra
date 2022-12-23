@@ -1723,4 +1723,29 @@ public class ClientEventHandler
 	private void drawEnvelopedShape(Quadric shape, double radius, boolean isOuter,
 			ConfigShapeRender configShape, boolean isCone, boolean isOpen)
 	{
-		GlStateManager.push
+		GlStateManager.pushMatrix();
+		GlStateManager.color(configShape.red, configShape.green,
+				configShape.blue, isOuter ? configShape.outerShapeAlpha : configShape.innerShapeAlpha);
+		float r = (float) radius;
+		if (shape instanceof Prism)
+		{
+			((Prism) shape).draw(r, isOpen);
+		}
+		else if (shape instanceof Sphere)
+		{
+			((Sphere) shape).draw(r, 32, 32);
+		}
+		else if (shape instanceof Cylinder)
+		{
+			((Cylinder) shape).draw(isCone ? 0 : r, r, r * 2, 32, 32);
+		}
+		else if (shape instanceof Disk)
+		{
+			((Disk) shape).draw(0, r, 32, 32);
+		}
+		GlStateManager.popMatrix();
+	}
+	
+	private AxisAlignedBB limitBox(AxisAlignedBB box, AxisAlignedBB mask)
+	{
+		doub
