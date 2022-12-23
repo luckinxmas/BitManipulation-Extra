@@ -1748,4 +1748,19 @@ public class ClientEventHandler
 	
 	private AxisAlignedBB limitBox(AxisAlignedBB box, AxisAlignedBB mask)
 	{
-		doub
+		double d0 = Math.max(box.minX, mask.minX);
+		double d1 = Math.max(box.minY, mask.minY);
+		double d2 = Math.max(box.minZ, mask.minZ);
+		double d3 = Math.min(box.maxX, mask.maxX);
+		double d4 = Math.min(box.maxY, mask.maxY);
+		double d5 = Math.min(box.maxZ, mask.maxZ);
+		return new AxisAlignedBB(d0, d1, d2, d3, d4, d5);
+	}
+	
+	private double getInitialAngle(int mode)
+	{
+		return mode == 0 ? (millisecondsElapsed * (360.0 / Configs.rotationPeriod)) % 360 : 0;
+	}
+	
+	private void translateAndRotateTexture(double playerX, double playerY, double playerZ, EnumFacing dir, boolean upDown,
+			boolean eastWest, int offsetX, int offsetY, int offsetZ, double angle, double diffX, double diffY, double 
