@@ -1763,4 +1763,21 @@ public class ClientEventHandler
 	}
 	
 	private void translateAndRotateTexture(double playerX, double playerY, double playerZ, EnumFacing dir, boolean upDown,
-			boolean eastWest, int offsetX, int offsetY, int offsetZ, double angle, double diffX, double diffY, double 
+			boolean eastWest, int offsetX, int offsetY, int offsetZ, double angle, double diffX, double diffY, double diffZ,
+			double offsetX2, double offsetY2, double offsetZ2, double mirTravel1, double mirTravel2)
+	{
+		double cos = Math.cos(Math.toRadians(angle));
+		double sin = Math.sin(Math.toRadians(angle));
+		if (upDown)
+		{
+			GL11.glTranslated(diffX * cos + diffZ * sin - diffX + mirTravel1, 0, -diffX * sin + diffZ * cos - diffZ + mirTravel2);
+		}
+		else if (eastWest)
+		{
+			GL11.glTranslated(0, diffY * cos - diffZ * sin - diffY + mirTravel2, diffY * sin + diffZ * cos - diffZ + mirTravel1);
+		}
+		else
+		{
+			GL11.glTranslated(diffX * cos - diffY * sin - diffX + mirTravel1, diffX * sin + diffY * cos - diffY + mirTravel2, 0);
+		}
+		GL11.glTranslated(offsetX2, offsetY2, off
