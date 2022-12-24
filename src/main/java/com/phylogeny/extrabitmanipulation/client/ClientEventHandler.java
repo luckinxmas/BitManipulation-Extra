@@ -1791,4 +1791,18 @@ public class ClientEventHandler
 	{
 		if (contractBox)
 		{
-			double amount = (millisecondsElapsed % Configs.transl
+			double amount = (millisecondsElapsed % Configs.translationScalePeriod) / Configs.translationScalePeriod;
+			amount /= invertDirection ? -2 : 2;
+			if (invertDirection && Configs.translationScalePeriod > 1)
+				amount += 0.5;
+			
+			box = box.grow(-amount * invOffsetX, -amount * invOffsetY, -amount * invOffsetZ);
+		}
+		else if (Configs.translationDistance > 0)
+		{
+			double distance = Configs.translationDistance;
+			double fadeDistance = Configs.translationFadeDistance;
+			double period = Configs.translationMovementPeriod;
+			double offsetDistance = Configs.translationOffsetDistance;
+			int timeOffset = offsetDistance > 0 ? (int) (period / (distance / offsetDistance)) : 0;
+			if (timeO
