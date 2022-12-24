@@ -1828,4 +1828,22 @@ public class ClientEventHandler
 					}
 					amount -= distance / 2.0;
 				}
-				AxisAlignedBB box2 = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, b
+				AxisAlignedBB box2 = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ)
+					.offset(amount * dir.getFrontOffsetX(), amount * dir.getFrontOffsetY(), amount * dir.getFrontOffsetZ());
+				renderTexturedSide(t, buffer, side, northSouth, box2, minU, maxU, minV, maxV, alpha);
+			}
+		}
+		else
+		{
+			renderTexturedSide(t, buffer, side, northSouth, box, minU, maxU, minV, maxV, 1);
+		}
+		return box;
+	}
+	
+	private void renderTexturedSide(Tessellator t, BufferBuilder buffer, int side, boolean northSouth,
+			AxisAlignedBB box, float minU, float maxU, float minV, float maxV, double alpha)
+	{
+		GL11.glColor4d(1, 1, 1, alpha);
+		if (side == 1 || side == 3 || side == 4)
+		{
+			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_T
