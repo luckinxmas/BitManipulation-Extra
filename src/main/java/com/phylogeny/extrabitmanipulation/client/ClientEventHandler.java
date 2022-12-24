@@ -1805,4 +1805,27 @@ public class ClientEventHandler
 			double period = Configs.translationMovementPeriod;
 			double offsetDistance = Configs.translationOffsetDistance;
 			int timeOffset = offsetDistance > 0 ? (int) (period / (distance / offsetDistance)) : 0;
-			if (timeO
+			if (timeOffset > period / 3.0)
+				timeOffset = (int) (period / 3.0);
+			
+			if (fadeDistance > distance / 2.0)
+				fadeDistance = distance / 2.0;
+			
+			int n = offsetDistance == 0 || period == 1 ? 1 : 3;
+			for (int i = 0; i < n; i++)
+			{
+				double amount = ((millisecondsElapsed + timeOffset * i) % period) / (period / (distance * 100.0) * 100.0);
+				double alpha = 1;
+				if (period > 1)
+				{
+					if (amount < fadeDistance)
+					{
+						alpha = amount / fadeDistance;
+					}
+					else if (amount > distance - fadeDistance)
+					{
+						alpha = (distance - amount) / fadeDistance;
+					}
+					amount -= distance / 2.0;
+				}
+				AxisAlignedBB box2 = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, b
