@@ -1855,4 +1855,18 @@ public class ClientEventHandler
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 			buffer.pos(box.maxX, northSouth ? box.minY : box.maxY, box.maxZ).tex(minU, minV).endVertex();
 			buffer.pos(box.minX, box.minY, box.maxZ).tex(maxU, minV).endVertex();
-			buffer.pos(box.minX, northSouth ? box.maxY : box.minY, box.minZ).tex(maxU, maxV).endVe
+			buffer.pos(box.minX, northSouth ? box.maxY : box.minY, box.minZ).tex(maxU, maxV).endVertex();
+			buffer.pos(box.maxX, box.maxY, box.minZ).tex(minU, maxV).endVertex();
+			t.draw();
+		}
+		else
+		{
+			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			buffer.pos(box.minX, northSouth ? box.maxY : box.minY, box.minZ).tex(maxU, minV).endVertex();
+			buffer.pos(box.maxX, box.maxY, box.minZ).tex(minU, minV).endVertex();
+			buffer.pos(box.maxX, northSouth ? box.minY : box.maxY, box.maxZ).tex(minU, maxV).endVertex();
+			buffer.pos(box.minX, box.minY, box.maxZ).tex(maxU, maxV).endVertex();
+			t.draw();
+			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			buffer.pos(box.maxX, box.maxY, box.minZ).tex(minU, minV).endVertex();
+			
