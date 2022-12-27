@@ -1846,4 +1846,13 @@ public class ClientEventHandler
 		GL11.glColor4d(1, 1, 1, alpha);
 		if (side == 1 || side == 3 || side == 4)
 		{
-			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_T
+			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			buffer.pos(box.minX, box.minY, box.maxZ).tex(maxU, minV).endVertex();
+			buffer.pos(box.maxX, northSouth ? box.minY : box.maxY, box.maxZ).tex(minU, minV).endVertex();
+			buffer.pos(box.maxX, box.maxY, box.minZ).tex(minU, maxV).endVertex();
+			buffer.pos(box.minX, northSouth ? box.maxY : box.minY, box.minZ).tex(maxU, maxV).endVertex();
+			t.draw();
+			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			buffer.pos(box.maxX, northSouth ? box.minY : box.maxY, box.maxZ).tex(minU, minV).endVertex();
+			buffer.pos(box.minX, box.minY, box.maxZ).tex(maxU, minV).endVertex();
+			buffer.pos(box.minX, northSouth ? box.maxY : box.minY, box.minZ).tex(maxU, maxV).endVe
