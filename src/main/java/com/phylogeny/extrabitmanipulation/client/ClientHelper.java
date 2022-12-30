@@ -58,4 +58,29 @@ public class ClientHelper
 		Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(new TextComponentString(text), 627250);
 	}
 	
-	public st
+	public static void bindTexture(ResourceLocation resource)
+	{
+		getMinecraft().getTextureManager().bindTexture(resource);
+	}
+	
+	public static RenderItem getRenderItem()
+	{
+		return getMinecraft().getRenderItem();
+	}
+	
+	public static RenderManager getRenderManager()
+	{
+		return getMinecraft().getRenderManager();
+	}
+	
+	public static BlockModelShapes getBlockModelShapes()
+	{
+		return getMinecraft().getBlockRendererDispatcher().getBlockModelShapes();
+	}
+	
+	public static ItemColors getItemColors()
+	{
+		return getMinecraft().getItemColors();
+	}
+	
+}
