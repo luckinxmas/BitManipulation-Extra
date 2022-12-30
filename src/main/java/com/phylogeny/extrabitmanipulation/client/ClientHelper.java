@@ -35,4 +35,27 @@ public class ClientHelper
 	
 	public static EntityPlayer getPlayer()
 	{
-		return getMinec
+		return getMinecraft().player;
+	}
+	
+	public static ItemStack getHeldItemMainhand()
+	{
+		return getPlayer().getHeldItemMainhand();
+	}
+	
+	public static RayTraceResult getObjectMouseOver()
+	{
+		return getMinecraft().objectMouseOver;
+	}
+	
+	public static void spawnParticle(World worldIn, Vec3d particlePos, IParticleFactory particleFactory)
+	{
+		getMinecraft().effectRenderer.addEffect(particleFactory.createParticle(0, worldIn, particlePos.x, particlePos.y, particlePos.z, 0, 0, 0));
+	}
+	
+	public static void printChatMessageWithDeletion(String text)
+	{
+		Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(new TextComponentString(text), 627250);
+	}
+	
+	public st
