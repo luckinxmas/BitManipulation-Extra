@@ -140,3 +140,47 @@ public class GuiHelper
 			if (GuiScreen.isShiftKeyDown() || GuiScreen.isCtrlKeyDown())
 			{
 				triple.setRight(changeScale(scale, deltaY * 0.05F, scaleMax).getLeft());
+			}
+			else if (affectRotation)
+			{
+				double angleX = rotationVec.x - (deltaY / scale) * rotationMultiplierX;
+				double angleY = rotationVec.y - (deltaX / scale) * rotationMultiplierY;
+				if (angleX < -90 || angleX > 90)
+					angleX = 90 * (angleX > 0 ? 1 : -1);
+				
+				triple.setMiddle(new Vec3d(angleX, angleY, 0));
+			}
+		}
+		else if (clickedMouseButton == 1)
+		{
+			triple.setLeft(new Vec3d(translationInitialVec.x - deltaX, translationInitialVec.y - deltaY, 0));
+		}
+		return triple;
+	}
+
+	public static Pair<Vec3d, Float> scaleObjectWithMouseWheel(GuiScreen screen, AxisAlignedBB box,
+			Vec3d translationVec, float scale, float scaleMax, float yOffset)
+	{
+		MutablePair<Vec3d, Float> pair = new MutablePair<Vec3d, Float>(translationVec, scale);
+		if (Mouse.getEventDWheel() == 0)
+			return pair;
+		
+		int mouseX = Mouse.getEventX() * screen.width / screen.mc.displayWidth;
+		int mouseY = screen.height - Mouse.getEventY() * screen.height / screen.mc.displayHeight - 1;
+		if (!GuiHelper.isCursorInsideBox(box, mouseX, mouseY))
+			return pair;
+		
+		float amount = Mouse.getEventDWheel();
+		Pair<Float, Boolean> scaleNew = changeScale(scale, amount * 0.005F, scaleMax);
+		if (scaleNew.getRight())
+			return pair;
+		
+		pair.setRight(scaleNew.getLeft());
+		float x = mouseX - (int) (translationVec.x + (box.maxX + box.minX) * 0.5F);
+		float y = mouseY - (int) (translationVec.y + yOffset + (box.maxY + box.minY) * 0.5F);
+		float offset = (amount / -30) * 0.15F;
+		pair.setLeft(translationVec.addVector(x * offset, y * offset, 0));
+		return pair;
+	}
+	
+}
