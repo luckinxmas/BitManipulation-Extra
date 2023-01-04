@@ -13,4 +13,33 @@ public class ParticleSplashBit extends ParticleSplash
 	
 	protected ParticleSplashBit(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
 	{
-		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeed
+		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+	}
+	
+	@Override
+	public void onUpdate()
+	{
+		prevPosX = posX;
+		prevPosY = posY;
+		prevPosZ = posZ;
+		motionY -= particleGravity;
+		move(motionX, motionY, motionZ);
+		motionX *= 0.9800000190734863D;
+		motionY *= 0.9800000190734863D;
+		motionZ *= 0.9800000190734863D;
+		if (particleMaxAge-- <= 0)
+			setExpired();
+		
+		if (onGround)
+		{
+			motionX *= 0.699999988079071D;
+			motionZ *= 0.699999988079071D;
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static class Factory implements IParticleFactory
+	{
+		@Override
+		public Particle createParticle(int particleID, World worldIn, double xCoordIn, double yCoordIn,
+				double zCoordIn, double xSpeed
