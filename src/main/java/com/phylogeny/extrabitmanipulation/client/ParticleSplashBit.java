@@ -42,4 +42,10 @@ public class ParticleSplashBit extends ParticleSplash
 	{
 		@Override
 		public Particle createParticle(int particleID, World worldIn, double xCoordIn, double yCoordIn,
-				double zCoordIn, double xSpeed
+				double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... parameters)
+		{
+			return new ParticleSplashBit(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+		}
+	}
+	
+}
