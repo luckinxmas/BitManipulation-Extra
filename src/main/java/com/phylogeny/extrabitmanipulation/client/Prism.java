@@ -37,4 +37,25 @@ public class Prism extends Quadric
 			drawSquare(radius, isPryamid, slope, 0);
 		}
 		GlStateManager.translate(0, -radius * 2, 0);
+		GlStateManager.scale(1, -1, 1);
+		drawSquare(radius, isPryamid, slope, 0);
+		GlStateManager.popMatrix();
 		
+		GlStateManager.rotate(90, 1, 0, 0);
+		
+		if (isCube || !isOpen)
+		{
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(0, isCube ? radius : radius * 2, -radius);
+			drawSquare(radius, false, isTriangular ? radius : 0, 0);
+			GlStateManager.popMatrix();
+		}
+		
+		if (isCube || (!isPryamid && !isOpen))
+		{
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(0, isCube ? -radius : 0, -radius);
+			drawSquare(radius, false, isTriangular ? radius : 0, 0);
+			GlStateManager.popMatrix();
+		}
+	}
