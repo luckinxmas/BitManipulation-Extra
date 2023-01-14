@@ -59,3 +59,32 @@ public class Prism extends Quadric
 			GlStateManager.popMatrix();
 		}
 	}
+	
+	private void drawSquare(float radius, boolean isSlanted, float slope, float slope2)
+	{
+		float height = radius * 2;
+		int i;
+		float x, y, z;
+		float inc = height / 15;
+		float ratio = (radius / height) * 4F;
+		float halfRadius = -radius * 0.5F;
+		GL11.glBegin(GL11.GL_LINES);
+		for (i = 0; i <= 15; i++)
+		{
+			x = i * inc - radius;
+			y = slope2 > 0 ? halfRadius + x / ratio : 0;
+			GL11.glVertex3f(slope > 0 ? 0 : x, isSlanted ? -slope : y, 0);
+			GL11.glVertex3f(x, y, height);
+		}
+		GL11.glEnd();
+		GL11.glBegin(GL11.GL_LINES);
+		for (i = 0; i <= 15; i++)
+		{
+			z = i * inc;
+			x = z / ratio;
+			y = isSlanted ? x - radius : 0;
+			if (slope == 0)
+				x = radius;
+			
+			float s = slope2;
+		
