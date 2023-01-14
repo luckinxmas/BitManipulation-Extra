@@ -87,4 +87,13 @@ public class Prism extends Quadric
 				x = radius;
 			
 			float s = slope2;
-		
+			if (isPryamid && slope2 > 0)
+				s *= 1 * (z / height);
+			
+			GL11.glVertex3f(-x, y - s, z);
+			GL11.glVertex3f(x, y, z);
+		}
+		GL11.glEnd();
+	}
+	
+}
