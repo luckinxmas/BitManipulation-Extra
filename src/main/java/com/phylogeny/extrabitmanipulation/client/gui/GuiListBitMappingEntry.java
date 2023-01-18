@@ -20,4 +20,19 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemS
+import net.minecraft.item.ItemStack;
+
+import org.lwjgl.opengl.GL11;
+
+import com.phylogeny.extrabitmanipulation.ExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.api.ChiselsAndBitsAPIAccess;
+import com.phylogeny.extrabitmanipulation.client.ClientHelper;
+import com.phylogeny.extrabitmanipulation.client.render.RenderState;
+import com.phylogeny.extrabitmanipulation.helper.BitIOHelper;
+import com.phylogeny.extrabitmanipulation.helper.BitInventoryHelper;
+import com.phylogeny.extrabitmanipulation.item.ItemModelingTool.BitCount;
+import com.phylogeny.extrabitmanipulation.packet.PacketCursorStack;
+
+public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
+{
+	private fina
