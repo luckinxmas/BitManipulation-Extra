@@ -35,4 +35,22 @@ import com.phylogeny.extrabitmanipulation.packet.PacketCursorStack;
 
 public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 {
-	private fina
+	private final Minecraft mc;
+	private final GuiBitMapping bitMappingScreen;
+	private IBlockState state;
+	private ArrayList<BitCount> bitCountArray;
+	private boolean isManuallyMapped, isInteractive;
+	private int frameCounter;
+	
+	public GuiListBitMappingEntry(GuiListBitMapping listBitMapping, IBlockState state,
+			ArrayList<BitCount> bitCountArray, boolean isManuallyMapped, boolean isInteractive)
+	{
+		bitMappingScreen = listBitMapping.getGuiModelingTool();
+		mc = bitMappingScreen.mc;
+		this.state = state;
+		this.bitCountArray = bitCountArray;
+		this.isManuallyMapped = isManuallyMapped;
+		this.isInteractive = isInteractive;
+	}
+	
+	public boolean i
