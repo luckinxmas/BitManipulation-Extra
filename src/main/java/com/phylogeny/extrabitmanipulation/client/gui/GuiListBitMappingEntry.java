@@ -113,4 +113,25 @@ public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 			}
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			ClientHelper.bindTexture(bitMappingScreen.GUI_TEXTURE);
-			bitM
+			bitMappingScreen.drawTexturedModalRect(x, y, 0, 219, listWidth, slotHeight);
+			RenderHelper.enableGUIStandardItemLighting();
+			if (!getBitStack().isEmpty())
+			{
+				mc.getRenderItem().renderItemIntoGUI(getBitStack(), x + 44, y + 2);
+			}
+			else if (getBit() == null)
+			{
+				drawCross(x, y);
+			}
+			RenderState.renderStateIntoGUI(state, x, y);
+			RenderHelper.disableStandardItemLighting();
+		}
+	}
+	
+	private void drawCross(int x, int y)
+	{
+		GlStateManager.pushMatrix();
+		GlStateManager.disableTexture2D();
+		GlStateManager.color(1, 0, 0);
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tesse
