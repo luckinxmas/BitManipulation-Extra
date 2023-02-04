@@ -93,3 +93,24 @@ public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 	
 	public boolean isAir()
 	{
+		IBitBrush bit = getBit();
+		return bit != null && bit.isAir();
+	}
+	
+	@Override
+	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+	{
+		frameCounter++;
+		x -= 43;
+		y -= 1;
+		int guiTop = bitMappingScreen.getGuiTop();
+		if (y > guiTop && y < guiTop + 125)
+		{
+			if (isManuallyMapped)
+			{
+				bitMappingScreen.drawRect(x, y - 1, x + listWidth, y + slotHeight + 1, 2110310655);
+				GlStateManager.enableBlend();
+			}
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			ClientHelper.bindTexture(bitMappingScreen.GUI_TEXTURE);
+			bitM
