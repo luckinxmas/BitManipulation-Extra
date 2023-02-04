@@ -134,4 +134,20 @@ public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 		GlStateManager.disableTexture2D();
 		GlStateManager.color(1, 0, 0);
 		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tesse
+		BufferBuilder buffer = tessellator.getBuffer();
+		ScaledResolution scaledresolution = new ScaledResolution(mc);
+		GL11.glLineWidth(scaledresolution.getScaleFactor() * 2);
+		buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+		int x2 = x + 44;
+		int y2 = y + 2;
+		int x3 = x2 + 16;
+		int y3 = y2 + 16;
+		buffer.pos(x2, y2, 0).color(255, 0, 0, 255).endVertex();
+		buffer.pos(x3, y3, 0).color(255, 0, 0, 255).endVertex();
+		tessellator.draw();
+		buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+		buffer.pos(x3, y2, 0).color(255, 0, 0, 255).endVertex();
+		buffer.pos(x2, y3, 0).color(255, 0, 0, 255).endVertex();
+		tessellator.draw();
+		GlStateManager.enableTexture2D();
+		GlState
