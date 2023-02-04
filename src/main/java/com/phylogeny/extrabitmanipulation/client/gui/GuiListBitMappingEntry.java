@@ -53,4 +53,43 @@ public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 		this.isInteractive = isInteractive;
 	}
 	
-	public boolean i
+	public boolean isInteractive()
+	{
+		return isInteractive;
+	}
+	
+	public IBlockState getState()
+	{
+		return state;
+	}
+	
+	private BitCount getBitCountObject()
+	{
+		if (bitCountArray.isEmpty())
+			return null;
+		
+		return bitCountArray.get(frameCounter % (bitCountArray.size() * 120) / 120);
+	}
+	
+	public ArrayList<BitCount> getBitCountArray()
+	{
+		return bitCountArray;
+	}
+	
+	private IBitBrush getBit()
+	{
+		BitCount bitCount = getBitCountObject();
+		if (bitCount == null)
+			return null;
+		
+		return bitCount.getBit();
+	}
+	
+	public ItemStack getBitStack()
+	{
+		IBitBrush bit = getBit();
+		return bit == null ? ItemStack.EMPTY : bit.getItemStack(1);
+	}
+	
+	public boolean isAir()
+	{
