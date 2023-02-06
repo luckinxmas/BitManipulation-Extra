@@ -150,4 +150,18 @@ public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 		buffer.pos(x2, y3, 0).color(255, 0, 0, 255).endVertex();
 		tessellator.draw();
 		GlStateManager.enableTexture2D();
-		GlState
+		GlStateManager.popMatrix();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		x2 -= 1;
+		y2 -= 1;
+		bitMappingScreen.drawTexturedModalRect(x2, y2, 43, 220, 18, 1);
+		bitMappingScreen.drawTexturedModalRect(x2, y2 + 17, 43, 237, 18, 1);
+	}
+	
+	@Override
+	public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY)
+	{
+		ItemStack cursorStack = mc.player.inventory.getItemStack();
+		boolean inSlotVerticalRange = relativeY >= 0 && relativeY < 18;
+		boolean stateSlotClicked = relativeX > -39 && relativeX < -20 && inSlotVerticalRange;
+		boolean bitSlotClicked = relativeX >= 0 && relativeX < 18 && i
