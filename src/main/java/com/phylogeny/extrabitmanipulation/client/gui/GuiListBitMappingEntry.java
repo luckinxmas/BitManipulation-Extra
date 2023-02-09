@@ -208,4 +208,39 @@ public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 			}
 			else if (cursorStack.getItem() != null)
 			{
-				Block block = Block.getBlockFromI
+				Block block = Block.getBlockFromItem(cursorStack.getItem());
+				if (block != Blocks.AIR)
+				{
+					try
+					{
+						bit = api.createBrushFromState(BitIOHelper.getStateFromMeta(block, cursorStack.getMetadata()));
+						changed = true;
+					}
+					catch (InvalidBitItem e) {}
+				}
+			}
+		}
+		else if (GuiScreen.isCtrlKeyDown())
+		{
+			bit = null;
+			changed = true;
+		}
+		else if (GuiScreen.isShiftKeyDown())
+		{
+			try
+			{
+				bit = api.createBrushFromState(null);
+				changed = true;
+			}
+			catch (InvalidBitItem e) {}
+		}
+		if (changed)
+		{
+			bitCountArray.get(0).setBit(bit);
+			bitMappingScreen.addPermanentMapping(state, bit);
+		}
+		return changed;
+	}
+	
+	@Override
+	public voi
