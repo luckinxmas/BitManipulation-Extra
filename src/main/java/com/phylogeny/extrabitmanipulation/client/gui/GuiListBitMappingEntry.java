@@ -164,4 +164,24 @@ public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 		ItemStack cursorStack = mc.player.inventory.getItemStack();
 		boolean inSlotVerticalRange = relativeY >= 0 && relativeY < 18;
 		boolean stateSlotClicked = relativeX > -39 && relativeX < -20 && inSlotVerticalRange;
-		boolean bitSlotClicked = relativeX >= 0 && relativeX < 18 && i
+		boolean bitSlotClicked = relativeX >= 0 && relativeX < 18 && inSlotVerticalRange;
+		if (cursorStack.isEmpty() && mouseEvent == 2 && mc.player.capabilities.isCreativeMode && (stateSlotClicked || bitSlotClicked))
+		{
+			ItemStack stack = ItemStack.EMPTY;
+			if (stateSlotClicked)
+			{
+				Item item = Item.getItemFromBlock(state.getBlock());
+				if (item != Items.AIR && item instanceof ItemBlock)
+				{
+					stack = new ItemStack(item, 64, item.getHasSubtypes() ? state.getBlock().getMetaFromState(state) : 0);
+					stack.setCount(stack.getMaxStackSize());
+				}
+			}
+			if (bitSlotClicked && !getBitStack().isEmpty())
+			{
+				stack = getBitStack().copy();
+				stack.setCount(stack.getMaxStackSize());
+			}
+			if (!stack.isEmpty())
+			{
+				mc.player.inventory
