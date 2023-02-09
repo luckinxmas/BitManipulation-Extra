@@ -184,4 +184,28 @@ public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 			}
 			if (!stack.isEmpty())
 			{
-				mc.player.inventory
+				mc.player.inventory.setItemStack(stack);
+				ExtraBitManipulation.packetNetwork.sendToServer(new PacketCursorStack(stack));
+			}
+		}
+		
+		if (!isInteractive || !bitSlotClicked || bitCountArray.size() != 1)
+			return false;
+		
+		IBitBrush bit = bitCountArray.get(0).getBit();
+		IChiselAndBitsAPI api = ChiselsAndBitsAPIAccess.apiInstance;
+		boolean changed = false;
+		if (!cursorStack.isEmpty())
+		{
+			if (BitInventoryHelper.isBitStack(api, cursorStack))
+			{
+				try
+				{
+					bit = api.createBrush(cursorStack);
+					changed = true;
+				}
+				catch (InvalidBitItem e) {}
+			}
+			else if (cursorStack.getItem() != null)
+			{
+				Block block = Block.getBlockFromI
