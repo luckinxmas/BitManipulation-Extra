@@ -243,4 +243,9 @@ public class GuiListBitMappingEntry implements GuiListExtended.IGuiListEntry
 	}
 	
 	@Override
-	public voi
+	public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {}
+	
+	@Override
+	public void updatePosition(int entryID, int insideLeft, int yPos, float partialTicks) {}
+	
+}
