@@ -68,4 +68,18 @@ public class GuiButtonArmorSlots extends GuiButtonBase
 		}
 		setPosisionAbsolute();
 		hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-		RenderHelper.enableGUIS
+		RenderHelper.enableGUIStandardItemLighting();
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(0, 0, -200);
+		GlStateManager.enableDepth();
+		RenderState.renderStateModelIntoGUI(null, ArmorMovingPart.HEAD.getIconModels(ArmorMaterial.DIAMOND)[0],
+				ItemStack.EMPTY, hovered ? 1.0F : 0.5F, true, false, x - 8, y - 1, 0, 0, 1);
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.translate(0, 0, 500);
+		mouseDragged(mc, mouseX, mouseY);
+		if (hovered)
+		{
+			int y = this.y + 2;
+			for (String string : mc.fontRenderer.listFormattedStringToWidth(displayString, 45))
+				drawCenteredString(mc.fontRenderer, string, x + 6, y += mc.fontRenderer.FONT_HEIGHT, 14737632);
+		
