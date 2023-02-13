@@ -36,4 +36,36 @@ public class GuiButtonArmorSlots extends GuiButtonBase
 	public void setPosition()
 	{
 		resetOffsets();
-		Pair<Integer, Integer> pos = BitToolSettingsHelper.getArmorButtonPosition(
+		Pair<Integer, Integer> pos = BitToolSettingsHelper.getArmorButtonPosition();
+		posX = pos.getLeft();
+		posY = pos.getRight();
+		setPosisionAbsolute();
+	}
+	
+	public static boolean shouldMoveButton()
+	{
+		return GuiScreen.isShiftKeyDown() && GuiScreen.isCtrlKeyDown() && GuiScreen.isAltKeyDown();
+	}
+	
+	private void setPosisionAbsolute()
+	{
+		x = gui.getGuiLeft() + posX;
+		y = gui.getGuiTop() + posY;
+	}
+	
+	private void resetOffsets()
+	{
+		offsetX = offsetY = mouseInitialX = 0;
+	}
+	
+	@Override
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
+	{
+		if (ClientHelper.getPlayer().capabilities.isCreativeMode)
+		{
+			visible = false;
+			return;
+		}
+		setPosisionAbsolute();
+		hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+		RenderHelper.enableGUIS
