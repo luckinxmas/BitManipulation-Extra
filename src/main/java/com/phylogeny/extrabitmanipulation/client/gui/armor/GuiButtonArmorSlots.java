@@ -112,3 +112,30 @@ public class GuiButtonArmorSlots extends GuiButtonBase
 			resetOffsets();
 		}
 		return pressed;
+	}
+	
+	@Override
+	public void mouseReleased(int mouseX, int mouseY)
+	{
+		resetOffsets();
+		BitToolSettingsHelper.setArmorButtonPosition(posX, posY);
+	}
+	
+	@Override
+	protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
+	{
+		if (mouseInitialX > 0 && shouldMoveButton())
+		{
+			posX = mouseX - offsetX;
+			posY = mouseY - offsetY;
+		}
+	}
+	
+	@Override
+	public void playPressSound(SoundHandler soundHandlerIn)
+	{
+		if (!shouldMoveButton())
+			super.playPressSound(soundHandlerIn);
+	}
+	
+}
