@@ -82,4 +82,33 @@ public class GuiButtonArmorSlots extends GuiButtonBase
 			int y = this.y + 2;
 			for (String string : mc.fontRenderer.listFormattedStringToWidth(displayString, 45))
 				drawCenteredString(mc.fontRenderer, string, x + 6, y += mc.fontRenderer.FONT_HEIGHT, 14737632);
-		
+		}
+		GlStateManager.popMatrix();
+	}
+	
+	@Override
+	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
+	{
+		boolean pressed = super.mousePressed(mc, mouseX, mouseY);
+		if (pressed)
+		{
+			offsetX = mouseX - posX;
+			offsetY = mouseY - posY;
+			if (shouldMoveButton())
+			{
+				mouseInitialX = mouseX;
+			}
+			else
+			{
+				boolean openVanilla = mc.currentScreen instanceof GuiInventoryArmorSlots;
+				if (openVanilla)
+					((GuiInventoryArmorSlots) gui).openVanillaInventory(mouseX, mouseY);
+				
+				ExtraBitManipulation.packetNetwork.sendToServer(new PacketOpenInventoryGui(openVanilla));
+			}
+		}
+		else
+		{
+			resetOffsets();
+		}
+		return pressed;
