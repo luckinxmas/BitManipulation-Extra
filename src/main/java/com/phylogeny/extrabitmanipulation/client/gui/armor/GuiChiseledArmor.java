@@ -35,4 +35,13 @@ import com.phylogeny.extrabitmanipulation.armor.ArmorItem;
 import com.phylogeny.extrabitmanipulation.armor.DataChiseledArmorPiece;
 import com.phylogeny.extrabitmanipulation.armor.GlOperation;
 import com.phylogeny.extrabitmanipulation.armor.GlOperation.GlOperationType;
-import com.phylogeny.extrabitmanipulation.armor.M
+import com.phylogeny.extrabitmanipulation.armor.ModelPartConcealer;
+import com.phylogeny.extrabitmanipulation.armor.capability.ChiseledArmorSlotsHandler;
+import com.phylogeny.extrabitmanipulation.client.ClientHelper;
+import com.phylogeny.extrabitmanipulation.client.GuiHelper;
+import com.phylogeny.extrabitmanipulation.client.gui.button.GuiButtonHelp;
+import com.phylogeny.extrabitmanipulation.client.gui.button.GuiButtonSelect;
+import com.phylogeny.extrabitmanipulation.client.gui.button.GuiButtonSelectTextured;
+import com.phylogeny.extrabitmanipulation.client.gui.button.GuiButtonTab;
+import com.phylogeny.extrabitmanipulation.client.gui.button.GuiButtonTextured;
+import com.phy
