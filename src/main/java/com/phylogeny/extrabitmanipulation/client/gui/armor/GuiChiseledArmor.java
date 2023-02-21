@@ -44,4 +44,12 @@ import com.phylogeny.extrabitmanipulation.client.gui.button.GuiButtonSelect;
 import com.phylogeny.extrabitmanipulation.client.gui.button.GuiButtonSelectTextured;
 import com.phylogeny.extrabitmanipulation.client.gui.button.GuiButtonTab;
 import com.phylogeny.extrabitmanipulation.client.gui.button.GuiButtonTextured;
-import com.phy
+import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper;
+import com.phylogeny.extrabitmanipulation.helper.ItemStackHelper;
+import com.phylogeny.extrabitmanipulation.init.ItemsExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor;
+import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor.ArmorMovingPart;
+import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor.ArmorType;
+import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor.ModelMovingPart;
+import com.phylogeny.extrabitmanipulation.packet.PacketChangeArmorItemList;
+import com.phylogeny.extrabitmanipulation.packet.PacketChangeArmorIt
