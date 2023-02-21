@@ -20,4 +20,19 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.ut
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
+import com.phylogeny.extrabitmanipulation.ExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.armor.ArmorItem;
+import com.phylogeny.extrabitmanipulation.armor.DataChiseledArmorPiece;
+import com.phylogeny.extrabitmanipulation.armor.GlOperation;
+import com.phylogeny.extrabitmanipulation.armor.GlOperation.GlOperationType;
+import com.phylogeny.extrabitmanipulation.armor.M
