@@ -52,4 +52,16 @@ import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor.ArmorMovingPart
 import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor.ArmorType;
 import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor.ModelMovingPart;
 import com.phylogeny.extrabitmanipulation.packet.PacketChangeArmorItemList;
-import com.phylogeny.extrabitmanipulation.packet.PacketChangeArmorIt
+import com.phylogeny.extrabitmanipulation.packet.PacketChangeArmorItemList.ListOperation;
+import com.phylogeny.extrabitmanipulation.packet.PacketChangeGlOperationList;
+import com.phylogeny.extrabitmanipulation.packet.PacketOpenChiseledArmorGui;
+import com.phylogeny.extrabitmanipulation.packet.PacketSetModelPartConcealed;
+import com.phylogeny.extrabitmanipulation.proxy.ProxyCommon;
+import com.phylogeny.extrabitmanipulation.reference.Configs;
+import com.phylogeny.extrabitmanipulation.reference.NBTKeys;
+import com.phylogeny.extrabitmanipulation.reference.Reference;
+
+public class GuiChiseledArmor extends GuiContainer
+{
+	public static final ResourceLocation TEXTURE_GUI = new ResourceLocation(Reference.MOD_ID, "textures/guis/chiseled_armor.png");
+	pub
