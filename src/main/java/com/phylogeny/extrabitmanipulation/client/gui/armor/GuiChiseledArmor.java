@@ -64,4 +64,9 @@ import com.phylogeny.extrabitmanipulation.reference.Reference;
 public class GuiChiseledArmor extends GuiContainer
 {
 	public static final ResourceLocation TEXTURE_GUI = new ResourceLocation(Reference.MOD_ID, "textures/guis/chiseled_armor.png");
-	pub
+	public static final int HELP_TEXT_BACKGROUNG_COLOR = 1694460416;
+	private static final ResourceLocation TEXTURE_ROTATION = new ResourceLocation(Reference.MOD_ID, "textures/guis/rotation_large.png");
+	private static final ResourceLocation TEXTURE_TRANSLATION = new ResourceLocation(Reference.MOD_ID, "textures/guis/translation_large.png");
+	private static final ResourceLocation TEXTURE_SCALE = new ResourceLocation(Reference.MOD_ID, "textures/guis/scale_large.png");
+	private static final ResourceLocation TEXTURE_ILLUMINATION_OFF = new ResourceLocation(Reference.MOD_ID, "textures/guis/full_illumination_off.png");
+	private static final ResourceLocation TEXTURE_ILLUMINATION_ON = n
