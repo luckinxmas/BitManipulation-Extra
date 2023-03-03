@@ -80,4 +80,13 @@ public class GuiChiseledArmor extends GuiContainer
 	private static final ResourceLocation TEXTURE_MOVE_DOWN = new ResourceLocation(Reference.MOD_ID, "textures/guis/move_down.png");
 	private static final String[] GL_OPERATION_TITLES = new String[]{"Rotation", "Translation", "Scale"};
 	private static final String[] GL_OPERATION_DATA_TITLES = new String[]{"X component", "Y component", "Z component", "Angle"};
-	private
+	private static String glOperationHoverHelpText, glOperationHoverKeysHelpText;
+	private static final float PLAYER_HEIGHT_HALF = 37.25F;
+	private static final float PLAYER_HEIGHT_EYES = 64.5F;
+	private GuiListArmorItem[][] armorItemLists = new GuiListArmorItem[4][3];
+	private List<GuiListGlOperation>[][] armorItemGlLists = new ArrayList[4][3];
+	private GuiListGlOperation[] globalPreGlLists = new GuiListGlOperation[4];
+	private GuiListGlOperation[] globalPostGlLists = new GuiListGlOperation[4];
+	private DataChiseledArmorPiece[] armorPieces = new DataChiseledArmorPiece[4];
+	private GuiButtonTab[][] tabButtons = new GuiButtonTab[4][4];
+	private GuiButtonTe
