@@ -129,4 +129,17 @@ public class GuiChiseledArmor extends GuiContainer
 		playerScale = 1F;
 	}
 	
-	public void refres
+	public void refreshListsAndSelectEntry(int selectedEntry, boolean isArmorItem, boolean scrollToEnd, int glListRemovalIndex)
+	{
+		GuiListChiseledArmor list = isArmorItem ? getSelectedGuiListArmorItem() : getSelectedGuiListGlOperation();
+		if (glListRemovalIndex >= 0 && glListRemovalIndex < getSelectedGuiListArmorItemGlOperations().size())
+			getSelectedGuiListArmorItemGlOperations().remove(glListRemovalIndex);
+		
+		if (selectedEntry >= 0)
+			list.selectListEntry(selectedEntry);
+		
+		if (isArmorItem && scrollToEnd)
+		{
+			List<GuiListGlOperation> list2 = getSelectedGuiListArmorItemGlOperations();
+			int index = getSelectedGuiListArmorItem().getSelectListEntryIndex();
+			while (
