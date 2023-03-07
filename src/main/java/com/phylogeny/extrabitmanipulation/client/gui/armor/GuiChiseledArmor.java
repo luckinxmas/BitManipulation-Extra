@@ -97,4 +97,17 @@ public class GuiChiseledArmor extends GuiContainer
 									buttonAddRotation, buttonAddTranslation, buttonAddScale;
 	private GuiButtonSelect buttonGlItems, buttonGlPre, buttonGlPost, buttonScale;
 	private GuiButtonHelp buttonHelp;
-	private AxisAlignedBB boxPlayer, boxArmorItem,
+	private AxisAlignedBB boxPlayer, boxArmorItem, boxGlOperation, boxTitleItems, boxTitleGlOperations;
+	private AxisAlignedBB[] boxesData = new AxisAlignedBB[4];
+	private boolean playerBoxClicked;
+	private int indexArmorSet,selectedTabIndex, selectedSubTabIndex, mouseInitialX, mouseInitialY;
+	private float playerScale;
+	private Vec3d playerRotation, playerTranslation, playerTranslationInitial;
+	private ItemStack copiedArmorItem = ItemStack.EMPTY;
+	private NBTTagCompound copiedArmorItemGlOperations = new NBTTagCompound();
+	private NBTTagCompound copiedGlOperation;
+	private boolean waitingForServerResponse;
+	
+	public GuiChiseledArmor(EntityPlayer player)
+	{
+		super(ProxyCommon.createArmorContainer(player));
