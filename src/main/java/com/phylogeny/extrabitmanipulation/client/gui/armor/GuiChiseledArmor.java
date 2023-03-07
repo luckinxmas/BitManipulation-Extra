@@ -111,3 +111,22 @@ public class GuiChiseledArmor extends GuiContainer
 	public GuiChiseledArmor(EntityPlayer player)
 	{
 		super(ProxyCommon.createArmorContainer(player));
+		int index = BitToolSettingsHelper.getArmorSetTabIndex();
+		indexArmorSet = setHasArmor(index) ? index : ChiseledArmorSlotsHandler.findNextArmorSetIndex(ChiseledArmorSlotsHandler.COUNT_SETS);
+		xSize = 352;
+		ySize = 230;
+		selectedSubTabIndex = 1;
+		index = BitToolSettingsHelper.getArmorTabIndex();
+		selectedTabIndex = ItemStackHelper.isChiseledArmorStack(getArmorStack(index)) ? index : -1;
+		resetRotationAndScale();
+		playerTranslation = Vec3d.ZERO;
+		playerTranslationInitial = Vec3d.ZERO;
+	}
+	
+	private void resetRotationAndScale()
+	{
+		playerRotation = new Vec3d(30, -45, 0);
+		playerScale = 1F;
+	}
+	
+	public void refres
