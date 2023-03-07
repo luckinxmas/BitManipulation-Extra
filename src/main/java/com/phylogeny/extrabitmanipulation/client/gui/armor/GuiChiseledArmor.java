@@ -89,4 +89,12 @@ public class GuiChiseledArmor extends GuiContainer
 	private GuiListGlOperation[] globalPostGlLists = new GuiListGlOperation[4];
 	private DataChiseledArmorPiece[] armorPieces = new DataChiseledArmorPiece[4];
 	private GuiButtonTab[][] tabButtons = new GuiButtonTab[4][4];
-	private GuiButtonTe
+	private GuiButtonTextured[][][] concealmentCheckBoxes = new GuiButtonTextured[4][3][2];
+	private GuiButtonTab[] tabButtonsArmorSet = new GuiButtonTab[5];
+	private GuiListGlOperation emptyGlList;
+	private GuiButtonSelectTextured buttonFullIlluminationOff, buttonFullIlluminationOn, buttonPlayerFollowCursor, buttonPlayerRotate, buttonScalePixel,
+									buttonScaleMeter, buttonItemAdd, buttonItemDelete, buttonGlAdd, buttonGlDelete, buttonGlMoveUp, buttonGlMoveDown,
+									buttonAddRotation, buttonAddTranslation, buttonAddScale;
+	private GuiButtonSelect buttonGlItems, buttonGlPre, buttonGlPost, buttonScale;
+	private GuiButtonHelp buttonHelp;
+	private AxisAlignedBB boxPlayer, boxArmorItem,
