@@ -165,4 +165,32 @@ public class GuiChiseledArmor extends GuiContainer
 			for (int j = 0; j < armorItemLists[0].length; j++)
 			{
 				GuiListArmorItem armorItemList = armorItemLists[i][j];
-				if (armorItemL
+				if (armorItemList == null)
+					continue;
+				
+				armorItemList.refreshList();
+				if (onlySelected && i != selectedTabIndex)
+					continue;
+				
+				for (int k = 0; k < armorItemGlLists[i][j].size(); k++)
+				{
+					GuiListGlOperation armorItemGlList = armorItemGlLists[i][j].get(k);
+					if (armorItemGlList instanceof GuiListGlOperationItem)
+						((GuiListGlOperationItem) armorItemGlList).refreshList(k);
+					else
+						armorItemGlList.refreshList();
+				}
+			}
+			if (armorPieces[i] != null && (!onlySelected || i == selectedTabIndex))
+			{
+				globalPreGlLists[i].refreshList();
+				globalPostGlLists[i].refreshList();
+			}
+		}
+	}
+	
+	@Override
+	public void initGui()
+	{
+		super.initGui();
+		i
