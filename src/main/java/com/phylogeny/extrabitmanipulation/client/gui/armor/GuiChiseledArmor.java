@@ -193,4 +193,20 @@ public class GuiChiseledArmor extends GuiContainer
 	public void initGui()
 	{
 		super.initGui();
-		i
+		int left = guiLeft + 223;
+		int top = guiTop + 130;
+		boxPlayer = new AxisAlignedBB(left, top, -1, left + 85, top + 92, 1);
+		left = guiLeft + 91;
+		top = guiTop + 36;
+		boxGlOperation = new AxisAlignedBB(left, top, -1, left + 212, top + 88, 1);
+		left = guiLeft + 37;
+		top = guiTop + 24;
+		boxArmorItem = new AxisAlignedBB(left, top, -1, left + 41, top + 100, 1);
+		left = guiLeft + 39;
+		top = guiTop + 9;
+		boxTitleItems = new AxisAlignedBB(left, top, -1, left + 33, top + 14, 1);
+		left = guiLeft + 92;
+		boxTitleGlOperations = new AxisAlignedBB(left, top, -1, left + 77, top + 14, 1);
+		left = guiLeft + 126;
+		top = guiTop + 24;
+		for (int i = 0; i < boxesData.length; i+
