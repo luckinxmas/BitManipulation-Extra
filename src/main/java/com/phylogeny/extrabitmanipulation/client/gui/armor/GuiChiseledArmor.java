@@ -223,4 +223,11 @@ public class GuiChiseledArmor extends GuiContainer
 		glOperationHoverKeysHelpText = "\n\nKey presses manipulate GL operations as follows:\n" + getPointMain("Control + C") + " copy\n" +
 				getPointMain("Control + V") + " paste\n" + getPointMain("Delete") + " delete\n" + getPointMain("Up Arrow") + " move up\n" +
 				getPointMain("Down Arrow") + " move down";
-		glOperationHoverHelpText = "Operations, like this, cause the items of armor piece's moving parts to either rotate (
+		glOperationHoverHelpText = "Operations, like this, cause the items of armor piece's moving parts to either rotate (by the given angle), " +
+				"translate, or scale in the given axes." + glOperationHoverKeysHelpText;
+		buttonGlItems = createButtonGl(100, 209, 11, "Items", "Performed for the selected item",
+				"Each rendered item for each moving part of an armor piece can have a list of GL operations applied to it.\n\nIf this button is selected, " +
+				"and if the selected moving part of the selected armor piece (indicated by the tabs on the left of the GUI) have any items to render, " +
+				"then the area below will display the list of operations for the selected item in the area to the left.");
+		buttonGlItems.setTextOffsetX(1);
+		buttonGlItems
