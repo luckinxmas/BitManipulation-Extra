@@ -253,3 +253,12 @@ public class GuiChiseledArmor extends GuiContainer
 				prefix + " 1/16 meters, i.e. pixels.\n\n" + getPointExample() + " 2 = 2/16 of a meter");
 		buttonScaleMeter = createButtonToggled(x, 81, TEXTURE_SCALE_METER, "Translation data in meters",
 				prefix + " meters.\n\n" + getPointExample() + " 2 = 2 meters");
+		int y = 127;
+		String text = " the item list of the selected moving part of the selected armor piece.";
+		buttonItemAdd = createButtonListInteraction(46, y, TEXTURE_ADD, "",
+				"Adds an empty slot to" + text + "\n\nIf the scale of the " +
+				"armor piece is not 1:1, a GL scale operation will be added to its GL operations list automatically.");
+		buttonItemDelete = createButtonListInteraction(60, y, TEXTURE_DELETE, "Remove item",
+				"Removes the selected slot from" + text);
+		buttonGlAdd = createButtonListInteraction(107, y, TEXTURE_ADD, "",
+				"Opens a selection screen, where the chosen GL operation is added to the list above, und
