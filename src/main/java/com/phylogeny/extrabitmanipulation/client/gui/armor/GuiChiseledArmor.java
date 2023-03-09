@@ -239,4 +239,11 @@ public class GuiChiseledArmor extends GuiContainer
 				prefix + "render with its faces darkened based on rotation, as it does in-world.");
 		buttonFullIlluminationOn = createButtonToggled(x, 154, TEXTURE_ILLUMINATION_ON, "Full illumination",
 				prefix + "render without darkening any of its faces.");
-		String suffix1 = " can be interacted with as follows:\n" + getPointMain("1") + " Translated by right-clicking and dragging.\
+		String suffix1 = " can be interacted with as follows:\n" + getPointMain("1") + " Translated by right-clicking and dragging.\n" +
+				getPointMain("2") + " Scaled by:\n" + getPointSub("a") + " Scrolling the mouse wheel.\n" + getPointSub("b") +
+				" Right-clicking and dragging while holding shift.";
+		String suffix2 = "\n\nAlter the player model's orientation by pressing the following keys:\n" + getPointMain("C") +
+				" centers it\n" + getPointMain("R") + " resets its translation/rotation/scale";
+		buttonPlayerFollowCursor = createButtonToggled(x, 186, TEXTURE_PLAYER_FOLLOW_CURSOR, "Look at cursor",
+				prefix + "bend and twist to look at the cursor. In this mode, the model cannot be rotated, but" + suffix1 + suffix2);
+		buttonPlayerRotate = 
