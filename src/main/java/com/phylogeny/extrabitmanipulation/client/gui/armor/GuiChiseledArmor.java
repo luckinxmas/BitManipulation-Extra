@@ -142,4 +142,27 @@ public class GuiChiseledArmor extends GuiContainer
 		{
 			List<GuiListGlOperation> list2 = getSelectedGuiListArmorItemGlOperations();
 			int index = getSelectedGuiListArmorItem().getSelectListEntryIndex();
-			while (
+			while (index >= list2.size())
+			{
+				list2.add(createGuiListGlOperation(getSelectedGuiListArmorItem().armorPiece));
+			}
+		}
+		refreshLists(true);
+		if (scrollToEnd)
+			list.scrollBy(Integer.MAX_VALUE);
+		
+		waitingForServerResponse = false;
+	}
+	
+	private void refreshLists(boolean onlySelected)
+	{
+		for (int i = 0; i < armorItemLists.length; i++)
+		{
+			ItemStack stack = getArmorStack(i);
+			if (ItemStackHelper.isChiseledArmorStack(stack))
+				armorPieces[i].loadFromNBT(ItemStackHelper.getNBTOrNew(stack));
+			
+			for (int j = 0; j < armorItemLists[0].length; j++)
+			{
+				GuiListArmorItem armorItemList = armorItemLists[i][j];
+				if (armorItemL
