@@ -209,4 +209,18 @@ public class GuiChiseledArmor extends GuiContainer
 		boxTitleGlOperations = new AxisAlignedBB(left, top, -1, left + 77, top + 14, 1);
 		left = guiLeft + 126;
 		top = guiTop + 24;
-		for (int i = 0; i < boxesData.length; i+
+		for (int i = 0; i < boxesData.length; i++)
+		{
+			int left2 = left + i * 45;
+			int width = 10;
+			if (i == 3)
+			{
+				left2 -= 8;
+				width++;
+			}
+			boxesData[i] = new AxisAlignedBB(left2, top, -1, left2 + width, top + 11, 1);
+		}
+		glOperationHoverKeysHelpText = "\n\nKey presses manipulate GL operations as follows:\n" + getPointMain("Control + C") + " copy\n" +
+				getPointMain("Control + V") + " paste\n" + getPointMain("Delete") + " delete\n" + getPointMain("Up Arrow") + " move up\n" +
+				getPointMain("Down Arrow") + " move down";
+		glOperationHoverHelpText = "Operations, like this, cause the items of armor piece's moving parts to either rotate (
