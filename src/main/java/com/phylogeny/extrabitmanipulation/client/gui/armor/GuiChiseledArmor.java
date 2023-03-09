@@ -230,4 +230,13 @@ public class GuiChiseledArmor extends GuiContainer
 				"and if the selected moving part of the selected armor piece (indicated by the tabs on the left of the GUI) have any items to render, " +
 				"then the area below will display the list of operations for the selected item in the area to the left.");
 		buttonGlItems.setTextOffsetX(1);
-		buttonGlItems
+		buttonGlItems.selected = true;
+		buttonGlPre = createButtonGlobalGl(100, 239, 11, "Before");
+		buttonGlPost = createButtonGlobalGl(100, 278, 11, "After");
+		int x = 311;
+		String prefix = "The player model will ";
+		buttonFullIlluminationOff = createButtonToggled(x, 140, TEXTURE_ILLUMINATION_OFF, "Standard illumination",
+				prefix + "render with its faces darkened based on rotation, as it does in-world.");
+		buttonFullIlluminationOn = createButtonToggled(x, 154, TEXTURE_ILLUMINATION_ON, "Full illumination",
+				prefix + "render without darkening any of its faces.");
+		String suffix1 = " can be interacted with as follows:\n" + getPointMain("1") + " Translated by right-clicking and dragging.\
