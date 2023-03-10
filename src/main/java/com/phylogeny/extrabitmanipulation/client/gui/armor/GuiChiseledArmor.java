@@ -261,4 +261,12 @@ public class GuiChiseledArmor extends GuiContainer
 		buttonItemDelete = createButtonListInteraction(60, y, TEXTURE_DELETE, "Remove item",
 				"Removes the selected slot from" + text);
 		buttonGlAdd = createButtonListInteraction(107, y, TEXTURE_ADD, "",
-				"Opens a selection screen, where the chosen GL operation is added to the list above, und
+				"Opens a selection screen, where the chosen GL operation is added to the list above, under the selected operation.");
+		buttonGlDelete = createButtonListInteraction(121, y, TEXTURE_DELETE, "",
+				"Removes the selected GL operation from the list above.");
+		text = "Moves the selected GL operation @ in the list above. This is important, as changing the order of operations can have a significant effect." +
+				"\n\n" + getPointExample() + " translating in the x or z axis can result in a translation is any absolute " +
+				"direction, if performed after rotating in the y axis.";
+		buttonGlMoveUp = createButtonListInteraction(144, y, TEXTURE_MOVE_UP, "Move GL operation up",
+				text.replace("@", "up"));
+		bu
