@@ -288,4 +288,22 @@ public class GuiChiseledArmor extends GuiContainer
 		buttonList.add(buttonFullIlluminationOff);
 		buttonList.add(buttonFullIlluminationOn);
 		buttonList.add(buttonPlayerFollowCursor);
-	
+		buttonList.add(buttonPlayerRotate);
+		buttonList.add(buttonScalePixel);
+		buttonList.add(buttonScaleMeter);
+		buttonList.add(buttonItemAdd);
+		buttonList.add(buttonItemDelete);
+		buttonList.add(buttonGlAdd);
+		buttonList.add(buttonGlDelete);
+		buttonList.add(buttonGlMoveUp);
+		buttonList.add(buttonGlMoveDown);
+		buttonList.add(buttonAddRotation);
+		buttonList.add(buttonAddTranslation);
+		buttonList.add(buttonAddScale);
+		buttonList.add(buttonHelp);
+		buttonList.add(buttonScale);
+		emptyGlList = createGuiListGlOperation(null, GlOperationListType.ARMOR_ITEM);
+		for (int i = 0; i < armorPieces.length; i++)
+		{
+			ItemStack stack = getArmorStack(i);
+			if (ItemStackHelper.isChise
