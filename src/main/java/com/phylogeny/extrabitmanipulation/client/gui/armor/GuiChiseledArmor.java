@@ -278,4 +278,14 @@ public class GuiChiseledArmor extends GuiContainer
 		buttonAddTranslation = createButtonAddGlOperation(170, y, TEXTURE_TRANSLATION, 1);
 		buttonAddScale = createButtonAddGlOperation(231, y, TEXTURE_SCALE, 2);
 		buttonHelp = new GuiButtonHelp(100, buttonList, guiLeft + xSize - 41, guiTop + 5, "Show more explanatory hover text", "Exit help mode");
-		buttonScale = new GuiButtonSelect(100, 
+		buttonScale = new GuiButtonSelect(100, guiLeft + 188, guiTop + 127, 17, 12, "", "Armor piece scale", -5111553, -5111553);
+		buttonScale.setTextOffsetX(1);
+		buttonScale.setHoverHelpText("This is the scale of the selected armor piece. Just as all newly imported blocks are scaled by this amount " +
+				"when collecting them in-world, all newly added slots to any of the selected armor pieces' moving parts are likewise scaled by this amount.");
+		buttonList.add(buttonGlItems);
+		buttonList.add(buttonGlPre);
+		buttonList.add(buttonGlPost);
+		buttonList.add(buttonFullIlluminationOff);
+		buttonList.add(buttonFullIlluminationOn);
+		buttonList.add(buttonPlayerFollowCursor);
+	
