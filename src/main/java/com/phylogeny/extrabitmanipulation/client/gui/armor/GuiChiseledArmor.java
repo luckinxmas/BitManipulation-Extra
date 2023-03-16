@@ -269,4 +269,13 @@ public class GuiChiseledArmor extends GuiContainer
 				"direction, if performed after rotating in the y axis.";
 		buttonGlMoveUp = createButtonListInteraction(144, y, TEXTURE_MOVE_UP, "Move GL operation up",
 				text.replace("@", "up"));
-		bu
+		buttonGlMoveDown = createButtonListInteraction(158, y, TEXTURE_MOVE_DOWN, "Move GL operation down",
+				text.replace("@", "down"));
+		buttonGlMoveUp.setRightOffsetX(0.5F, false);
+		buttonGlMoveDown.setRightOffsetX(0.5F, true);
+		y = 50;
+		buttonAddRotation = createButtonAddGlOperation(109, y, TEXTURE_ROTATION, 0);
+		buttonAddTranslation = createButtonAddGlOperation(170, y, TEXTURE_TRANSLATION, 1);
+		buttonAddScale = createButtonAddGlOperation(231, y, TEXTURE_SCALE, 2);
+		buttonHelp = new GuiButtonHelp(100, buttonList, guiLeft + xSize - 41, guiTop + 5, "Show more explanatory hover text", "Exit help mode");
+		buttonScale = new GuiButtonSelect(100, 
