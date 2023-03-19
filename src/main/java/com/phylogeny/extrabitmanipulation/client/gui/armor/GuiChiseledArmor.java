@@ -306,4 +306,12 @@ public class GuiChiseledArmor extends GuiContainer
 		for (int i = 0; i < armorPieces.length; i++)
 		{
 			ItemStack stack = getArmorStack(i);
-			if (ItemStackHelper.isChise
+			if (ItemStackHelper.isChiseledArmorStack(stack))
+				armorPieces[i] = new DataChiseledArmorPiece(ItemStackHelper.getNBTOrNew(stack), ArmorType.values()[i]);
+			
+			ArmorType armorType = ArmorType.values()[i];
+			ItemChiseledArmor armorItem =  stack.getItem() instanceof ItemChiseledArmor ? (ItemChiseledArmor) stack.getItem() : getArmorItem(armorType);
+			GuiButtonTab tab = new GuiButtonTab(i * 4, guiLeft, guiTop + 23 + i * 25, 24, 25,
+					armorType.getName(), true, new ItemStack(armorItem), 19, 230, 0, 512, TEXTURE_GUI);
+			tab.setHoverHelpText("Armor Piece: " + armorType.getName() + "\n\nEach of these 4 tabs represents a worn chiseled armor piece. " +
+					"If a tab is disabled, the 
