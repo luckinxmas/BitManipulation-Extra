@@ -314,4 +314,22 @@ public class GuiChiseledArmor extends GuiContainer
 			GuiButtonTab tab = new GuiButtonTab(i * 4, guiLeft, guiTop + 23 + i * 25, 24, 25,
 					armorType.getName(), true, new ItemStack(armorItem), 19, 230, 0, 512, TEXTURE_GUI);
 			tab.setHoverHelpText("Armor Piece: " + armorType.getName() + "\n\nEach of these 4 tabs represents a worn chiseled armor piece. " +
-					"If a tab is disabled, the 
+					"If a tab is disabled, the corresponding armor slot is either empty or contains a different kind of armor.");
+			DataChiseledArmorPiece armorPiece = armorPieces[i];
+			tab.enabled = armorPiece != null;
+			if (selectedTabIndex < 0 && tab.enabled)
+				selectedTabIndex = i;
+			
+			if (i == selectedTabIndex)
+				tab.selected = true;
+			
+			tabButtons[i][0] = tab;
+			buttonList.add(tab);
+			if (armorPiece == null)
+				continue;
+			
+			ArmorMovingPart[] movingParts = armorItem.MOVING_PARTS;
+			for (int j = 0; j < movingParts.length; j++)
+			{
+				GuiButtonTab tabSub = new GuiButtonTab(i * 4 + j + 1, guiLeft, guiTop + 147 + j * 25, 24, 25,
+						movingParts[j].getName(), true, 19, 230, 0, 
