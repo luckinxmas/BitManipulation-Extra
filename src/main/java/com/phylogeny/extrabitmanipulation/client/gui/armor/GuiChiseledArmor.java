@@ -332,4 +332,20 @@ public class GuiChiseledArmor extends GuiContainer
 			for (int j = 0; j < movingParts.length; j++)
 			{
 				GuiButtonTab tabSub = new GuiButtonTab(i * 4 + j + 1, guiLeft, guiTop + 147 + j * 25, 24, 25,
-						movingParts[j].getName(), true, 19, 230, 0, 
+						movingParts[j].getName(), true, 19, 230, 0, 512, TEXTURE_GUI, movingParts[j].getIconModels(armorItem.getArmorMaterial()));
+				tabSub.setHoverHelpText("Moving Part: " + movingParts[j].getName() + "\n\nEach of these tabs represents a moving part of the armor piece " +
+						"specified by the selected armor piece tab.");
+				if (j + 1 == selectedSubTabIndex)
+					tabSub.selected = true;
+				
+				tabButtons[i][j + 1] = tabSub;
+				buttonList.add(tabSub);
+				for (int k = 0; k < 2; k++)
+				{
+					ModelMovingPart part = movingParts[j].getModelMovingPart();
+					String name, textOverlay;
+					int offsetX;
+					if (k == 0)
+					{
+						name = part.getName();
+						textOve
