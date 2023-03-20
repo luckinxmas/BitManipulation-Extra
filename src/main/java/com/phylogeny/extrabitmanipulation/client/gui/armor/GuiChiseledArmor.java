@@ -429,4 +429,30 @@ public class GuiChiseledArmor extends GuiContainer
 	
 	public static String getPointMain(String point)
 	{
-		return TextFormatting.AQUA + point + Text
+		return TextFormatting.AQUA + point + TextFormatting.RESET;
+	}
+	
+	public static String getPointSub(String point)
+	{
+		return "    " + TextFormatting.GREEN + point + TextFormatting.RESET;
+	}
+	
+	public static String getPointExample()
+	{
+		return TextFormatting.YELLOW + "Ex:" + TextFormatting.RESET;
+	}
+	
+	public static String underlineText(String text)
+	{
+		return TextFormatting.UNDERLINE + text + TextFormatting.RESET;
+	}
+	
+	private ArmorType getArmorSlot(int index)
+	{
+		return ArmorType.values()[index];
+	}
+	
+	private ItemStack getArmorStack(int index)
+	{
+		return ItemStackHelper.getChiseledArmorStack(ClientHelper.getPlayer(), getArmorSlot(index), indexArmorSet);
+	}
