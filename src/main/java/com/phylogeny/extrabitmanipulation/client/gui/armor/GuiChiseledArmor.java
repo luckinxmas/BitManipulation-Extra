@@ -348,4 +348,17 @@ public class GuiChiseledArmor extends GuiContainer
 					if (k == 0)
 					{
 						name = part.getName();
-						textOve
+						textOverlay = "";
+						offsetX = 0;
+					}
+					else
+					{
+						name = part.getOverlayName();
+						textOverlay = " Overlay";
+						offsetX = 14;
+					}
+					GuiButtonTextured checkBox = GuiButtonTextured.createCheckBox(1200 + j + concealmentCheckBoxes[0].length * k, guiLeft + 29 + offsetX, guiTop + 153 + j * 25, 12, 12,
+							"Hide player model " + name);
+					checkBox.setHoverHelpText("Model Moving Part" + textOverlay + ": " + name +
+							"\n\nPrevents the player model's corresponding moving part" + textOverlay.toLowerCase() + " from rendering when the armor piece is worn in a vanity slot.");
+					buttonList.a
