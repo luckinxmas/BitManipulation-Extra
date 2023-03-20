@@ -390,4 +390,23 @@ public class GuiChiseledArmor extends GuiContainer
 			if (i == 0)
 			{
 				tab.displayString = "M";
-				tab.setHoverHelpText(hov
+				tab.setHoverHelpText(hoverText, " ", "The players standard set of armor.");
+			}
+			else
+			{
+				tab.displayString = "V" + i;
+				tab.setHoverHelpText(hoverText, " ", "Armor worn in a vanity slot, which will render " +
+				TextFormatting.BLUE + (i < 2 ? "in place of" : "in addition to") + TextFormatting.WHITE + " the main armor.");
+			}
+			tabButtonsArmorSet[i] = tab;
+			buttonList.add(tab);
+		}
+		updateButtons();
+		refreshLists(false);
+	}
+	
+	private boolean setHasArmor(int indexSet)
+	{
+		for (ArmorType armorType : ArmorType.values())
+		{
+			if (ItemStackHelper.isChiseledArmorStack(ItemStackHelper.getChiseledArmorStack(ClientHelper.getP
