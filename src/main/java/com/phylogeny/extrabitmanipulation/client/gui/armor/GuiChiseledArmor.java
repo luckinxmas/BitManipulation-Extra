@@ -469,4 +469,16 @@ public class GuiChiseledArmor extends GuiContainer
 		return createGuiListGlOperation(armorPiece, type, 0, 0);
 	}
 	
-	private GuiListGlOperation createGuiListGlOperation(@Nullable DataChiseledArmo
+	private GuiListGlOperation createGuiListGlOperation(@Nullable DataChiseledArmorPiece armorPiece,
+			GlOperationListType type, int partIndex, int armorItemIndex)
+	{
+		return type == GlOperationListType.ARMOR_ITEM ? new GuiListGlOperationItem(this, height,
+				guiTop + 24, guiTop + 124, 16, 91, 220, armorPiece, partIndex, armorItemIndex)
+			: new GuiListGlOperationGlobal(this, height, guiTop + 24, guiTop + 124, 16, 91, 220, armorPiece, type == GlOperationListType.GLOBAL_PRE);
+	}
+	
+	private GuiButtonSelectTextured createButtonAddGlOperation(int offsetX, int offsetY, ResourceLocation texture, int titleIndex)
+	{
+		GuiButtonSelectTextured button = createButtonToggled(offsetX, offsetY, 52, 48,
+				GL_OPERATION_TITLES[titleIndex], glOperationHoverHelpText, -38400, -38400, texture);
+		butto
