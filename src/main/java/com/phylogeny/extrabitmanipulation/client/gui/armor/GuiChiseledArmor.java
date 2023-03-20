@@ -456,3 +456,17 @@ public class GuiChiseledArmor extends GuiContainer
 	{
 		return ItemStackHelper.getChiseledArmorStack(ClientHelper.getPlayer(), getArmorSlot(index), indexArmorSet);
 	}
+	
+	private GuiListGlOperation createGuiListGlOperation(DataChiseledArmorPiece armorPiece)
+	{
+		return createGuiListGlOperation(armorPiece, buttonGlItems.selected ? GlOperationListType.ARMOR_ITEM
+				: (buttonGlPre.selected ? GlOperationListType.GLOBAL_PRE : GlOperationListType.GLOBAL_POST),
+				selectedSubTabIndex - 1, getSelectedGuiListArmorItem().getSelectListEntryIndex());
+	}
+	
+	private GuiListGlOperation createGuiListGlOperation(@Nullable DataChiseledArmorPiece armorPiece, GlOperationListType type)
+	{
+		return createGuiListGlOperation(armorPiece, type, 0, 0);
+	}
+	
+	private GuiListGlOperation createGuiListGlOperation(@Nullable DataChiseledArmo
