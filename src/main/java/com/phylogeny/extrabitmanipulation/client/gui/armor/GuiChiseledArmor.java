@@ -374,4 +374,20 @@ public class GuiChiseledArmor extends GuiContainer
 				armorItemLists[i][j] = new GuiListArmorItem(this, height, guiTop + 24, guiTop + 124, 20, 38, 49, armorPiece, j);
 				List<GuiListGlOperation> armorItemGlList = new ArrayList<GuiListGlOperation>();
 				List<ArmorItem> armorItems = armorPiece.getArmorItemsForPart(j);
-				for (int k = 0; k < armorIte
+				for (int k = 0; k < armorItems.size(); k ++)
+					armorItemGlList.add(createGuiListGlOperation(armorPiece, GlOperationListType.ARMOR_ITEM, j, k));
+				
+				armorItemGlLists[i][j] = armorItemGlList;
+			}
+		}
+		for (int i = 0; i < ChiseledArmorSlotsHandler.COUNT_SETS + 1; i++)
+		{
+			String hoverText = i == 0 ? "Main Armor Set" : "Vanity Armor Set " + i;
+			GuiButtonTab tab = new GuiButtonTab(1100 + i, guiLeft + xSize - 24, guiTop + 23 + i * 25, 24, 25,
+					hoverText, false, ItemStack.EMPTY, 183, 230, 3, 512, TEXTURE_GUI);
+			tab.enabled = setHasArmor(i);
+			tab.selected = i == indexArmorSet;
+			if (i == 0)
+			{
+				tab.displayString = "M";
+				tab.setHoverHelpText(hov
