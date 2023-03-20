@@ -409,4 +409,24 @@ public class GuiChiseledArmor extends GuiContainer
 	{
 		for (ArmorType armorType : ArmorType.values())
 		{
-			if (ItemStackHelper.isChiseledArmorStack(ItemStackHelper.getChiseledArmorStack(ClientHelper.getP
+			if (ItemStackHelper.isChiseledArmorStack(ItemStackHelper.getChiseledArmorStack(ClientHelper.getPlayer(), armorType, indexSet)))
+				return true;
+		}
+		return false;
+	}
+	
+	private ItemChiseledArmor getArmorItem(ArmorType armorType)
+	{
+		switch (armorType)
+		{
+			case HELMET:		return (ItemChiseledArmor) ItemsExtraBitManipulation.chiseledHelmetDiamond;
+			case CHESTPLATE:	return (ItemChiseledArmor) ItemsExtraBitManipulation.chiseledChestplateDiamond;
+			case LEGGINGS:		return (ItemChiseledArmor) ItemsExtraBitManipulation.chiseledLeggingsDiamond;
+			case BOOTS:			return (ItemChiseledArmor) ItemsExtraBitManipulation.chiseledBootsDiamond;
+			default:			return null;
+		}
+	}
+	
+	public static String getPointMain(String point)
+	{
+		return TextFormatting.AQUA + point + Text
