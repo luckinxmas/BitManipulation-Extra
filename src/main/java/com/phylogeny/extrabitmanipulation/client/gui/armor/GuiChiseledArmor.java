@@ -514,4 +514,22 @@ public class GuiChiseledArmor extends GuiContainer
 				text.replace("Before", "pre").replace("After", "post") + "-operations will be displayed in the area below.");
 	}
 	
-	private GuiButtonSelect createButtonGl(int id, int offsetX, int offsetY, String text, String hov
+	private GuiButtonSelect createButtonGl(int id, int offsetX, int offsetY, String text, String hoverText, String hoverHelpText)
+	{
+		GuiButtonSelect button = new GuiButtonSelect(id, guiLeft + offsetX, guiTop + offsetY, fontRenderer.getStringWidth(text) + 3,
+				12, text, hoverText, -16726016, 0);
+		button.setHoverHelpText(hoverHelpText);
+		return button;
+	}
+	
+	private GuiListArmorItem getSelectedGuiListArmorItem()
+	{
+		return armorItemLists[selectedTabIndex][selectedSubTabIndex - 1];
+	}
+	
+	private GuiListGlOperation getSelectedGuiListGlOperation()
+	{
+		if (!buttonGlItems.selected)
+			return buttonGlPre.selected ? globalPreGlLists[selectedTabIndex] : globalPostGlLists[selectedTabIndex];
+		
+		List<GuiListGlOperation> list = getSelectedGuiListArmorItemG
