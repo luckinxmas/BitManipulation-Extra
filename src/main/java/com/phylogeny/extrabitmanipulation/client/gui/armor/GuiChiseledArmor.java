@@ -495,4 +495,16 @@ public class GuiChiseledArmor extends GuiContainer
 		return createButtonToggled(offsetX, offsetY, 12, 12, hoverText, hoverText + "\n\n" + hoverHelpText, -16726016, -8882056, texture);
 	}
 	
-	private GuiButtonSelectTextured createButtonToggled(int o
+	private GuiButtonSelectTextured createButtonToggled(int offsetX, int offsetY, int width, int height,
+			String hoverText, String hoverHelpText, int colorSelected, int colorDeselected, ResourceLocation texture)
+	{
+		GuiButtonSelectTextured button = new GuiButtonSelectTextured(100, guiLeft + offsetX,
+				guiTop + offsetY, width, height, "", hoverText, colorSelected, colorDeselected, texture);
+		button.setHoverHelpText(hoverHelpText);
+		return button;
+	}
+	
+	private GuiButtonSelect createButtonGlobalGl(int id, int offsetX, int offsetY, String text)
+	{
+		return createButtonGl(id, offsetX, offsetY, text, "Performed @ each item's GL operations".replace("@", text.toLowerCase()),
+				"Before and after a given item's list of GL operations are per
