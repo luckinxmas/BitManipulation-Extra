@@ -507,4 +507,11 @@ public class GuiChiseledArmor extends GuiContainer
 	private GuiButtonSelect createButtonGlobalGl(int id, int offsetX, int offsetY, String text)
 	{
 		return createButtonGl(id, offsetX, offsetY, text, "Performed @ each item's GL operations".replace("@", text.toLowerCase()),
-				"Before and after a given item's list of GL operations are per
+				"Before and after a given item's list of GL operations are performed, a global list of operations are performed. For each moving part " +
+				"of an armor piece, rendering occurs as follows:\n" + getPointMain("1") + " Perform global pre-operations.\n" + getPointMain("2") + 
+				" For each item:\n" + getPointSub("a") + " Perform the item's operations.\n" + getPointSub("b") + " Perform global post-operations.\n" +
+				getPointSub("c") + " Render the item.\n\nIf this button is selected, the list of global " +
+				text.replace("Before", "pre").replace("After", "post") + "-operations will be displayed in the area below.");
+	}
+	
+	private GuiButtonSelect createButtonGl(int id, int offsetX, int offsetY, String text, String hov
