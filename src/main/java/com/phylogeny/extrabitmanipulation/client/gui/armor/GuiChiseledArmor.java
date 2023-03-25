@@ -575,4 +575,22 @@ public class GuiChiseledArmor extends GuiContainer
 			mouseInitialX = mouseX;
 			mouseInitialY = mouseY;
 		}
-		Triple<Vec3d, Vec3d, Float> triple = GuiHelper.dragObject(clickedMouse
+		Triple<Vec3d, Vec3d, Float> triple = GuiHelper.dragObject(clickedMouseButton, deltaX, deltaY,
+				playerTranslationInitial, playerRotation, playerScale, 5.0F, 2.0F, 3.0F, buttonPlayerRotate.selected);
+		playerTranslation = triple.getLeft();
+		playerRotation = triple.getMiddle();
+		playerScale = triple.getRight();
+	}
+	
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
+	{
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		if (!buttonAddRotation.visible)
+		{
+			getSelectedGuiListArmorItem().mouseClicked(mouseX, mouseY, mouseButton);
+			getSelectedGuiListGlOperation().mouseClicked(mouseX, mouseY, mouseButton);
+		}
+		else
+		{
+			if (!buttonGlAdd.isMouseOver() &&
