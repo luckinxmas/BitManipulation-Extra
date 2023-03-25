@@ -652,4 +652,25 @@ public class GuiChiseledArmor extends GuiContainer
 					drawHoveringText(entry.getElementHoverText(buttonHelp.selected ? glOperationHoverHelpText : null), mouseX, mouseY);
 					break;
 				}
-		
+			}
+		}
+		if (GuiHelper.isCursorInsideBox(boxArmorItem, mouseX, mouseY))
+		{
+			GuiListArmorItem armorItemsList = getSelectedGuiListArmorItem();
+			for (int i = 0; i < armorItemsList.getSize(); i++)
+			{
+				GuiListEntryArmorItem entry = (GuiListEntryArmorItem) armorItemsList.getListEntry(i);
+				if (entry.isSlotHovered())
+				{
+					if (buttonHelp.selected)
+						drawHoveringText(getArmoritemSlotHoverhelpText("These slots"), mouseX, mouseY);
+					else if (entry.getStack() != null)
+						renderToolTip(entry.getStack(), mouseX, mouseY);
+					
+					break;
+				}
+			}
+		}
+		if (buttonHelp.selected)
+		{
+			if (GuiHelper.isCu
