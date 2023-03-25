@@ -635,4 +635,21 @@ public class GuiChiseledArmor extends GuiContainer
 		{
 			if (buttonAddRotation.visible && buttonHelp.selected
 					&& (buttonAddRotation.isMouseOver() || buttonAddTranslation.isMouseOver() || buttonAddScale.isMouseOver()))
-				drawHov
+				drawHoveringText(buttonAddRotation.getHoverText(), mouseX, mouseY);
+			
+			return;
+		}
+		renderHoveredToolTip(mouseX, mouseY);
+		GuiHelper.drawHoveringTextForButtons(this, buttonList, mouseX, mouseY);
+		GuiListGlOperation glOperationsList = getSelectedGuiListGlOperation();
+		if (GuiHelper.isCursorInsideBox(boxGlOperation, mouseX, mouseY))
+		{
+			for (int i = 0; i < glOperationsList.getSize(); i++)
+			{
+				GuiListEntryGlOperation entry = (GuiListEntryGlOperation) glOperationsList.getListEntry(i);
+				if (entry.isElementHovered(buttonHelp.selected))
+				{
+					drawHoveringText(entry.getElementHoverText(buttonHelp.selected ? glOperationHoverHelpText : null), mouseX, mouseY);
+					break;
+				}
+		
