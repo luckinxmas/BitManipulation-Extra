@@ -611,4 +611,28 @@ public class GuiChiseledArmor extends GuiContainer
 		super.mouseReleased(mouseX, mouseY, state);
 		if (!buttonAddRotation.visible)
 		{
-			getSelectedGuiListArmorItem().mouseReleased(mouse
+			getSelectedGuiListArmorItem().mouseReleased(mouseX, mouseY, state);
+			getSelectedGuiListGlOperation().mouseReleased(mouseX, mouseY, state);
+		}
+		mouseInitialX = 0;
+		mouseInitialY = 0;
+		playerBoxClicked = false;
+	}
+	
+	@Override
+	public void updateScreen()
+	{
+		super.updateScreen();
+		getSelectedGuiListGlOperation().updateScreen();
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	{
+		drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		if (playerBoxClicked || buttonAddRotation.visible)
+		{
+			if (buttonAddRotation.visible && buttonHelp.selected
+					&& (buttonAddRotation.isMouseOver() || buttonAddTranslation.isMouseOver() || buttonAddScale.isMouseOver()))
+				drawHov
