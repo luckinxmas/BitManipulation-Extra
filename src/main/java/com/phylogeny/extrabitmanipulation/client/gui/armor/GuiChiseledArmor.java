@@ -593,4 +593,22 @@ public class GuiChiseledArmor extends GuiContainer
 		}
 		else
 		{
-			if (!buttonGlAdd.isMouseOver() &&
+			if (!buttonGlAdd.isMouseOver() && (!GuiHelper.isCursorInsideBox(boxGlOperation, mouseX, mouseY)
+					|| buttonAddRotation.isMouseOver() || buttonAddTranslation.isMouseOver() || buttonAddScale.isMouseOver()))
+			{
+				hideAddGlButtons();
+			}
+		}
+		playerBoxClicked = GuiHelper.isCursorInsideBox(boxPlayer, mouseX, mouseY);
+		mouseInitialX = mouseX;
+		mouseInitialY = mouseY;
+		playerTranslationInitial = new Vec3d(playerTranslation.x, playerTranslation.y, 0);
+	}
+	
+	@Override
+	protected void mouseReleased(int mouseX, int mouseY, int state)
+	{
+		super.mouseReleased(mouseX, mouseY, state);
+		if (!buttonAddRotation.visible)
+		{
+			getSelectedGuiListArmorItem().mouseReleased(mouse
