@@ -532,4 +532,28 @@ public class GuiChiseledArmor extends GuiContainer
 		if (!buttonGlItems.selected)
 			return buttonGlPre.selected ? globalPreGlLists[selectedTabIndex] : globalPostGlLists[selectedTabIndex];
 		
-		List<GuiListGlOperation> list = getSelectedGuiListArmorItemG
+		List<GuiListGlOperation> list = getSelectedGuiListArmorItemGlOperations();
+		int index = getSelectedGuiListArmorItem().getSelectListEntryIndex();
+		return index < list.size() ? list.get(index) : emptyGlList;
+	}
+	
+	private List<GuiListGlOperation> getSelectedGuiListArmorItemGlOperations()
+	{
+		return armorItemGlLists[selectedTabIndex][selectedSubTabIndex - 1];
+	}
+	
+	public boolean scalePixel()
+	{
+		return buttonScalePixel.selected;
+	}
+	
+	@Override
+	public void handleMouseInput() throws IOException
+	{
+		super.handleMouseInput();
+		if (!playerBoxClicked && !buttonAddRotation.visible)
+		{
+			getSelectedGuiListArmorItem().handleMouseInput();
+			getSelectedGuiListGlOperation().handleMouseInput();
+		}
+		Pair<Vec3d, Float> pair = Gui
