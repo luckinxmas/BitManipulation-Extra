@@ -673,4 +673,10 @@ public class GuiChiseledArmor extends GuiContainer
 		}
 		if (buttonHelp.selected)
 		{
-			if (GuiHelper.isCu
+			if (GuiHelper.isCursorInsideBox(boxTitleItems, mouseX, mouseY))
+				drawHoveringText(getArmoritemSlotHoverhelpText("The slots of the list below"), mouseX, mouseY);
+			else if (GuiHelper.isCursorInsideBox(boxTitleGlOperations, mouseX, mouseY))
+				drawHoveringText("The rendered items for the moving parts of armor pieces can have any number of GL operations applied " +
+					"to them. The three types are rotation, translation, and scale.\n\nGlobal pre/post-operations apply to all items of an armor piece, " +
+					"while item-specific operations only apply to a single item.\n\nFor more information on these three categories refer to the hover " +
+					"text of the corresponding buttons to the right." + glOperationHoverKeysHelpText, mou
