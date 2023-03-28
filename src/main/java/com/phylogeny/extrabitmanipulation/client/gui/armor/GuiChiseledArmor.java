@@ -679,4 +679,21 @@ public class GuiChiseledArmor extends GuiContainer
 				drawHoveringText("The rendered items for the moving parts of armor pieces can have any number of GL operations applied " +
 					"to them. The three types are rotation, translation, and scale.\n\nGlobal pre/post-operations apply to all items of an armor piece, " +
 					"while item-specific operations only apply to a single item.\n\nFor more information on these three categories refer to the hover " +
-					"text of the corresponding buttons to the right." + glOperationHoverKeysHelpText, mou
+					"text of the corresponding buttons to the right." + glOperationHoverKeysHelpText, mouseX, mouseY);
+			
+			for (int i = 0; i < boxesData.length; i++)
+			{
+				if (GuiHelper.isCursorInsideBox(boxesData[i], mouseX, mouseY))
+				{
+					drawHoveringText(GL_OPERATION_DATA_TITLES[i] + " of the GL operations below", mouseX, mouseY);
+					break;
+				}
+			}
+		}
+	}
+	
+	private String getArmoritemSlotHoverhelpText(String prefix)
+	{
+		return prefix + " contain items of the selected moving part of the selected armor piece (" +
+				"currently, the " + ((ItemChiseledArmor) getArmorStack(selectedTabIndex).getItem()).MOVING_PARTS[selectedSubTabIndex - 1].getName() +
+				" of the " + ArmorType.values()[selectedTabIndex].getName
