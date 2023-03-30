@@ -705,4 +705,19 @@ public class GuiChiseledArmor extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		fontRenderer.drawString("Items", 4
+		fontRenderer.drawString("Items", 43, 13, 4210752);
+		fontRenderer.drawString("GL Operations", 96, 13, 4210752);
+		GuiListArmorItem armorItemsList = getSelectedGuiListArmorItem();
+		GuiListGlOperation glOperationsList = getSelectedGuiListGlOperation();
+		glOperationsList.setDrawEntries(!buttonAddRotation.visible);
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(-guiLeft, -guiTop, 0);
+		armorItemsList.drawScreen(mouseX, mouseY);
+		glOperationsList.drawScreen(mouseX, mouseY);
+		GlStateManager.popMatrix();
+		if (buttonAddRotation.visible)
+		{
+			int y = 103;
+			fontRenderer.drawString(GL_OPERATION_TITLES[2], 244, y, 4210752);
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(-0.5, 0,
