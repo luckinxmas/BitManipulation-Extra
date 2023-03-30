@@ -696,4 +696,13 @@ public class GuiChiseledArmor extends GuiContainer
 	{
 		return prefix + " contain items of the selected moving part of the selected armor piece (" +
 				"currently, the " + ((ItemChiseledArmor) getArmorStack(selectedTabIndex).getItem()).MOVING_PARTS[selectedSubTabIndex - 1].getName() +
-				" of the " + ArmorType.values()[selectedTabIndex].getName
+				" of the " + ArmorType.values()[selectedTabIndex].getName() + ")\n\nSlots can be interacted with as follows:\n" + getPointMain("1") +
+				" Click with an item on the cursor to add a copy of that item.\n" + getPointMain("2") + " Shift-click to clear the copied item.\n" +
+				getPointMain("3") + " Middle mouse click in creative mode to get item.\n\nKey presses manipulate slots (along with any associated " +
+				"GL operations) as follows:\n" + getPointMain("Control + C") + " copy\n" + getPointMain("Control + V") + " paste\n" + getPointMain("Delete") + " delete\n";
+	}
+	
+	@Override
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+	{
+		fontRenderer.drawString("Items", 4
