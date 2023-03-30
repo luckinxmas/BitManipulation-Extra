@@ -720,4 +720,26 @@ public class GuiChiseledArmor extends GuiContainer
 			int y = 103;
 			fontRenderer.drawString(GL_OPERATION_TITLES[2], 244, y, 4210752);
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(-0.5, 0,
+			GlStateManager.translate(-0.5, 0, 0);
+			fontRenderer.drawString(GL_OPERATION_TITLES[0], 116, y, 4210752);
+			fontRenderer.drawString(GL_OPERATION_TITLES[1], 168, y, 4210752);
+			GlStateManager.popMatrix();
+		}
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(-guiLeft, -guiTop, 0);
+		for (int i = 0; i < tabButtons.length; i++)
+		{
+			for (int j = 0; j < tabButtons[0].length; j++)
+			{
+				GuiButtonTab tab = tabButtons[i][j];
+				if (tab != null && tab.visible)
+					tab.renderIconStack();
+			}
+		}
+		if (buttonHelp.selected)
+		{
+			for (GuiButtonTextured[][] checkBoxes : concealmentCheckBoxes)
+			{
+				for (int i = 0; i < checkBoxes.length; i++)
+				{
+					GuiButtonTextured[] checkBoxs
