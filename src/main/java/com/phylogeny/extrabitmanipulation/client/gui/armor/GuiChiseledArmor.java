@@ -742,4 +742,20 @@ public class GuiChiseledArmor extends GuiContainer
 			{
 				for (int i = 0; i < checkBoxes.length; i++)
 				{
-					GuiButtonTextured[] checkBoxs
+					GuiButtonTextured[] checkBoxs2 = checkBoxes[i];
+					for (int j = 0; j < checkBoxs2.length; j++)
+					{
+						GuiButtonTextured checkBox = checkBoxs2[j];
+						if (checkBox != null && checkBox.visible)
+							drawRect(checkBox.x - (j == 1 || i == selectedSubTabIndex - 1 ? 4 : 2), checkBox.y - 1, checkBox.x + checkBox.width + (j == 0 ? -2 : 1), checkBox.y + checkBox.height + 3, HELP_TEXT_BACKGROUNG_COLOR);
+					}
+				}
+			}
+		}
+		GlStateManager.popMatrix();
+		glScissorBox(boxArmorItem);
+		int x, y;
+		for (int i = 0; i < armorItemsList.getSize(); i++)
+		{
+			ItemStack stack = ((GuiListEntryArmorItem) armorItemsList.getListEntry(i)).getStack();
+			if (stack.isEmpty(
