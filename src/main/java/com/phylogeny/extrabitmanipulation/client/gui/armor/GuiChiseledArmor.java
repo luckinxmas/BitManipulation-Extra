@@ -809,4 +809,16 @@ public class GuiChiseledArmor extends GuiContainer
 		drawEntityOnScreen(40, lookX, lookY, mc.player);
 		GuiHelper.glScissorDisable();
 		GlStateManager.popMatrix();
-		if (bu
+		if (buttonHelp.selected)
+		{
+			drawRect((int) boxTitleItems.minX, (int) boxTitleItems.minY, (int) boxTitleItems.maxX, (int) boxTitleItems.maxY, HELP_TEXT_BACKGROUNG_COLOR);
+			drawRect((int) boxTitleGlOperations.minX, (int) boxTitleGlOperations.minY,
+					(int) boxTitleGlOperations.maxX, (int) boxTitleGlOperations.maxY, HELP_TEXT_BACKGROUNG_COLOR);
+			for (AxisAlignedBB box : boxesData)
+				drawRect((int) box.minX, (int) box.minY, (int) box.maxX, (int) box.maxY, HELP_TEXT_BACKGROUNG_COLOR);
+		}
+	}
+	
+	private void glScissorBox(AxisAlignedBB box)
+	{
+		GuiHelper.glScissor((int) box.minX, (int) box.minY, (int) (box.maxX - box.minX), (int) (box.maxY - b
