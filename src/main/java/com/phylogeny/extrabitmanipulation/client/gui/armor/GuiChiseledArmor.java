@@ -791,4 +791,22 @@ public class GuiChiseledArmor extends GuiContainer
 		int y = j + 216;
 		GlStateManager.translate(x, y, 0);
 		GlStateManager.scale(playerScale, playerScale, playerScale);
-		GlStateManager.translate(playerTranslation.x * (1 / playerScale), (float) (playerTrans
+		GlStateManager.translate(playerTranslation.x * (1 / playerScale), (float) (playerTranslation.y + 3) * (1 / playerScale), 150);
+		if(!buttonPlayerFollowCursor.selected)
+		{
+			GlStateManager.translate(0, -PLAYER_HEIGHT_HALF, 0);
+			GlStateManager.rotate((float) -playerRotation.x, 1, 0, 0);
+			GlStateManager.rotate((float) playerRotation.y, 0, 1, 0);
+			GlStateManager.translate(0, PLAYER_HEIGHT_HALF, 0);
+		}
+		float lookX = 0;
+		float lookY = 0;
+		if (buttonPlayerFollowCursor.selected)
+		{
+			lookX = x - mouseX + (float) playerTranslation.x;
+			lookY = y - mouseY + (float) playerTranslation.y - PLAYER_HEIGHT_EYES * playerScale + 3;
+		}
+		drawEntityOnScreen(40, lookX, lookY, mc.player);
+		GuiHelper.glScissorDisable();
+		GlStateManager.popMatrix();
+		if (bu
