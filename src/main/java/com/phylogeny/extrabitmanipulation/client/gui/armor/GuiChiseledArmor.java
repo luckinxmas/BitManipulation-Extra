@@ -852,4 +852,23 @@ public class GuiChiseledArmor extends GuiContainer
 		rendermanager.setRenderShadow(false);
 		rendermanager.doRenderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
 		rendermanager.setRenderShadow(true);
-		entit
+		entity.renderYawOffset = f;
+		entity.rotationYaw = f1;
+		entity.rotationPitch = f2;
+		entity.prevRotationYawHead = f3;
+		entity.rotationYawHead = f4;
+		GlStateManager.popMatrix();
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+		GlStateManager.disableTexture2D();
+		GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
+	}
+	
+	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException
+	{
+		boolean cDown = Keyboard.isKeyDown(Keyboard.KEY_C);
+		if (buttonAddRotation.visible)
+		{
+			if (keyCode == Keyboard.KEY_ESCAPE || this.mc.gameSettings.keyBi
