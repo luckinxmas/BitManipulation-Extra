@@ -840,4 +840,16 @@ public class GuiChiseledArmor extends GuiContainer
 		if (buttonFullIlluminationOn.selected)
 			GlStateManager.disableLighting();
 		
-		GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0
+		GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate((float) -Math.atan(lookY / 40.0F) * 20.0F, 1.0F, 0.0F, 0.0F);
+		entity.renderYawOffset = (float) Math.atan(lookX / 40.0F) * 20.0F;
+		entity.rotationYaw = (float) Math.atan(lookX / 40.0F) * 40.0F;
+		entity.rotationPitch = (float) -Math.atan(lookY / 40.0F) * 20.0F;
+		entity.rotationYawHead = entity.rotationYaw;
+		entity.prevRotationYawHead = entity.rotationYaw;
+		RenderManager rendermanager = ClientHelper.getRenderManager();
+		rendermanager.setPlayerViewY(180.0F);
+		rendermanager.setRenderShadow(false);
+		rendermanager.doRenderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
+		rendermanager.setRenderShadow(true);
+		entit
