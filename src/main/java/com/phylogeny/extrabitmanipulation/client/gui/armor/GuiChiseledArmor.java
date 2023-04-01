@@ -771,4 +771,24 @@ public class GuiChiseledArmor extends GuiContainer
 			GlStateManager.enableDepth();
 			itemRender.renderItemAndEffectIntoGUI(mc.player, stack, x, y);
 			itemRender.renderItemOverlayIntoGUI(fontRenderer, stack, x, y, null);
-			itemRender.zLevel = 0.0
+			itemRender.zLevel = 0.0F;
+			zLevel = 0.0F;
+		}
+		GuiHelper.glScissorDisable();
+	}
+	
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+	{
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		ClientHelper.bindTexture(TEXTURE_GUI);
+		int i = (width - xSize) / 2;
+		int j = (height - ySize) / 2;
+		drawModalRectWithCustomSizedTexture(i + 24, j, 0, 0, xSize, ySize, 512, 512);
+		GlStateManager.pushMatrix();
+		glScissorBox(boxPlayer);
+		int x = i + 266;
+		int y = j + 216;
+		GlStateManager.translate(x, y, 0);
+		GlStateManager.scale(playerScale, playerScale, playerScale);
+		GlStateManager.translate(playerTranslation.x * (1 / playerScale), (float) (playerTrans
