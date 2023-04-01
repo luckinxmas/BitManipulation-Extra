@@ -821,4 +821,23 @@ public class GuiChiseledArmor extends GuiContainer
 	
 	private void glScissorBox(AxisAlignedBB box)
 	{
-		GuiHelper.glScissor((int) box.minX, (int) box.minY, (int) (box.maxX - box.minX), (int) (box.maxY - b
+		GuiHelper.glScissor((int) box.minX, (int) box.minY, (int) (box.maxX - box.minX), (int) (box.maxY - box.minY));
+	}
+	
+	private void drawEntityOnScreen(int scale, float lookX, float lookY, EntityLivingBase entity)
+	{
+		GlStateManager.enableColorMaterial();
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(-scale, scale, scale);
+		GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+		float f = entity.renderYawOffset;
+		float f1 = entity.rotationYaw;
+		float f2 = entity.rotationPitch;
+		float f3 = entity.prevRotationYawHead;
+		float f4 = entity.rotationYawHead;
+		GlStateManager.rotate(135.0F, 0.0F, 1.0F, 0.0F);
+		RenderHelper.enableStandardItemLighting();
+		if (buttonFullIlluminationOn.selected)
+			GlStateManager.disableLighting();
+		
+		GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0
