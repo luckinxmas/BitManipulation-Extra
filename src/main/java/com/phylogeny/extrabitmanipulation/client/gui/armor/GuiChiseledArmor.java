@@ -871,4 +871,19 @@ public class GuiChiseledArmor extends GuiContainer
 		boolean cDown = Keyboard.isKeyDown(Keyboard.KEY_C);
 		if (buttonAddRotation.visible)
 		{
-			if (keyCode == Keyboard.KEY_ESCAPE || this.mc.gameSettings.keyBi
+			if (keyCode == Keyboard.KEY_ESCAPE || this.mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode))
+				hideAddGlButtons();
+		}
+		else if (!isCtrlKeyDown() && (cDown || Keyboard.isKeyDown(Keyboard.KEY_R)))
+		{
+			if (!cDown)
+				resetRotationAndScale();
+			
+			playerTranslation = new Vec3d(0, -PLAYER_HEIGHT_HALF + PLAYER_HEIGHT_HALF * playerScale, 0);
+		}
+		else
+		{
+			ScaledResolution scaledresolution = new ScaledResolution(mc);
+			int mouseX = Mouse.getX() * scaledresolution.getScaledWidth() / mc.displayWidth;
+			int mouseY = scaledresolution.getScaledHeight() - Mouse.getY() * scaledresolution.getScaledHeight() /mc.displayHeight - 1;
+			boolean af
