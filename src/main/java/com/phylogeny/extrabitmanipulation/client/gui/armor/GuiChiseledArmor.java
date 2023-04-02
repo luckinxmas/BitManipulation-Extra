@@ -886,4 +886,16 @@ public class GuiChiseledArmor extends GuiContainer
 			ScaledResolution scaledresolution = new ScaledResolution(mc);
 			int mouseX = Mouse.getX() * scaledresolution.getScaledWidth() / mc.displayWidth;
 			int mouseY = scaledresolution.getScaledHeight() - Mouse.getY() * scaledresolution.getScaledHeight() /mc.displayHeight - 1;
-			boolean af
+			boolean affectGlOperationsList = GuiHelper.isCursorInsideBox(boxGlOperation, mouseX, mouseY);
+			if (affectGlOperationsList && fieldIsFocused(getSelectedGuiListGlOperation()))
+			{
+				getSelectedGuiListGlOperation().keyTyped(typedChar, keyCode);
+				super.keyTyped(typedChar, keyCode);
+				return;
+			}
+			if (!waitingForServerResponse && affectGlOperationsList && (Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_DOWN)))
+			{
+				moveGlOperationInList(Keyboard.isKeyDown(Keyboard.KEY_UP));
+			}
+			else if (!waitingForServerResponse && (affectGlOperationsList || GuiHelper.isCursorInsideBox(boxArmorItem, mouseX, mouseY))
+					&& (Keyboard.isKeyDown(Keyboa
