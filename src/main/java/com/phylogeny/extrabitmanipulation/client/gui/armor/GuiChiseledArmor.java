@@ -898,4 +898,21 @@ public class GuiChiseledArmor extends GuiContainer
 				moveGlOperationInList(Keyboard.isKeyDown(Keyboard.KEY_UP));
 			}
 			else if (!waitingForServerResponse && (affectGlOperationsList || GuiHelper.isCursorInsideBox(boxArmorItem, mouseX, mouseY))
-					&& (Keyboard.isKeyDown(Keyboa
+					&& (Keyboard.isKeyDown(Keyboard.KEY_DELETE) || isCtrlKeyDown() && (cDown || Keyboard.isKeyDown(Keyboard.KEY_V))))
+			{
+				GuiListChiseledArmor list = affectGlOperationsList ? getSelectedGuiListGlOperation() : getSelectedGuiListArmorItem();
+				if (cDown)
+				{
+					if (affectGlOperationsList)
+					{
+						GuiListEntryChiseledArmor entry = list.getSelectedListEntry();
+						if (entry != null)
+						{
+							copiedGlOperation = new NBTTagCompound();
+							((GlOperation) entry.entryObject).saveToNBT(copiedGlOperation);
+						}
+					}
+					else
+					{
+						GuiListEntryChiseledArmor<ArmorItem> entry = list.getSelectedListEntry();
+						if (entry != 
