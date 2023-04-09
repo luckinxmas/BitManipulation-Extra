@@ -1076,4 +1076,23 @@ public class GuiChiseledArmor extends GuiContainer
 			else
 				button.enabled = false;
 		}
-		else if (button.id >
+		else if (button.id >= 1200 && button.id < 1200 + concealmentCheckBoxes[0].length * 2)
+		{
+			GuiButtonTextured checkBox = ((GuiButtonTextured) button);
+			int partIndex = button.id - 1200;
+			int len = concealmentCheckBoxes[0].length;
+			ExtraBitManipulation.packetNetwork.sendToServer(new PacketSetModelPartConcealed(getArmorSlot(selectedTabIndex),
+					indexArmorSet, getModelMovingPart(partIndex % len), partIndex / len == 1, checkBox.selected));
+			checkBox.selected ^= true;
+		}
+		else
+		{
+			super.actionPerformed(button);
+		}
+	}
+	
+	private void removeGlOperationFromListOrEnterAddSelection(boolean add)
+	{
+		if ((!buttonGlItems.selected || getSelectedGuiListArmorItem().getSize() > 0))
+		{
+			GuiListGlOperation lis
