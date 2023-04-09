@@ -915,4 +915,25 @@ public class GuiChiseledArmor extends GuiContainer
 					else
 					{
 						GuiListEntryChiseledArmor<ArmorItem> entry = list.getSelectedListEntry();
-						if (entry != 
+						if (entry != null)
+						{
+							copiedArmorItem = entry.entryObject.getStack().copy();
+							copiedArmorItemGlOperations = new NBTTagCompound();
+							GlOperation.saveListToNBT(copiedArmorItemGlOperations, NBTKeys.ARMOR_GL_OPERATIONS, entry.entryObject.getGlOperations());
+						}
+					}
+				}
+				else
+				{
+					if (Keyboard.isKeyDown(Keyboard.KEY_V))
+					{
+						if (!affectGlOperationsList)
+							addOrRemoveArmorItemListData((GuiListArmorItem) list, list.getSize(), true);
+						else if (copiedGlOperation != null)
+							addGlOperationToList(new GlOperation(copiedGlOperation));
+					}
+					else
+					{
+						if (affectGlOperationsList)
+						{
+		
