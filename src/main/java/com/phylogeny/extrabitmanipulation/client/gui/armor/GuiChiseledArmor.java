@@ -1059,4 +1059,21 @@ public class GuiChiseledArmor extends GuiContainer
 		{
 			moveGlOperationInList(button == buttonGlMoveUp);
 		}
-		else if (button ==
+		else if (button == buttonScale)
+		{
+			BitToolSettingsHelper.setArmorScale(mc.player, getArmorStack(selectedTabIndex),
+				(Integer.parseInt(buttonScale.displayString.substring(2)) / 2 + 1) % 3, Configs.armorScale, getArmorSlot(selectedTabIndex), indexArmorSet);
+			updateButtons();
+		}
+		else if (button.id >= 1100 && button.id <= 1100 + ChiseledArmorSlotsHandler.COUNT_TYPES)
+		{
+			int index = button.id - 1100;
+			if (ChiseledArmorSlotsHandler.setHasArmor(index))
+			{
+				BitToolSettingsHelper.setArmorSetTabIndex(index);
+				ExtraBitManipulation.packetNetwork.sendToServer(new PacketOpenChiseledArmorGui());
+			}
+			else
+				button.enabled = false;
+		}
+		else if (button.id >
