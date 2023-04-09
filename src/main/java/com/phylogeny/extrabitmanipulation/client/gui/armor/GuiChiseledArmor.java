@@ -959,4 +959,33 @@ public class GuiChiseledArmor extends GuiContainer
 	private boolean fieldIsFocused(GuiListChiseledArmor list)
 	{
 		for (int i = 0; i < list.getSize(); i++)
+		{
+			if (((GuiListEntryGlOperation) list.getListEntry(i)).fieldIsFocused())
+				return true;
+		}
+		return false;
+	}
 	
+	private boolean hideAddGlButtons()
+	{
+		return buttonAddRotation.visible = buttonAddTranslation.visible = buttonAddScale.visible = false;
+	}
+	
+	@Override
+	protected void handleMouseClick(Slot slot, int slotId, int mouseButton, ClickType type)
+	{
+		if (type != ClickType.PICKUP_ALL)
+			super.handleMouseClick(slot, slotId, mouseButton, type);
+	}
+	
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException
+	{
+		if (waitingForServerResponse)
+		{
+			super.actionPerformed(button);
+			return;
+		}
+		if (buttonAddRotation.visible)
+		{
+			if 
