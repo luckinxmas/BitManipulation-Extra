@@ -988,4 +988,19 @@ public class GuiChiseledArmor extends GuiContainer
 		}
 		if (buttonAddRotation.visible)
 		{
-			if 
+			if (button == buttonAddRotation || button == buttonAddTranslation || button == buttonAddScale)
+				addGlOperationToList(button == buttonAddRotation ? new GlOperation(GlOperationType.ROTATION)
+						: (button == buttonAddTranslation ? new GlOperation(GlOperationType.TRANSLATION) : new GlOperation(GlOperationType.SCALE, 1, 1, 1)));
+			
+			return;
+		}
+		if (button.id < 16)
+		{
+			int indexTab = button.id / 4;
+			int indexSubTab = button.id % 4;
+			GuiButtonTab buttonTab = tabButtons[indexTab][indexSubTab];
+			if (!buttonTab.selected)
+			{
+				selectedTabIndex = indexTab;
+				selectedSubTabIndex = indexSubTab == 0 ? 1 : indexSubTab;
+	
