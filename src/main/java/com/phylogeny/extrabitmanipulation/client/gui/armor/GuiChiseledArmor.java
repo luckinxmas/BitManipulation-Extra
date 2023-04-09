@@ -1003,4 +1003,21 @@ public class GuiChiseledArmor extends GuiContainer
 			{
 				selectedTabIndex = indexTab;
 				selectedSubTabIndex = indexSubTab == 0 ? 1 : indexSubTab;
-	
+				if (indexSubTab != 0)
+				{
+					ItemStack stack = getArmorStack(indexTab);
+					BitToolSettingsHelper.setArmorMovingPart(mc.player, stack, indexSubTab - 1,
+							BitToolSettingsHelper.getArmorMovingPartConfig(((ItemChiseledArmor) stack.getItem()).armorType),
+							getArmorSlot(indexTab), indexArmorSet);
+				}
+			}
+			updateButtons();
+		}
+		else if (button == buttonGlItems || button == buttonGlPre || button == buttonGlPost)
+		{
+			buttonGlItems.selected = button == buttonGlItems;
+			buttonGlPre.selected = button == buttonGlPre;
+			buttonGlPost.selected = button == buttonGlPost;
+			updateButtons();
+		}
+		else if (button == buttonScalePixel || button == buttonScale
