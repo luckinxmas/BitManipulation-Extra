@@ -1039,4 +1039,24 @@ public class GuiChiseledArmor extends GuiContainer
 		else if (button == buttonItemAdd || button == buttonItemDelete)
 		{
 			GuiListArmorItem list = getSelectedGuiListArmorItem();
-			if (button == buttonItemA
+			if (button == buttonItemAdd)
+			{
+				addOrRemoveArmorItemListData(list, list.getSize(), button);
+			}
+			else
+			{
+				GuiListEntryChiseledArmor<ArmorItem> entry = getSelectedGuiListArmorItem().getSelectedListEntry();
+				int index = list.getSelectListEntryIndex();
+				if (entry != null)
+					addOrRemoveArmorItemListData(list, index != 0 && index == list.getSize() - 1 ? index - 1 : -1, button);
+			}
+		}
+		else if ((button == buttonGlAdd || button == buttonGlDelete))
+		{
+			removeGlOperationFromListOrEnterAddSelection(button == buttonGlAdd);
+		}
+		else if ((button == buttonGlMoveUp || button == buttonGlMoveDown))
+		{
+			moveGlOperationInList(button == buttonGlMoveUp);
+		}
+		else if (button ==
