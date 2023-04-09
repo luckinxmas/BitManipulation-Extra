@@ -1020,4 +1020,23 @@ public class GuiChiseledArmor extends GuiContainer
 			buttonGlPost.selected = button == buttonGlPost;
 			updateButtons();
 		}
-		else if (button == buttonScalePixel || button == buttonScale
+		else if (button == buttonScalePixel || button == buttonScaleMeter)
+		{
+			BitToolSettingsHelper.setArmorPixelTranslation(button == buttonScalePixel);
+			updateButtons();
+			refreshLists(true);
+		}
+		else if (button == buttonFullIlluminationOff || button == buttonFullIlluminationOn)
+		{
+			BitToolSettingsHelper.setArmorFullIllumination(button == buttonFullIlluminationOn);
+			updateButtons();
+		}
+		else if (button == buttonPlayerFollowCursor || button == buttonPlayerRotate)
+		{
+			BitToolSettingsHelper.setArmorLookAtCursor(button == buttonPlayerFollowCursor);
+			updateButtons();
+		}
+		else if (button == buttonItemAdd || button == buttonItemDelete)
+		{
+			GuiListArmorItem list = getSelectedGuiListArmorItem();
+			if (button == buttonItemA
