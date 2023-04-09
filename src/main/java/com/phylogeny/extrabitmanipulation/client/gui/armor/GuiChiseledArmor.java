@@ -936,4 +936,27 @@ public class GuiChiseledArmor extends GuiContainer
 					{
 						if (affectGlOperationsList)
 						{
-		
+							removeGlOperationFromListOrEnterAddSelection(false);
+						}
+						else
+						{
+							GuiListEntryChiseledArmor<ArmorItem> entry = getSelectedGuiListArmorItem().getSelectedListEntry();
+							int index = list.getSelectListEntryIndex();
+							if (entry != null)
+								addOrRemoveArmorItemListData((GuiListArmorItem) list, index != 0 && index == list.getSize() - 1 ? index - 1 : -1, false);
+						}
+					}
+				}
+			}
+			else
+			{
+				getSelectedGuiListGlOperation().keyTyped(typedChar, keyCode);
+				super.keyTyped(typedChar, keyCode);
+			}
+		}
+	}
+	
+	private boolean fieldIsFocused(GuiListChiseledArmor list)
+	{
+		for (int i = 0; i < list.getSize(); i++)
+	
