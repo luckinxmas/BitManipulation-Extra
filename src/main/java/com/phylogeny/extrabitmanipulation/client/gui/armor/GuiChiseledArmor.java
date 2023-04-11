@@ -1095,4 +1095,23 @@ public class GuiChiseledArmor extends GuiContainer
 	{
 		if ((!buttonGlItems.selected || getSelectedGuiListArmorItem().getSize() > 0))
 		{
-			GuiListGlOperation lis
+			GuiListGlOperation list = getSelectedGuiListGlOperation();
+			if (add)
+			{
+				buttonAddRotation.visible = buttonAddTranslation.visible = buttonAddScale.visible = true;
+			}
+			else if (list.getSize() > 0)
+			{
+				int index = list.getSelectListEntryIndex();
+				setGlOperationListData(list.removeGlOperation(index), index != 0 && index == list.getSize() - 1 ? index - 1 : -1, true);
+			}
+		}
+	}
+	
+	private void addGlOperationToList(GlOperation glOperation)
+	{
+		if (getSelectedGuiListGlOperation().equals(emptyGlList))
+		{
+			List<GuiListGlOperation> list = getSelectedGuiListArmorItemGlOperations();
+			int index = getSelectedGuiListArmorItem().getSelectListEntryIndex();
+			while (index
