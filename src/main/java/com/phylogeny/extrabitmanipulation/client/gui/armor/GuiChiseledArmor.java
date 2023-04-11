@@ -1114,4 +1114,19 @@ public class GuiChiseledArmor extends GuiContainer
 		{
 			List<GuiListGlOperation> list = getSelectedGuiListArmorItemGlOperations();
 			int index = getSelectedGuiListArmorItem().getSelectListEntryIndex();
-			while (index
+			while (index >= list.size())
+			{
+				list.add(createGuiListGlOperation(getSelectedGuiListArmorItem().armorPiece));
+			}
+		}
+		GuiListGlOperation list = getSelectedGuiListGlOperation();
+		int index = list.getSelectListEntryIndex();
+		setGlOperationListData(list.addGlOperation(list.getSize() > 0 ? ++index : index, glOperation), list.getSize() > 0 ? index : -1, true);
+	}
+	
+	private void moveGlOperationInList(boolean moveUp)
+	{
+		GuiListGlOperation list = getSelectedGuiListGlOperation();
+		int index = list.getSelectListEntryIndex();
+		if (moveUp ? index > 0 : index < list.getSize() - 1)
+			setGlOperationListData(list.moveGlOperation(index, (GlOperation) li
