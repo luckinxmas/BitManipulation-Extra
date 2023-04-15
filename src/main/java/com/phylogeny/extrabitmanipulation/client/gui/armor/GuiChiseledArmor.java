@@ -1256,4 +1256,22 @@ public class GuiChiseledArmor extends GuiContainer
 		String suffix = (buttonGlItems.selected ? "the selected item" : "the global " + (buttonGlPre.selected ? "pre" : "post") + "-operations list");
 		buttonGlAdd.setHoverText("Add Gl operation to " + suffix);
 		buttonGlDelete.setHoverText("Remove GL operation from " + suffix);
-		buttonScale.displayString = Ite
+		buttonScale.displayString = ItemChiseledArmor.SCALE_TITLES[getArmorScale()];
+		String text = "Add item";
+		if (!buttonScale.displayString.equals("1:1"))
+			text += " at " + buttonScale.displayString + " scale";
+		
+		buttonItemAdd.setHoverText(text);
+	}
+
+	private ModelMovingPart getModelMovingPart(int subTabIndex)
+	{
+		return getArmorItem(ArmorType.values()[selectedTabIndex]).MOVING_PARTS[subTabIndex].getModelMovingPart();
+	}
+	
+	private static enum GlOperationListType
+	{
+		ARMOR_ITEM, GLOBAL_PRE, GLOBAL_POST;
+	}
+	
+}
