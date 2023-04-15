@@ -1167,4 +1167,17 @@ public class GuiChiseledArmor extends GuiContainer
 			stack = ItemStack.EMPTY;
 			nbtGlOperations = new NBTTagCompound();
 		}
-		setArmorIte
+		setArmorItemListData(list, selectedArmorItem, listOperation, stack, nbtGlOperations);
+	}
+	
+	public void modifyArmorItemListData(int selectedArmorItem, ItemStack stack)
+	{
+		NBTTagCompound nbtGlOperations = new NBTTagCompound();
+		setArmorItemListData(getSelectedGuiListArmorItem(), selectedArmorItem, ListOperation.MODIFY, stack, nbtGlOperations);
+	}
+	
+	private void setArmorItemListData(GuiListArmorItem list, int selectedArmorItem,
+			ListOperation listOperation, ItemStack stack, NBTTagCompound nbtGlOperations)
+	{
+		ExtraBitManipulation.packetNetwork.sendToServer(new PacketChangeArmorItemList(getArmorSlot(selectedTabIndex), indexArmorSet, selectedSubTabIndex - 1,
+				list.getSelectListEntryIn
