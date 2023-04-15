@@ -1227,4 +1227,22 @@ public class GuiChiseledArmor extends GuiContainer
 				if (checkBoxes == null)
 					continue;
 				
-				for (int k = 0; k < checkBoxes
+				for (int k = 0; k < checkBoxes.length; k++)
+				{
+					GuiButtonTextured checkBox = checkBoxes[k];
+					if (checkBox == null)
+						continue;
+					
+					checkBox.visible = i == selectedTabIndex;
+					if (i == selectedTabIndex)
+					{
+						ModelPartConcealer modelPartConcealer = ModelPartConcealer.loadFromNBT(nbt);
+						checkBox.selected = modelPartConcealer != null && modelPartConcealer.contains(getModelMovingPart(j), k == 1);
+					}
+				}
+			}
+		}
+		BitToolSettingsHelper.setArmorTabIndex(selectedTabIndex);
+		BitToolSettingsHelper.setArmorSetTabIndex(indexArmorSet);
+		boolean preSelected = BitToolSettingsHelper.getArmorPixelTranslation();
+		buttonScalePixel.selected = p
