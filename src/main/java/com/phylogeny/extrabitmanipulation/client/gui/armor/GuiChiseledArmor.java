@@ -1209,4 +1209,22 @@ public class GuiChiseledArmor extends GuiContainer
 			NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(getArmorStack(i));
 			if (i == selectedTabIndex)
 			{
-			
+				int subTab = BitToolSettingsHelper.getArmorMovingPart(nbt, (ItemChiseledArmor) getArmorStack(i).getItem()).getPartIndex();
+				selectedSubTabIndex = subTab + 1;
+			}
+			for (int j = 1; j < tabButtons[i].length; j++)
+			{
+				GuiButtonTab tab = tabButtons[i][j];
+				if (tab != null)
+				{
+					tabButtons[i][j].selected = j == selectedSubTabIndex;
+					tabButtons[i][j].visible = i == selectedTabIndex;
+				}
+			}
+			for (int j = 0; j < concealmentCheckBoxes[i].length; j++)
+			{
+				GuiButtonTextured[] checkBoxes = concealmentCheckBoxes[i][j];
+				if (checkBoxes == null)
+					continue;
+				
+				for (int k = 0; k < checkBoxes
