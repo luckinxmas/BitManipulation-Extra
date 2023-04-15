@@ -1194,4 +1194,19 @@ public class GuiChiseledArmor extends GuiContainer
 	{
 		String key = buttonGlItems.selected ? NBTKeys.ARMOR_GL_OPERATIONS
 				: (buttonGlPre.selected ? NBTKeys.ARMOR_GL_OPERATIONS_PRE : NBTKeys.ARMOR_GL_OPERATIONS_POST);
-		NBTTagCompound 
+		NBTTagCompound nbt = new NBTTagCompound();
+		GlOperation.saveListToNBT(nbt, key, glOperations);
+		ExtraBitManipulation.packetNetwork.sendToServer(new PacketChangeGlOperationList(nbt, key, getArmorSlot(selectedTabIndex),
+				indexArmorSet, selectedSubTabIndex - 1, getSelectedGuiListArmorItem().getSelectListEntryIndex(), selectedGlOperation, refreshLists, null));
+		waitingForServerResponse = true;
+	}
+	
+	private void updateButtons()
+	{
+		for (int i = 0; i < tabButtons.length; i++)
+		{
+			tabButtons[i][0].selected = i == selectedTabIndex;
+			NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(getArmorStack(i));
+			if (i == selectedTabIndex)
+			{
+			
