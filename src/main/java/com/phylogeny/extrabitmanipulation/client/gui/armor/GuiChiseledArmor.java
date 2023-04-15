@@ -1245,4 +1245,15 @@ public class GuiChiseledArmor extends GuiContainer
 		BitToolSettingsHelper.setArmorTabIndex(selectedTabIndex);
 		BitToolSettingsHelper.setArmorSetTabIndex(indexArmorSet);
 		boolean preSelected = BitToolSettingsHelper.getArmorPixelTranslation();
-		buttonScalePixel.selected = p
+		buttonScalePixel.selected = preSelected;
+		buttonScaleMeter.selected = !preSelected;
+		boolean followCursor = BitToolSettingsHelper.getArmorLookAtCursor();
+		buttonPlayerFollowCursor.selected = followCursor;
+		buttonPlayerRotate.selected = !followCursor;
+		boolean on = BitToolSettingsHelper.getArmorFullIllumination();
+		buttonFullIlluminationOn.selected = on;
+		buttonFullIlluminationOff.selected = !on;
+		String suffix = (buttonGlItems.selected ? "the selected item" : "the global " + (buttonGlPre.selected ? "pre" : "post") + "-operations list");
+		buttonGlAdd.setHoverText("Add Gl operation to " + suffix);
+		buttonGlDelete.setHoverText("Remove GL operation from " + suffix);
+		buttonScale.displayString = Ite
