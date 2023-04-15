@@ -1180,4 +1180,18 @@ public class GuiChiseledArmor extends GuiContainer
 			ListOperation listOperation, ItemStack stack, NBTTagCompound nbtGlOperations)
 	{
 		ExtraBitManipulation.packetNetwork.sendToServer(new PacketChangeArmorItemList(getArmorSlot(selectedTabIndex), indexArmorSet, selectedSubTabIndex - 1,
-				list.getSelectListEntryIn
+				list.getSelectListEntryIndex(), selectedArmorItem, listOperation, stack, nbtGlOperations, true, null));
+		waitingForServerResponse = true;
+	}
+	
+	public void setGlOperationListData(int selectedGlOperation, boolean refreshLists)
+	{
+		setGlOperationListData(getSelectedGuiListGlOperation().getGlOperations(), selectedGlOperation, refreshLists);
+		waitingForServerResponse = false;
+	}
+	
+	private void setGlOperationListData(List<GlOperation> glOperations, int selectedGlOperation, boolean refreshLists)
+	{
+		String key = buttonGlItems.selected ? NBTKeys.ARMOR_GL_OPERATIONS
+				: (buttonGlPre.selected ? NBTKeys.ARMOR_GL_OPERATIONS_PRE : NBTKeys.ARMOR_GL_OPERATIONS_POST);
+		NBTTagCompound 
