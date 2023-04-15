@@ -1145,4 +1145,26 @@ public class GuiChiseledArmor extends GuiContainer
 		if (add && scale > 0)
 		{
 			float scale2 = (float) (1 / Math.pow(2, scale));
-			GlOperation.saveListToNBT(nbtGlOperations, NBTKeys.ARMOR_GL_OPERATIONS, Collections.singletonList(GlOperation.createScale(scale2, scale2, scale2))
+			GlOperation.saveListToNBT(nbtGlOperations, NBTKeys.ARMOR_GL_OPERATIONS, Collections.singletonList(GlOperation.createScale(scale2, scale2, scale2)));
+		}
+		setArmorItemListData(list, selectedArmorItem, add ? ListOperation.ADD : ListOperation.REMOVE, ItemStack.EMPTY, nbtGlOperations);
+	}
+	
+	private void addOrRemoveArmorItemListData(GuiListArmorItem list, int selectedArmorItem, boolean add)
+	{
+		NBTTagCompound nbtGlOperations = new NBTTagCompound();
+		ListOperation listOperation;
+		ItemStack stack;
+		if (add)
+		{
+			listOperation = ListOperation.ADD;
+			stack = copiedArmorItem.copy();
+			nbtGlOperations = copiedArmorItemGlOperations.copy();
+		}
+		else
+		{
+			listOperation = ListOperation.REMOVE;
+			stack = ItemStack.EMPTY;
+			nbtGlOperations = new NBTTagCompound();
+		}
+		setArmorIte
