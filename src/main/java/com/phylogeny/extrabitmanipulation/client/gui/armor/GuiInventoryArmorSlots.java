@@ -194,3 +194,10 @@ public class GuiInventoryArmorSlots extends InventoryEffectRenderer
 	public void openVanillaInventory(float mouseX, float mouseY)
 	{
 		EntityPlayer player = ClientHelper.getPlayer();
+		player.openContainer.onContainerClosed(player);
+		GuiInventory gui = new GuiInventory(player);
+		mc.displayGuiScreen(gui);
+		ReflectionExtraBitManipulation.setCursorPosition(gui, mouseX, mouseY);
+	}
+	
+}
