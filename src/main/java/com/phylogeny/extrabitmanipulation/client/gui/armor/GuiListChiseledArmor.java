@@ -30,4 +30,33 @@ public class GuiListChiseledArmor<E> extends GuiListExtended
 			int top, int bottom, int slotHeight, int offsetX, int listWidth, DataChiseledArmorPiece armorPiece)
 	{
 		super(guiChiseledArmor.mc, 150, height, top, bottom, slotHeight);
-		this.guiChiseledArmor = g
+		this.guiChiseledArmor = guiChiseledArmor;
+		drawEntries = true;
+		headerPadding -= 1;
+		left = guiChiseledArmor.getGuiLeft() + offsetX;
+		right = left + listWidth;
+		this.armorPiece = armorPiece;
+	}
+	
+	public void refreshList()
+	{
+		entries.clear();
+	}
+	
+	public void setDrawEntries(boolean drawEntries)
+	{
+		this.drawEntries = drawEntries;
+	}
+	
+	@Override
+	public boolean mouseClicked(int mouseX, int mouseY, int mouseEvent)
+	{
+		if (!isMouseYWithinSlotBounds(mouseY))
+			return false;
+		
+		int i = getSlotIndexFromScreenCoords(mouseX, mouseY);
+		if (i < 0)
+			return false;
+		
+		if (getListEntry(i).mousePressed(i, mouseX, mouseY, mouseEvent, mouseX - left,
+				mouseY - top + getAmountScrolled() - i * slotHeight
