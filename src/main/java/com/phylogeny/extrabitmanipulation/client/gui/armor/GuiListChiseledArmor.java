@@ -59,4 +59,29 @@ public class GuiListChiseledArmor<E> extends GuiListExtended
 			return false;
 		
 		if (getListEntry(i).mousePressed(i, mouseX, mouseY, mouseEvent, mouseX - left,
-				mouseY - top + getAmountScrolled() - i * slotHeight
+				mouseY - top + getAmountScrolled() - i * slotHeight - headerPadding - 1))
+		{
+			setEnabled(false);
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean mouseReleased(int mouseX, int mouseY, int mouseEvent)
+	{
+		int relativeX = mouseX - left;
+		int relativeY = mouseY - top + getAmountScrolled() - headerPadding - 1;
+		for (int i = 0; i < getSize(); ++i)
+			getListEntry(i).mouseReleased(i, mouseX, mouseY, mouseEvent, relativeX, relativeY - i * slotHeight);
+		
+		setEnabled(true);
+		return false;
+	}
+	
+	@Override
+	public int getSlotIndexFromScreenCoords(int posX, int posY)
+	{
+		int y = posY - top - headerPadding + (int)amountScrolled - 1;
+		int index = y / slotHeight;
+		return posX < getScrollBarX(
