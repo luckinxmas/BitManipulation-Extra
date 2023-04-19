@@ -84,4 +84,31 @@ public class GuiListChiseledArmor<E> extends GuiListExtended
 	{
 		int y = posY - top - headerPadding + (int)amountScrolled - 1;
 		int index = y / slotHeight;
-		return posX < getScrollBarX(
+		return posX < getScrollBarX() && posX >= left && posX <= left + getListWidth() && y >= 0 && index >= 0 && index < getSize() ? index : -1;
+	}
+	
+	public void updateScreen()
+	{
+		for (int i = 0; i < getSize(); i++)
+			entries.get(i).updateScreen(isSelected(i));
+	}
+	
+	public void keyTyped(char typedChar, int keyCode)
+	{
+		GuiListEntryChiseledArmor<E> selectedEntry = getSelectedListEntry();
+		if (selectedEntry != null)
+			selectedEntry.keyTyped(typedChar, keyCode);
+	}
+	
+	public void drawScreen(int mouseXIn, int mouseYIn)
+	{
+		if (!visible)
+			return;
+		
+		mouseX = mouseXIn;
+		mouseY = mouseYIn;
+		drawBackground();
+		int i = getScrollBarX();
+		int j = i + 6;
+		bindAmountScrolled();
+		
