@@ -178,4 +178,31 @@ public class GuiListChiseledArmor<E> extends GuiListExtended
 			if (showSelectionBox && isSelected(j))
 			{
 				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-				GlStateManager.disable
+				GlStateManager.disableTexture2D();
+				int color = (255 << 24) + (120 << 16) + (120 << 8) + 200;
+				Gui.drawRect(insideLeft, k - 1, insideLeft + getListWidth() - 8, k + slotHeight - 1, color);
+				GlStateManager.enableBlend();
+				GlStateManager.enableTexture2D();
+			}
+			drawSlot(j, insideLeft, k - 1, l, mouseX, mouseY, partialTicks);
+		}
+	}
+	
+	@Override
+	protected boolean isSelected(int index)
+	{
+		return index == selectedIndex;
+	}
+	
+	public void selectListEntry(int index)
+	{
+		selectedIndex = index;
+	}
+	
+	public int getSelectListEntryIndex()
+	{
+		return selectedIndex;
+	}
+	
+	@Nullable
+	public GuiListEntryChiseledArmor<E> getSelectedListE
