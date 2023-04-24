@@ -130,4 +130,20 @@ public class GuiListChiseledArmor<E> extends GuiListExtended
 		}
 		GlStateManager.disableDepth();
 		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, G
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+				GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
+		GlStateManager.disableAlpha();
+		GlStateManager.shadeModel(7425);
+		GlStateManager.disableTexture2D();
+		int j1 = getMaxScroll();
+		if (j1 > 0)
+		{
+			int k1 = (bottom - top) * (bottom - top) / getContentHeight();
+			k1 = MathHelper.clamp(k1, 32, bottom - top - 8);
+			int l1 = (int)amountScrolled * (bottom - top - k1) / j1 + top;
+			if (l1 < top)
+				l1 = top;
+			
+			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+			buffer.pos(i, bottom + 1, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+			buffer.pos(j, bottom + 1, 0.0D).tex(1.0D, 1.0D).color(0, 0
