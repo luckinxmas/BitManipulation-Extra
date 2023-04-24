@@ -205,4 +205,44 @@ public class GuiListChiseledArmor<E> extends GuiListExtended
 	}
 	
 	@Nullable
-	public GuiListEntryChiseledArmor<E> getSelectedListE
+	public GuiListEntryChiseledArmor<E> getSelectedListEntry()
+	{
+		return selectedIndex >= 0 && selectedIndex < getSize() ? getListEntry(selectedIndex) : null;
+	}
+	
+	@Override
+	public GuiListEntryChiseledArmor<E> getListEntry(int index)
+	{
+		return entries.get(index);
+	}
+	
+	@Override
+	public int getSize()
+	{
+		return entries.size();
+	}
+	
+	@Override
+	protected int getScrollBarX()
+	{
+		return right - 8;
+	}
+	
+	@Override
+	protected int getContentHeight()
+	{
+		return super.getContentHeight() - 3;
+	}
+	
+	@Override
+	public int getListWidth()
+	{
+		return right - left;
+	}
+	
+	public GuiChiseledArmor getParentGui()
+	{
+		return guiChiseledArmor;
+	}
+	
+}
