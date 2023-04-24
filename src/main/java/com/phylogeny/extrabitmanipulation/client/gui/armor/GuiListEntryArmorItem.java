@@ -32,4 +32,21 @@ public class GuiListEntryArmorItem extends GuiListEntryChiseledArmor<ArmorItem>
 		ClientHelper.bindTexture(GuiChiseledArmor.TEXTURE_GUI);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.disableLighting();
-		Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 230, 18, 18,
+		Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 230, 18, 18, 512, 512);
+		mc.fontRenderer.drawString("" + (slotIndex + 1), x + 21, y + 5, -1);
+	}
+	
+	@Override
+	public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY)
+	{
+		super.mousePressed(slotIndex, mouseX, mouseY, mouseEvent, relativeX, relativeY);
+		if (slotClicked(relativeX, relativeY))
+		{
+			ItemStack stack = mc.player.inventory.getItemStack();
+			if (stack.isEmpty() && mouseEvent == 2 && mc.player.capabilities.isCreativeMode)
+			{
+				ItemStack stack2 = entryObject.getStack().copy();
+				if (!stack2.isEmpty())
+				{
+					mc.player.inventory.setItemStack(stack2);
+					ExtraBitManipulation.packetNetwork.sendToServer
