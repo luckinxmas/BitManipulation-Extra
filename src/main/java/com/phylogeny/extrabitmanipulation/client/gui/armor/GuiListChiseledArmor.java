@@ -111,4 +111,23 @@ public class GuiListChiseledArmor<E> extends GuiListExtended
 		int i = getScrollBarX();
 		int j = i + 6;
 		bindAmountScrolled();
+		GlStateManager.disableLighting();
+		GlStateManager.disableFog();
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
+		int k = left;
+		int l = top + 2 - (int) amountScrolled;
 		
+		if (hasListHeader)
+			drawListHeader(k, l, tessellator);
+		
+		int top = this.top + headerPadding + 1;
+		if (drawEntries)
+		{
+			GuiHelper.glScissor(left, top, getListWidth() + 5, bottom - top);
+			drawSelectionBox(k, l, mouseXIn, mouseYIn, 0);
+			GuiHelper.glScissorDisable();
+		}
+		GlStateManager.disableDepth();
+		GlStateManager.enableBlend();
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, G
