@@ -155,4 +155,27 @@ public class GuiListChiseledArmor<E> extends GuiListExtended
 			buffer.pos(j - 1, (l1 + k1), 0.0D).tex(1.0D, 1.0D).color(139, 139, 139, 255).endVertex();
 			buffer.pos(j - 1, l1, 0.0D).tex(1.0D, 0.0D).color(139, 139, 139, 255).endVertex();
 			buffer.pos(i + 1, l1, 0.0D).tex(0.0D, 0.0D).color(139, 139, 139, 255).endVertex();
-			tessella
+			tessellator.draw();
+		}
+		renderDecorations(mouseXIn, mouseYIn);
+		GlStateManager.enableTexture2D();
+		GlStateManager.shadeModel(7424);
+		GlStateManager.enableAlpha();
+		GlStateManager.disableBlend();
+	}
+	
+	@Override
+	protected void drawSelectionBox(int insideLeft, int insideTop, int mouseX, int mouseY, float partialTicks)
+	{
+		int i = getSize();
+		for (int j = 0; j < i; ++j)
+		{
+			int k = insideTop + j * slotHeight + headerPadding;
+			int l = slotHeight - 4;
+			if (k > bottom || k + l < top)
+				updateItemPos(j, insideLeft, k, partialTicks);
+			
+			if (showSelectionBox && isSelected(j))
+			{
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				GlStateManager.disable
