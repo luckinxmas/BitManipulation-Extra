@@ -49,4 +49,37 @@ public class GuiListEntryArmorItem extends GuiListEntryChiseledArmor<ArmorItem>
 				if (!stack2.isEmpty())
 				{
 					mc.player.inventory.setItemStack(stack2);
-					ExtraBitManipulation.packetNetwork.sendToServer
+					ExtraBitManipulation.packetNetwork.sendToServer(new PacketCursorStack(stack2));
+				}
+			}
+			else if (!stack.isEmpty() || GuiScreen.isShiftKeyDown())
+			{
+				ItemStack stack2;
+				if (stack.isEmpty())
+				{
+					stack2 = ItemStack.EMPTY;
+				}
+				else
+				{
+					stack2 = stack.copy();
+					stack2.setCount(1);
+				}
+				listChiseledArmor.guiChiseledArmor.modifyArmorItemListData(slotIndex,  stack2);
+			}
+		}
+		return false;
+	}
+	
+	private boolean slotClicked(int relativeX, int relativeY)
+	{
+		return relativeX > 4 && relativeX < 23 && relativeY > 0 && relativeY < 19;
+	}
+	
+	public boolean isSlotHovered()
+	{
+		return slotHovered;
+	}
+	
+	public ItemStack getStack()
+	{
+		return entryObject
