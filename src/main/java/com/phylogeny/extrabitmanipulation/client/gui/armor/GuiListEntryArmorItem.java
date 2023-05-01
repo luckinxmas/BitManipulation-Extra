@@ -82,4 +82,7 @@ public class GuiListEntryArmorItem extends GuiListEntryChiseledArmor<ArmorItem>
 	
 	public ItemStack getStack()
 	{
-		return entryObject
+		return entryObject.getStack();
+	}
+	
+}
