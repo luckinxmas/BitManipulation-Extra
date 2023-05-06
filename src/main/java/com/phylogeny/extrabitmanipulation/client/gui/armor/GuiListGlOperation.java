@@ -19,4 +19,26 @@ public abstract class GuiListGlOperation<L> extends GuiListChiseledArmor<GlOpera
 		setHasListHeader(true, 11);
 	}
 	
-	public abstract List<GlOperation> getGlOperatio
+	public abstract List<GlOperation> getGlOperations();
+	
+	public List<GlOperation> addGlOperation(int index, GlOperation glOperation)
+	{
+		List<GlOperation> glOperations = getGlOperations();
+		glOperations.add(index, glOperation);
+		return glOperations;
+	}
+	
+	public List<GlOperation> removeGlOperation(int index)
+	{
+		List<GlOperation> glOperations = getGlOperations();
+		glOperations.remove(index);
+		return glOperations;
+	}
+	
+	public List<GlOperation> moveGlOperation(int index, GlOperation glOperation, boolean moveUp)
+	{
+		List<GlOperation> glOperations = getGlOperations();
+		glOperations.remove(index);
+		index += (moveUp ? -1 : 1);
+		glOperations.add(index, glOperation);
+		return glOperations;
