@@ -67,3 +67,7 @@ public abstract class GuiListGlOperation<L> extends GuiListChiseledArmor<GlOpera
 	protected void drawListHeader(int insideLeft, int insideTop, Tessellator tessellatorIn)
 	{
 		for (int i = 0; i < glComponents.length; i++)
+			mc.fontRenderer.drawString(glComponents[i], (int) (insideLeft + 37 + i * (i == 3 ? 42.5 : 45)), top + 1, -1);
+	}
+	
+}
