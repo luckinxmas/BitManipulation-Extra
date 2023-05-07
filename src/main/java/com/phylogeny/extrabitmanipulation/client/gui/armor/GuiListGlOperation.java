@@ -42,3 +42,28 @@ public abstract class GuiListGlOperation<L> extends GuiListChiseledArmor<GlOpera
 		index += (moveUp ? -1 : 1);
 		glOperations.add(index, glOperation);
 		return glOperations;
+	}
+	
+	@Override
+	public void refreshList()
+	{
+		super.refreshList();
+		for (int i = 0; i < getGlOperations().size(); i++)
+			entries.add(new GuiListEntryGlOperation(this, getGlOperations().get(i), i));
+		
+		updateScreen();
+	}
+	
+	@Override
+	public boolean mouseClicked(int mouseX, int mouseY, int mouseEvent)
+	{
+		for (GuiListEntryChiseledArmor<GlOperation> entry : entries)
+			((GuiListEntryGlOperation) entry).formatDataFields(mouseX, mouseY);
+		
+		return super.mouseClicked(mouseX, mouseY, mouseEvent);
+	}
+	
+	@Override
+	protected void drawListHeader(int insideLeft, int insideTop, Tessellator tessellatorIn)
+	{
+		for (int i = 0; i < glComponents.length; i++)
