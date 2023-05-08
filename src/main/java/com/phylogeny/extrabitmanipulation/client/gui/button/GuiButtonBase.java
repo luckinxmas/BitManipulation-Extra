@@ -27,4 +27,34 @@ public class GuiButtonBase extends GuiButton
 	}
 	
 	public GuiButtonBase(int buttonId, int x, int y, int widthIn, int heightIn, String text,
-			String hoverText, @Nullable SoundEvent soundSelect, @Nullable SoundEvent soun
+			String hoverText, @Nullable SoundEvent soundSelect, @Nullable SoundEvent soundDeselect)
+	{
+		super(buttonId, x, y, widthIn, heightIn, text);
+		this.hoverText = hoverTextSelected = removeEmptyLines(Collections.singletonList(hoverText));
+		this.soundSelect = soundSelect;
+		this.soundDeselect = soundDeselect;
+	}
+	
+	public void setSilent(boolean silent)
+	{
+		this.silent = silent;
+	}
+	
+	@Override
+	public void playPressSound(SoundHandler soundHandler)
+	{
+		if (silent)
+			return;
+		
+		if (soundSelect != null)
+		{
+			SoundsExtraBitManipulation.playSound(selected ? soundDeselect : soundSelect);
+			return;
+		}
+		super.playPressSound(soundHandler);
+	}
+	
+	@Override
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
+	{
+		hovered = mouse
