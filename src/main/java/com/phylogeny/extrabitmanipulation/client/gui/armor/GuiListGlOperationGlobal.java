@@ -12,4 +12,14 @@ public class GuiListGlOperationGlobal extends GuiListGlOperation<DataChiseledArm
 	public GuiListGlOperationGlobal(GuiChiseledArmor guiChiseledArmor, int height, int top, int bottom,
 			int slotHeight, int offsetX, int listWidth, DataChiseledArmorPiece armorPiece, boolean isPre)
 	{
-		super(
+		super(guiChiseledArmor, height, top, bottom, slotHeight, offsetX, listWidth, armorPiece);
+		this.isPre = isPre;
+	}
+	
+	@Override
+	public List<GlOperation> getGlOperations()
+	{
+		return armorPiece.getGlobalGlOperations(isPre);
+	}
+	
+}
