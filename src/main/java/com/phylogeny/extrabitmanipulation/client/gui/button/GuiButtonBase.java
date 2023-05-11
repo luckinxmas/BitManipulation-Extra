@@ -57,4 +57,34 @@ public class GuiButtonBase extends GuiButton
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
 	{
-		hovered = mouse
+		hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+		mouseDragged(mc, mouseX, mouseY);
+	}
+	
+	public List<String> getHoverText()
+	{
+		return helpMode ? hoverHelpText : (selected ? hoverTextSelected : hoverText);
+	}
+	
+	private List<String> removeEmptyLines(List<String> lines)
+	{
+		List<String> linesNew = new ArrayList<>();
+		for (String line : lines)
+		{
+			if (!line.isEmpty())
+				linesNew.add(line);
+		}
+		return linesNew;
+	}
+	
+	private List<String> textToLines(String[] text)
+	{
+		return removeEmptyLines(Arrays.<String>asList(text));
+	}
+	
+	public void setHoverText(String... text)
+	{
+		hoverText = textToLines(text);
+	}
+	
+	public void setHoverTextS
