@@ -87,4 +87,31 @@ public class GuiButtonBase extends GuiButton
 		hoverText = textToLines(text);
 	}
 	
-	public void setHoverTextS
+	public void setHoverTextSelected(String... text)
+	{
+		hoverTextSelected = textToLines(text);
+	}
+	
+	public void setHoverHelpText(String... text)
+	{
+		hoverHelpText = textToLines(text);
+	}
+	
+	public void setHelpMode(boolean helpMode)
+	{
+		this.helpMode = helpMode;
+	}
+	
+	public GuiButtonBase setSoundSelect(SoundEvent sound)
+	{
+		soundSelect = sound;
+		return this;
+	}
+	
+	public GuiButtonBase setSoundDeselect(SoundEvent sound)
+	{
+		soundDeselect = sound;
+		return this;
+	}
+	
+}
