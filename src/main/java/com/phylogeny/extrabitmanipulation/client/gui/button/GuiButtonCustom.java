@@ -50,4 +50,8 @@ public class GuiButtonCustom extends GuiButtonBase
 		}
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(textOffsetX, textOffsetY, 0);
-		mc.fon
+		mc.fontRenderer.drawString(displayString, x + width / 2 - mc.fontRenderer.getStringWidth(displayString) / 2, y + (height - 8) / 2, colorText);
+		GlStateManager.popMatrix();
+	}
+	
+}
