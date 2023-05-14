@@ -31,4 +31,23 @@ public class GuiButtonCustom extends GuiButtonBase
 			return;
 		
 		super.drawButton(mc, mouseX, mouseY, partialTicks);
-		GlStateManager.enableBlend(
+		GlStateManager.enableBlend();
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		drawCustomRect();
+		int colorText = -1;
+		if (packedFGColour != 0)
+		{
+			colorText = packedFGColour;
+		}
+		else if (!enabled)
+		{
+			colorText = 10526880;
+		}
+		else if (hovered)
+		{
+			colorText = 16777120;
+		}
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(textOffsetX, textOffsetY, 0);
+		mc.fon
