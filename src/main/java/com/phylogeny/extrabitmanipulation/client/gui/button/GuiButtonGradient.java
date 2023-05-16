@@ -11,4 +11,7 @@ public class GuiButtonGradient extends GuiButtonCustom
 	@Override
 	protected void drawCustomRect()
 	{
-		drawGradientRect(x, y, x + width, y + height, enabled ? -2631721 : -11513776, enabled ? -8289
+		drawGradientRect(x, y, x + width, y + height, enabled ? -2631721 : -11513776, enabled ? -8289919 : -11513776);
+	}
+	
+}
