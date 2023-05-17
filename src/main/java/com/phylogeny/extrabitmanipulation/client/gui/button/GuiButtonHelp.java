@@ -45,4 +45,25 @@ public class GuiButtonHelp extends GuiButtonCustom
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
 	{
 		int x = this.x + 6;
-		
+		int y = this.y + 6;
+		double radius = 6;
+		int red, green, blue;
+		if (selected)
+		{
+			red = blue = 0;
+			green = 200;
+		}
+		else
+		{
+			red = green = blue = 120;
+		}
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
+		GlStateManager.enableBlend();
+		GlStateManager.disableTexture2D();
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+		buffer.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
+		buffer.pos(x, y, 0).color(red, green, blue, 255).endVertex();
+		double s = 30;
+		for(int k = 0; k <= 
