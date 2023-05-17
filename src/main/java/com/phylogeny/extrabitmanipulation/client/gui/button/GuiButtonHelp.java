@@ -66,4 +66,15 @@ public class GuiButtonHelp extends GuiButtonCustom
 		buffer.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
 		buffer.pos(x, y, 0).color(red, green, blue, 255).endVertex();
 		double s = 30;
-		for(int k = 0; k <= 
+		for(int k = 0; k <= s; k++) 
+		{
+			double angle = (Math.PI * 2 * k / s) + Math.toRadians(180);
+			buffer.pos(x + Math.sin(angle) * radius, y + Math.cos(angle) * radius, 0).color(red, green, blue, 255).endVertex();
+		}
+		tessellator.draw();
+		GlStateManager.enableTexture2D();
+		GlStateManager.disableBlend();
+		super.drawButton(mc, mouseX, mouseY, partialTicks);
+	}
+	
+}
