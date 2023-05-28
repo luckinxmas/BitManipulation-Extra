@@ -35,4 +35,29 @@ public class GuiButtonSelectTextured extends GuiButtonSelect
 	}
 	
 	@Override
-	protected void d
+	protected void drawCustomRect()
+	{
+		GlStateManager.pushMatrix();
+		shiftRight();
+		GuiHelper.drawRect(x, y, x + width + rightOffsetX, y + height, selected ? colorFirst : colorSecond);
+		GlStateManager.popMatrix();
+	}
+	
+	@Override
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
+	{
+		super.drawButton(mc, mouseX, mouseY, partialTicks);
+		if (!visible)
+			return;
+		
+		GlStateManager.pushMatrix();
+		ClientHelper.bindTexture(texture);
+		if (hovered)
+			GlStateManager.color(1, 1, 160 / 255.0F, 1);
+		else
+			GlStateManager.color(1, 1, 1, 1);
+		
+		shiftRight();
+		double iconX = x;
+		double iconY = y;
+		double icon
