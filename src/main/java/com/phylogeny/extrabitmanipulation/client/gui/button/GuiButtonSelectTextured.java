@@ -60,4 +60,17 @@ public class GuiButtonSelectTextured extends GuiButtonSelect
 		shiftRight();
 		double iconX = x;
 		double iconY = y;
-		double icon
+		double iconWidth = width + rightOffsetX;
+		double iconHieght = height;
+		if (scaleFactor == 3)
+		{
+			iconX += iconWidth / 6.0F;
+			iconY += iconHieght / 6.0F;
+			iconWidth /= 1.5F;
+			iconHieght /= 1.5F;
+		}
+		GuiHelper.drawTexturedRect(iconX, iconY, iconX + iconWidth, iconY + iconHieght);
+		GlStateManager.popMatrix();
+	}
+	
+}
