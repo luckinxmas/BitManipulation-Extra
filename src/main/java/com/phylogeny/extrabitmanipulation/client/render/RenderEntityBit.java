@@ -20,4 +20,23 @@ public class RenderEntityBit extends Render<EntityBit>
 	}
 	
 	@Override
-	public void doRender(EntityBit entity, 
+	public void doRender(EntityBit entity, double x, double y, double z, float entityYaw, float partialTicks)
+	{
+		if (entity.getBitStack() != null)
+		{
+			if (renderOutlines)
+			{
+				GlStateManager.enableColorMaterial();
+				GlStateManager.enableOutlineMode(getTeamColor(entity));
+			}
+			GlStateManager.pushMatrix();
+			GlStateManager.translate((float)x, (float)y, (float)z);
+			ClientHelper.getRenderItem().renderItem(entity.getBitStack(), TransformType.GROUND);
+			GlStateManager.popMatrix();
+			if (renderOutlines)
+			{
+				GlStateManager.disableOutlineMode();
+				GlStateManager.disableColorMaterial();
+			}
+		}
+		super.doRender(entit
