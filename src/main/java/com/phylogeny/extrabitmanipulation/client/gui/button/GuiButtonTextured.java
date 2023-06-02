@@ -34,4 +34,21 @@ public class GuiButtonTextured extends GuiButtonBase
 			return;
 		
 		GlStateManager.pushMatrix();
-		GlStat
+		GlStateManager.color(1, 1, 1, 1);
+		ClientHelper.bindTexture(selected ? selectedTexture : deselectedTexture);
+		int offset = 0;
+		if (hovered)
+			offset = 1;
+		
+		double y = this.y - 0.5;
+		GuiHelper.drawTexturedRect(x - offset, y - offset, x + width + offset, y + height + offset);
+		GlStateManager.popMatrix();
+	}
+	
+	public static GuiButtonTextured createCheckBox(int buttonId, int x, int y, int width, int height, String hoverText)
+	{
+		return new GuiButtonTextured(buttonId, x, y, width, height, hoverText,
+				BOX_CHECKED, BOX_UNCHECKED, SoundsExtraBitManipulation.boxCheck, SoundsExtraBitManipulation.boxUncheck);
+	}
+	
+}
