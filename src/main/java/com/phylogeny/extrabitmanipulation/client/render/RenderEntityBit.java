@@ -39,4 +39,14 @@ public class RenderEntityBit extends Render<EntityBit>
 				GlStateManager.disableColorMaterial();
 			}
 		}
-		super.doRender(entit
+		super.doRender(entity, x, y, z, entityYaw, partialTicks);
+	}
+	
+	@Override
+	@Nullable
+	protected ResourceLocation getEntityTexture(EntityBit entity)
+	{
+		return null;
+	}
+	
+}
