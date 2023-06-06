@@ -40,4 +40,28 @@ public class RenderState
 	
 	public static void renderStateIntoGUI(final IBlockState state, int x, int y)
 	{
-		BlockModelShapes blockM
+		BlockModelShapes blockModelShapes = ClientHelper.getBlockModelShapes();
+		IBakedModel model = blockModelShapes.getModelForState(state);
+		boolean emptyModel;
+		try
+		{
+			boolean missingModel = isMissingModel(blockModelShapes, model);
+			emptyModel = missingModel || model.getQuads(state, null, 0L).isEmpty();
+			if (!missingModel && emptyModel)
+			{
+				for (EnumFacing enumfacing : EnumFacing.values())
+				{
+					if (!model.getQuads(state, enumfacing, 0L).isEmpty())
+					{
+						emptyModel = false;
+						break;
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			emptyModel = true;
+		}
+		Block block = state.getBlock();
+		ItemStack stack = new ItemStack(block, 1, bloc
