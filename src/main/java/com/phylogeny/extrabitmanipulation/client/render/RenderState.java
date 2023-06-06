@@ -64,4 +64,24 @@ public class RenderState
 			emptyModel = true;
 		}
 		Block block = state.getBlock();
-		ItemStack stack = new ItemStack(block, 1, bloc
+		ItemStack stack = new ItemStack(block, 1, block.getMetaFromState(state));
+		if (isNullItem(block, stack))
+			stack = ItemStack.EMPTY;
+		
+		boolean isVanillaChest = block == Blocks.CHEST || block == Blocks.ENDER_CHEST || block == Blocks.TRAPPED_CHEST;
+		if (!stack.isEmpty() && emptyModel)
+		{
+			model = getItemModelWithOverrides(stack);
+			if (!isVanillaChest && isMissingModel(blockModelShapes, model))
+			{
+				stack = new ItemStack(block);
+				if (isNullItem(block, stack))
+					stack = ItemStack.EMPTY;
+				
+				if (!stack.isEmpty())
+					model = getItemModelWithOverrides(stack);
+			}
+		}
+		boolean renderAsTileEntity = !stack.isEmpty() && (model.isBuiltInRenderer() || isVanillaChest);
+		try
+		{
