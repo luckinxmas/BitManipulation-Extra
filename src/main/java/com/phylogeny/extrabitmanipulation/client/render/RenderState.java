@@ -102,4 +102,27 @@ public class RenderState
 			if (!stack.isEmpty())
 			{
 				final ItemStack stack2 = stack.copy();
-				crashreportcategory.addDetail("Stat
+				crashreportcategory.addDetail("State's Item Type", new ICrashReportDetail<String>()
+				{
+					@Override
+					public String call() throws Exception
+					{
+						return String.valueOf(stack2.getItem());
+					}
+				});
+				crashreportcategory.addDetail("State's Item Aux", new ICrashReportDetail<String>()
+				{
+					@Override
+					public String call() throws Exception
+					{
+						return String.valueOf(stack2.getMetadata());
+					}
+				});
+				crashreportcategory.addDetail("State's Item NBT", new ICrashReportDetail<String>()
+				{
+					@Override
+					public String call() throws Exception
+					{
+						return String.valueOf(stack2.getTagCompound());
+					}
+	
