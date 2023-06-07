@@ -85,3 +85,21 @@ public class RenderState
 		boolean renderAsTileEntity = !stack.isEmpty() && (model.isBuiltInRenderer() || isVanillaChest);
 		try
 		{
+			renderStateModelIntoGUI(state, model, stack, renderAsTileEntity, x, y, 0, 0, -1);
+		}
+		catch (Throwable throwable)
+		{
+			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering block state in " + Reference.MOD_ID + " bit mapping GUI");
+			CrashReportCategory crashreportcategory = crashreport.makeCategory("Block state being rendered");
+			crashreportcategory.addDetail("Block State", new ICrashReportDetail<String>()
+			{
+				@Override
+				public String call() throws Exception
+				{
+					return String.valueOf(state);
+				}
+			});
+			if (!stack.isEmpty())
+			{
+				final ItemStack stack2 = stack.copy();
+				crashreportcategory.addDetail("Stat
