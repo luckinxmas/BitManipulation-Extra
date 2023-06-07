@@ -161,4 +161,18 @@ public class RenderState
 	}
 	
 	public static void renderStateModelIntoGUI(IBlockState state, IBakedModel model, ItemStack stack, float alphaMultiplier,
-			boolean transformFroGui, boolean renderAsTileEntity, int x, int y, float angleX, float ang
+			boolean transformFroGui, boolean renderAsTileEntity, int x, int y, float angleX, float angleY, float scale)
+	{
+		TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+		GlStateManager.pushMatrix();
+		textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.enableAlpha();
+		GlStateManager.alphaFunc(516, 0.1F);
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		setupGuiTransform(x, y, model);
+		if (transformFroGui)
+			model = ForgeH
