@@ -125,4 +125,28 @@ public class RenderState
 					{
 						return String.valueOf(stack2.getTagCompound());
 					}
+				});
+				crashreportcategory.addDetail("State's Item Foil", new ICrashReportDetail<String>()
+				{
+					@Override
+					public String call() throws Exception
+					{
+						return String.valueOf(stack2.hasEffect());
+					}
+				});
+			}
+			throw new ReportedException(crashreport);
+		}
+	}
 	
+	public static IBakedModel getItemModelWithOverrides(ItemStack stack)
+	{
+		return ClientHelper.getRenderItem().getItemModelWithOverrides(stack, null, ClientHelper.getPlayer());
+	}
+	
+	private static boolean isNullItem(final Block block, ItemStack stack)
+	{
+		return stack.getItem() == null || block == Blocks.STANDING_BANNER || block == Blocks.BARRIER;
+	}
+	
+	private static bool
