@@ -175,4 +175,18 @@ public class RenderState
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		setupGuiTransform(x, y, model);
 		if (transformFroGui)
-			model = ForgeH
+			model = ForgeHooksClient.handleCameraTransforms(model, ItemCameraTransforms.TransformType.GUI, false);
+		
+		renderState(state, model, stack, alphaMultiplier, renderAsTileEntity, angleX, angleY, scale);
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.disableLighting();
+		GlStateManager.popMatrix();
+		textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
+	}
+	
+	public static void renderState(IBlockState state, IBakedModel model, ItemStack stack,
+			float alphaMultiplier, boolean renderAsTileEntity, float angleX, float angleY, float scale)
+	{
+		boolean autoScale = scale < 0;
+		if (autoSc
