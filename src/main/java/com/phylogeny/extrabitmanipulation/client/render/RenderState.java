@@ -189,4 +189,32 @@ public class RenderState
 			float alphaMultiplier, boolean renderAsTileEntity, float angleX, float angleY, float scale)
 	{
 		boolean autoScale = scale < 0;
-		if (autoSc
+		if (autoScale)
+			scale = 1;
+		
+		GlStateManager.pushMatrix();
+		if (autoScale)
+		{
+			try
+			{
+				int size;
+				int[] data;
+				float x, y, z;
+				float minX = Float.POSITIVE_INFINITY;
+				float minY = Float.POSITIVE_INFINITY;
+				float minZ = Float.POSITIVE_INFINITY;
+				float maxX = Float.NEGATIVE_INFINITY;
+				float maxY = Float.NEGATIVE_INFINITY;
+				float maxZ = Float.NEGATIVE_INFINITY;
+				for (BakedQuad quad : model.getQuads(state, null, 0L))
+				{
+					size = quad.getFormat().getIntegerSize();
+					data = quad.getVertexData();
+					for(int i = 0; i < 4; i++)
+					{
+						int index = size * i;
+						x = Float.intBitsToFloat(data[index]);
+						if (x < minX)
+							minX = x;
+						
+						
