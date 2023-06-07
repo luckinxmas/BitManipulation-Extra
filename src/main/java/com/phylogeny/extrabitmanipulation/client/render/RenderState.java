@@ -217,4 +217,36 @@ public class RenderState
 						if (x < minX)
 							minX = x;
 						
+						if (x > maxX)
+							maxX = x;
 						
+						y = Float.intBitsToFloat(data[index + 1]);
+						if (y < minY)
+							minY = y;
+						
+						if (y > maxY)
+							maxY = y;
+						
+						z = Float.intBitsToFloat(data[index + 2]);
+						if (z < minZ)
+							minZ = z;
+						
+						if (z > maxZ)
+							maxZ = z;
+					}
+				}
+				for (EnumFacing enumfacing : EnumFacing.values())
+				{
+					for (BakedQuad quad : model.getQuads(state, enumfacing, 0L))
+					{
+						size = quad.getFormat().getIntegerSize();
+						data = quad.getVertexData();
+						for(int i = 0; i < 4; i++)
+						{
+							int index = size * i;
+							x = Float.intBitsToFloat(data[index]);
+							if (x < minX)
+								minX = x;
+							
+							if (x > maxX)
+								
