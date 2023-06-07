@@ -249,4 +249,35 @@ public class RenderState
 								minX = x;
 							
 							if (x > maxX)
-								
+								maxX = x;
+							
+							y = Float.intBitsToFloat(data[index + 1]);
+							if (y < minY)
+								minY = y;
+							
+							if (y > maxY)
+								maxY = y;
+							
+							z = Float.intBitsToFloat(data[index + 2]);
+							if (z < minZ)
+								minZ = z;
+							
+							if (z > maxZ)
+								maxZ = z;
+						}
+					}
+				}
+				scale = 1 / Math.max(1.0F, Math.max(maxX - minX, Math.max(maxY - minY, maxZ - minZ)));
+			}
+			catch (Exception e) {}
+			scale *= 0.65F;
+		}
+		GlStateManager.scale(scale, scale, scale);
+		GlStateManager.rotate(angleX, 1, 0, 0);
+		GlStateManager.rotate(angleY, 0, 1, 0);
+		
+		if (renderAsTileEntity)
+		{
+			if (autoScale)
+			{
+				GlStateManager.rotate(45
