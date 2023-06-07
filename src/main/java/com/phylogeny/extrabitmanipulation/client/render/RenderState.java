@@ -149,4 +149,16 @@ public class RenderState
 		return stack.getItem() == null || block == Blocks.STANDING_BANNER || block == Blocks.BARRIER;
 	}
 	
-	private static bool
+	private static boolean isMissingModel(BlockModelShapes blockModelShapes, IBakedModel model)
+	{
+		return model.equals(blockModelShapes.getModelManager().getMissingModel());
+	}
+	
+	public static void renderStateModelIntoGUI(IBlockState state, IBakedModel model, ItemStack stack,
+			boolean renderAsTileEntity, int x, int y, float angleX, float angleY, float scale)
+	{
+		renderStateModelIntoGUI(state, model, stack, 1.0F, false, renderAsTileEntity, x, y, angleX, angleY, scale);
+	}
+	
+	public static void renderStateModelIntoGUI(IBlockState state, IBakedModel model, ItemStack stack, float alphaMultiplier,
+			boolean transformFroGui, boolean renderAsTileEntity, int x, int y, float angleX, float ang
