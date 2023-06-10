@@ -305,4 +305,25 @@ public class RenderState
 	
 	private static void setupGuiTransform(int x, int y, IBakedModel model)
 	{
-		Gl
+		GlStateManager.translate(x + 6, y + 2, 100.0F + ClientHelper.getRenderItem().zLevel + 400);
+		GlStateManager.translate(8.0F, 8.0F, 0.0F);
+		GlStateManager.scale(1.0F, -1.0F, 1.0F);
+		GlStateManager.scale(16.0F, 16.0F, 16.0F);
+		if (model.isGui3d())
+		{
+			GlStateManager.enableLighting();
+		}
+		else
+		{
+			GlStateManager.disableLighting();
+		}
+	}
+	
+	private static void renderModel(IBlockState state, IBakedModel model, int color, float alphaMultiplier, ItemStack stack)
+	{
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+		try
+		{
+		
