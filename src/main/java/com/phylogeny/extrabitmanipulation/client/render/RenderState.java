@@ -280,4 +280,29 @@ public class RenderState
 		{
 			if (autoScale)
 			{
-				GlStateManager.rotate(45
+				GlStateManager.rotate(45, 0, 1, 0);
+				GlStateManager.rotate(30, 1, 0, 1);
+			}
+			GlStateManager.translate(-0.5F, -0.5F, -0.5F);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.enableRescaleNormal();
+			TileEntityItemStackRenderer.instance.renderByItem(stack);
+		}
+		else
+		{
+			if (autoScale)
+			{
+				GlStateManager.rotate(225, 0, 1, 0);
+				GlStateManager.rotate(30, -1, 0, -1);
+			}
+			GlStateManager.translate(-0.5F, -0.5F, -0.5F);
+			renderModel(state, model, -1, alphaMultiplier, stack);
+			if (stack.hasEffect())
+				renderEffect(state, model);
+		}
+		GlStateManager.popMatrix();
+	}
+	
+	private static void setupGuiTransform(int x, int y, IBakedModel model)
+	{
+		Gl
