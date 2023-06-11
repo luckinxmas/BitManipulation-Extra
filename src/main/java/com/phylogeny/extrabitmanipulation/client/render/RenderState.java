@@ -326,4 +326,23 @@ public class RenderState
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
 		try
 		{
-		
+			for (EnumFacing enumfacing : EnumFacing.values())
+				renderQuads(buffer, model.getQuads(state, enumfacing, 0L), color, alphaMultiplier, stack);
+			
+			renderQuads(buffer, model.getQuads(state, null, 0L), color, alphaMultiplier, stack);
+		}
+		catch (Exception e) {}
+		finally
+		{
+			tessellator.draw();
+		}
+	}
+	
+	private static void renderEffect(IBlockState state, IBakedModel model)
+	{
+		GlStateManager.depthMask(false);
+		GlStateManager.depthFunc(514);
+		GlStateManager.disableLighting();
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ONE);
+		ClientHelper.bindTexture(RES_ITEM_GLINT);
+		GlStateManager.
