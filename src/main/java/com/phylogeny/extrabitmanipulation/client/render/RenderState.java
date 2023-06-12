@@ -345,4 +345,19 @@ public class RenderState
 		GlStateManager.disableLighting();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ONE);
 		ClientHelper.bindTexture(RES_ITEM_GLINT);
-		GlStateManager.
+		GlStateManager.matrixMode(5890);
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(8.0F, 8.0F, 8.0F);
+		float f = Minecraft.getSystemTime() % 3000L / 3000.0F / 8.0F;
+		GlStateManager.translate(f, 0.0F, 0.0F);
+		GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
+		renderModel(state, model, -8372020, 1.0F, null);
+		GlStateManager.popMatrix();
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(8.0F, 8.0F, 8.0F);
+		float f1 = Minecraft.getSystemTime() % 4873L / 4873.0F / 8.0F;
+		GlStateManager.translate(-f1, 0.0F, 0.0F);
+		GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
+		renderModel(state, model, -8372020, 1.0F, null);
+		GlStateManager.popMatrix();
+		GlStateManager.matrixMod
