@@ -360,4 +360,22 @@ public class RenderState
 		GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
 		renderModel(state, model, -8372020, 1.0F, null);
 		GlStateManager.popMatrix();
-		GlStateManager.matrixMod
+		GlStateManager.matrixMode(5888);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.enableLighting();
+		GlStateManager.depthFunc(515);
+		GlStateManager.depthMask(true);
+		ClientHelper.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+	}
+	
+	private static void renderQuads(BufferBuilder buffer, List<BakedQuad> quads, int color, float alphaMultiplier, ItemStack stack)
+	{
+		boolean flag = color == -1 && !stack.isEmpty();
+		int i = 0;
+		for (int j = quads.size(); i < j; ++i)
+		{
+			BakedQuad quad = quads.get(i);
+			int colorQuad = color;
+			if (flag && quad.hasTintIndex())
+			{
+				colorQuad = Minecraft
