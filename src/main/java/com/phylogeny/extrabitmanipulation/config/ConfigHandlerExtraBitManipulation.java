@@ -710,3 +710,289 @@ public class ConfigHandlerExtraBitManipulation
 			saveConfigFile(chiseledArmorConfigFile);
 		}
 	}
+	
+	private static float getThrownBitVelocity(float defaultValue, boolean isBitBag)
+	{
+		return configFileServer.getFloat(getThrownBitName("Initial Velocity", isBitBag), THROWN_BIT_PROPERTIES, defaultValue, 0, Float.MAX_VALUE, 
+				"The initial velocity in meters per tick that a thrown bit will initially have when thrown" + getThrownBitDescriptionSuffix(isBitBag) +
+				" (default = " + getThrownBitDefaultValueString(defaultValue) + " meters per tick bits)");
+	}
+	
+	private static float getThrownBitInaccuracy(float defaultValue, boolean isBitBag)
+	{
+		return configFileServer.getFloat(getThrownBitName("Inaccuracy", isBitBag), THROWN_BIT_PROPERTIES, defaultValue, 0, Float.MAX_VALUE, 
+				"A relative value that denote the amount of random deviation a thrown bit will have from the direction the player is looking" +
+				getThrownBitDescriptionSuffix(isBitBag) + " (default = " + getThrownBitDefaultValueString(defaultValue) + ")");
+	}
+	
+	private static String getThrownBitDescriptionSuffix(boolean isBitBag)
+	{
+		return isBitBag ? " from a Bit Bag." : ".";
+	}
+	
+	private static String getThrownBitName(String name, boolean isBitBag)
+	{
+		return name + (isBitBag ? " From Bit Bag" : "");
+	}
+	
+	private static String getThrownBitDefaultValueString(float defaultValue)
+	{
+		String defaultValueString = Float.toString(defaultValue);
+		defaultValueString = defaultValueString.substring(0, defaultValueString.length() - (defaultValueString.endsWith(".0F") ? 3 : 1));
+		return defaultValueString;
+	}
+	
+	private static ConfigBitToolSettingInt getArmorButtonInt(String axis, int defaultValue)
+	{
+		String name = "Armor Button " + axis + " Position";
+		if (BaublesReferences.isLoaded)
+		{
+			name += " With Baubles Loaded";
+			if (axis.equals("X"))
+				defaultValue -= 32;
+		}
+		return getArmorGuiInt(name, defaultValue, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public static <T extends Enum<? >> T getEnumValueFromStringArray(String name, Class<T> enumType,
+			String catagory, Configuration dataConfigFile, int defaultIndex, String comment)
+	{
+		T[] values = enumType.getEnumConstants();
+		int len = values.length;
+		String[] titles = new String[len];
+		String title = "";
+		for (int i = 0; i < len * 2; i++)
+		{
+			if (i < len)
+			{
+				String valueName = "";
+				String[] valueNames = values[i].name().split("_");
+				for (int j = 0; j < valueNames.length; j++)
+					valueName += (j > 0 ? " " : "") + valueNames[j].charAt(0)
+						+ valueNames[j].substring(1, valueNames[j].length()).toLowerCase();
+				
+				titles[i] = valueName.replace("Ebm", "EBM").replace("Cnb", "C&B");
+			}
+			else
+			{
+				if (i == len)
+					title = dataConfigFile.getString(name, catagory, titles[defaultIndex], comment, titles);
+				
+				if (titles[i % len].equals(title))
+					return values[i % len];
+			}
+		}
+		return null;
+	}
+	
+	private static ConfigBitToolSettingInt getArmorGuiInt(String name, int defaultValue, int min, int max)
+	{
+		return new ConfigBitToolSettingInt(name, false, false, defaultValue,
+				chiseledArmorConfigFile.getInt(name, DATA_CATAGORY_ARMOR, defaultValue, min, max, "", name));
+	}
+	
+	private static ConfigBitToolSettingBoolean getArmorGuiBoolean(String name, boolean defaultValue)
+	{
+		return new ConfigBitToolSettingBoolean(name, false, false, defaultValue,
+				chiseledArmorConfigFile.getBoolean(name, DATA_CATAGORY_ARMOR, defaultValue, ""));
+	}
+	
+	private static ConfigBitToolSettingInt getArmorMovingPart(Item armorPiece)
+	{
+		return getBitToolSettingIntFromStringArray(((ItemChiseledArmor) armorPiece).armorType.getName() + " Moving Part", DATA_CATAGORY_ARMOR,
+				chiseledArmorConfigFile, true, true, 0, 0,
+				"moving part",
+				"moving part (specifies a moving part of this armor piece to import blocks into in collection mode).",
+				((ItemChiseledArmor) armorPiece).MOVING_PART_TITLES);
+	}
+	
+	private static boolean disableThrownLiquidBitProperty(String name, boolean ignite, boolean entities)
+	{
+		return configFileCommon.getBoolean("Disable " + name, THROWN_BIT_PROPERTIES, false, "Disables the " + (ignite ? "igniting" : "extinguishing") +
+				" of " + (entities ? "entities" : "blocks") + " when bits with " + (ignite ? "lava" : "water") + " as their material are thrown at them. " +
+				"If disabled, the default behavior of " + (entities ? "striking without damaging and doping as items" : "placing, if possible, or dropping " +
+				"as items if not possible") + " will be used. (default = enabled)");
+	}
+	
+	private static void saveConfigFile(Configuration configFile)
+	{
+		if (configFile.hasChanged())
+			configFile.save();
+	}
+	
+	private static ConfigReplacementBits getConfigReplacementBits(String category, String defaultBlockName, boolean useDefaultReplacementBitDefault,
+			boolean useAnyBitsAsReplacementsDefault, boolean useAirAsReplacementDefault)
+	{
+		String condition = "If " + (category == UNCHISELABLE_BLOCK_STATES ? "an unchiselable blockstate is encountered"
+				: "the player has insufficient bits in their inventory for a chiselable blockstate") + ", an attempt will be made to find a replacement bit. ";
+		ConfigBitStack defaultReplacementBit = new ConfigBitStack("", BitIOHelper.getStateFromString(configFileClient.getString("Default Replacement Bit",
+				category, defaultBlockName, condition + "If the 'Use Default Replacement Bit' config is also set to 'true', then an attempt will first " +
+				"be made to use the bit version of this block as a replacement.")), BitIOHelper.getStateFromString(defaultBlockName), defaultBlockName, null);
+		String textIfTrue = ", if this is set to 'true', ";
+		String textIfFalse = ". If this is set to 'false', this step will be skipped";
+		boolean useDefaultReplacementBit = configFileClient.getBoolean("1st Check: Use Default Replacement Bit", category,
+				useDefaultReplacementBitDefault, condition + "First" + textIfTrue + "an attempt will be made to use the bit specified " +
+						"by the 'Default Replacement Bit' config" + textIfFalse);
+		boolean useAnyBitsAsReplacements = configFileClient.getBoolean("2nd Check: Use Any Bit As Replacement", category,
+				useAnyBitsAsReplacementsDefault, condition + "Second" + textIfTrue + "any/all bits in the player's inventory will " +
+						"be used, from the most numerous to the least numerous" + textIfFalse);
+		boolean useAirAsReplacement = configFileClient.getBoolean("3rd Check: Use Air As Replacement", category, useAirAsReplacementDefault,
+				condition + "Third" + textIfTrue + "air bits will be used, i.e. the bits will simply be left empty" + textIfFalse);
+		ConfigReplacementBits replacementBitsConfig = new ConfigReplacementBits(defaultReplacementBit,
+				useDefaultReplacementBit, useAnyBitsAsReplacements, useAirAsReplacement);
+		replacementBitsConfig.initDefaultReplacementBit();
+		return replacementBitsConfig;
+	}
+	
+	private static ConfigBitToolSettingBoolean getBitToolSettingBoolean(String name, String catagoryEnding, Configuration dataConfigFile,
+			boolean defaultPerTool, boolean defaultDisplayInChat, boolean defaultValue, String toolTipSecondary, String toolTipDefaultValue)
+	{
+		boolean perTool = getPerTool(name, catagoryEnding, defaultPerTool, toolTipSecondary);
+		boolean displayInChat = getDisplayInChat(name, catagoryEnding, defaultDisplayInChat, toolTipSecondary);
+		boolean defaultBoolean = configFileClient.getBoolean(name, BIT_TOOL_DEFAULT_VALUES + " " + catagoryEnding, defaultValue,
+				getToolTipBitToolSetting(toolTipDefaultValue, Boolean.toString(defaultValue)));
+		boolean value = dataConfigFile.getBoolean(name, catagoryEnding, defaultValue, "");
+		return new ConfigBitToolSettingBoolean(name, perTool, displayInChat, defaultBoolean, value);
+	}
+	
+	private static ConfigBitToolSettingInt getBitToolSettingInt(String name, String catagoryEnding, Configuration dataConfigFile,
+			boolean defaultPerTool, boolean defaultDisplayInChat, int defaultValue, int minValue, int maxValue,
+			String toolTipSecondary, String toolTipDefaultValue, String toolTipDefaultValueDefault)
+	{
+		boolean perTool = getPerTool(name, catagoryEnding, defaultPerTool, toolTipSecondary);
+		boolean displayInChat = getDisplayInChat(name, catagoryEnding, defaultDisplayInChat, toolTipSecondary);
+		int defaultInt = configFileClient.getInt(name, BIT_TOOL_DEFAULT_VALUES + " " + catagoryEnding, defaultValue, minValue, maxValue,
+				getToolTipBitToolSetting(toolTipDefaultValue, toolTipDefaultValueDefault));
+		int value = dataConfigFile.getInt(name, catagoryEnding, defaultValue, minValue, maxValue, "");
+		return new ConfigBitToolSettingInt(name, perTool, displayInChat, defaultInt, value);
+	}
+	
+	private static ConfigBitToolSettingInt getBitToolSettingIntFromStringArray(String name, String catagoryEnding,
+			Configuration dataConfigFile, boolean defaultPerTool, boolean defaultDisplayInChat, int defaultValue,
+			int offset, String toolTipSecondary, String toolTipDefaultValue, String ... validValues)
+	{
+		boolean perTool = getPerTool(name, catagoryEnding, defaultPerTool, toolTipSecondary);
+		boolean displayInChat = getDisplayInChat(name, catagoryEnding, defaultDisplayInChat, toolTipSecondary);
+		String defaultInt = validValues[defaultValue];
+		String entry = configFileClient.getString(name, BIT_TOOL_DEFAULT_VALUES + " " + catagoryEnding, defaultInt,
+				getToolTipBitToolSetting(toolTipDefaultValue, defaultInt), validValues);
+		for (int i = 0; i < validValues.length; i++)
+		{
+			if (entry.equals(validValues[i]))
+				defaultValue = i + offset;
+		}
+		int value = dataConfigFile.getInt(name, catagoryEnding, defaultValue, 0, validValues.length - 1, "");
+		return new ConfigBitToolSettingInt(name, perTool, displayInChat, defaultValue, value);
+	}
+	
+	private static ConfigBitStack getBitToolSettingBitStack(String name, String catagoryEnding, Configuration dataConfigFile, boolean defaultPerTool,
+			boolean defaultDisplayInChat, String defaultValue, String toolTipSecondary, String toolTipDefaultValue, String toolTipDefaultValueDefault)
+	{
+		boolean perTool = getPerTool(name, catagoryEnding, defaultPerTool, toolTipSecondary);
+		boolean displayInChat = getDisplayInChat(name, catagoryEnding, defaultDisplayInChat, toolTipSecondary);
+		IBlockState defaultState = BitIOHelper.getStateFromString(configFileClient.getString(name, BIT_TOOL_DEFAULT_VALUES + " " + catagoryEnding, defaultValue,
+				getToolTipBitToolSetting(toolTipDefaultValue, toolTipDefaultValueDefault)));
+		IBlockState valueDefault = BitIOHelper.getStateFromString(dataConfigFile.getString(name, catagoryEnding, defaultValue, ""));
+		return new ConfigBitStack(name, perTool, displayInChat, defaultState, BitIOHelper.getStateFromString(defaultValue), defaultValue, valueDefault);
+	}
+	
+	private static String getToolTipBitToolSetting(String toolTipDefaultValue, String toolTipDefaultValueDefault)
+	{
+		return "Players and bit tools will initialize with this " + toolTipDefaultValue + " (default = " + toolTipDefaultValueDefault + ")";
+	}
+	
+	private static boolean getPerTool(String name, String catagoryEnding, boolean defaultPerTool, String toolTipPerTool)
+	{
+		return configFileClient.getBoolean(name, BIT_TOOL_PER_TOOL_OR_PER_CLIENT + " " + catagoryEnding, defaultPerTool,
+				"If set to true, " + toolTipPerTool + " will be set/stored in each individual sculpting tool and apply only to that tool. " +
+				"If set to false, it will be stored in the client config file called 'modeling_data' and will apply to all tools. Regardless " +
+				"of this setting, the client and tools will still initialize with data, but this setting determines which is considered for use. " +
+				getReferralString(toolTipPerTool) + " (default = " + defaultPerTool + ")");
+	}
+	
+	private static boolean getDisplayInChat(String name, String catagoryEnding, boolean defaultDisplayInChat, String toolTipDisplayInChat)
+	{
+		return configFileClient.getBoolean(name, BIT_TOOL_DISPLAY_IN_CHAT + " " + catagoryEnding, defaultDisplayInChat,
+				"If set to true, whenever " + toolTipDisplayInChat + " is changed, a message will be added to chat indicating the change. " +
+				"This will not fill chat with messages, since any pre-existing messages from this mod will be deleted before adding the next." +
+				getReferralString(toolTipDisplayInChat) + " (default = " + defaultDisplayInChat + ")");
+	}
+	
+	private static String getReferralString(String settingString)
+	{
+		return "See 'Default Value' config for a description of " + settingString + ".";
+	}
+	
+	private static boolean getShapeRender(String category, boolean inner, boolean defaultValue)
+	{
+		String shape = getShape(category);
+		return configFileClient.getBoolean("Render " + (inner ? "Inner " : "Outer ") + shape, category, defaultValue,
+				"Causes " + getSidedShapeText(shape, inner) + " to be rendered. (default = " + defaultValue + ")");
+	}
+	
+	private static float getShapeAlpha(String category, boolean inner, int defaultValue)
+	{
+		String shape = getShape(category);
+		return configFileClient.getInt("Alpha " + (inner ? "Inner " : "Outer ") + shape, category, defaultValue, 0, 255,
+				"Sets the alpha value of " + getSidedShapeText(shape, inner) + ". (default = " + defaultValue + ")") / 255F;
+	}
+	
+	private static String getSidedShapeText(String shape, boolean inner)
+	{
+		return "the portion of the " + shape.toLowerCase() + " that is " + (inner ? "behind" : "in front of") + " other textures";
+	}
+	
+	private static float getShapeColor(String category, int colorFlag, int defaultValue)
+	{
+		String name = COLOR_NAMES[colorFlag];
+		return configFileClient.getInt("Color - " + name, category, defaultValue, 0, 255,
+				"Sets the " + name.toLowerCase() + " value of the " + getShape(category).toLowerCase() + ". (default = " + defaultValue + ")") / 255F;
+	}
+	
+	private static float getShapeLineWidth(String category, float defaultValue)
+	{
+		return configFileClient.getFloat("Line Width", category, defaultValue, 0, Float.MAX_VALUE, 
+				"Sets the line width of the " + getShape(category).toLowerCase() + ". (default = " + defaultValue + ")");
+	}
+	
+	private static String getShape(String category)
+	{
+		return category.substring(category.lastIndexOf(" ") + 1, category.length());
+	}
+	
+	private static int getToolMaxDamage(String name, String category, int defaultValue, int min, int max, boolean perBit)
+	{
+		return configFileCommon.getInt("Max Damage", category, defaultValue, min, max,
+				"The " + name + " will " + (perBit ? "be able to add/remove this many bits " : "have this many uses ") +
+				"if it is configured to take damage. (default = " + defaultValue + ")");
+	}
+	
+	private static boolean getToolTakesDamage(String name, String category, boolean defaultValue, boolean perBit)
+	{
+		return configFileCommon.getBoolean("Takes Damage", category, defaultValue,
+				"Causes the " + name + " to take a point of damage " + (perBit ? " for every bit added/removed " : "") +
+				"when used. (default = " + defaultValue + ")");
+	}
+	
+	private static double getDouble(Configuration configFile, String name, String category,
+			double defaultValue, double minValue, double maxValue, String comment)
+	{
+		Property prop = configFile.get(category, name, Double.toString(defaultValue), name);
+		prop.setLanguageKey(name);
+		prop.setComment(comment + " [range: " + minValue + " ~ " + maxValue + ", default: " + defaultValue + "]");
+		prop.setMinValue(minValue);
+		prop.setMaxValue(maxValue);
+		try
+		{
+			return Double.parseDouble(prop.getString()) < minValue ? minValue
+					: (Double.parseDouble(prop.getString()) > maxValue ? maxValue : Double.parseDouble(prop.getString()));
+		}
+		catch (Exception e)
+		{
+			LogHelper.getLogger().error("Configuration '" + name + "' could not be parsed to a double. " +
+					"Default value of " + defaultValue + " was restored and used instead.");
+		}
+		return defaultValue;
+	}
+	
+}
