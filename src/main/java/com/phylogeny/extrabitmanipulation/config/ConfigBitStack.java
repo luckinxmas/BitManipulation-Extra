@@ -42,4 +42,32 @@ public class ConfigBitStack extends ConfigBitToolSettingBase<ItemStack>
 	private ItemStack getBitStack(IBlockState defaultState)
 	{
 		ItemStack bitStack = ItemStack.EMPTY;
-		IChiselAn
+		IChiselAndBitsAPI api = ChiselsAndBitsAPIAccess.apiInstance;
+		if (api != null)
+		{
+			try
+			{
+				bitStack = api.getBitItem(defaultState != null ? defaultState : stateDefaultDefault);
+			}
+			catch (InvalidBitItem e) {}
+		}
+		return bitStack;
+	}
+	
+	public IBlockState getDefaultState()
+	{
+		return stateDefault != null ? stateDefault : stateDefaultDefault;
+	}
+	
+	public String getStringDeafult()
+	{
+		return stringDeafult;
+	}
+	
+	@Override
+	public boolean isAtDefaultValue()
+	{
+		return super.isAtDefaultValue() || ItemStack.areItemStacksEqual(value, defaultValue);
+	}
+	
+}
