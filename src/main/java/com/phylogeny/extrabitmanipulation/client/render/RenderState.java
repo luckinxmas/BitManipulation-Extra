@@ -378,4 +378,17 @@ public class RenderState
 			int colorQuad = color;
 			if (flag && quad.hasTintIndex())
 			{
-				colorQuad = Minecraft
+				colorQuad = Minecraft.getMinecraft().getItemColors().getColorFromItemstack(stack, quad.getTintIndex());
+				if (EntityRenderer.anaglyphEnable)
+					colorQuad = TextureUtil.anaglyphColor(colorQuad);
+				
+				colorQuad = colorQuad | -16777216;
+			}
+			if (alphaMultiplier < 1)
+				colorQuad = (((int) ((color == -1 ? 255 : colorQuad >> 24) * alphaMultiplier)) << 24) | (colorQuad & 0x00ffffff);
+			
+			LightUtil.renderQuadColor(buffer, quad, colorQuad);
+		}
+	}
+	
+}
