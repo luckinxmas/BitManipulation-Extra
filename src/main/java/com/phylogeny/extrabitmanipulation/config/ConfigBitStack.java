@@ -20,4 +20,26 @@ public class ConfigBitStack extends ConfigBitToolSettingBase<ItemStack>
 	
 	public ConfigBitStack(String name, IBlockState bitBlockDefault, IBlockState defaultDefaultBitBlock, String stringDefault, IBlockState valueDefault)
 	{
-		this(name, false, false, bitBlockDefault, defaultDefaultBitBlock, stringDefault,
+		this(name, false, false, bitBlockDefault, defaultDefaultBitBlock, stringDefault, valueDefault);
+	}
+	
+	public ConfigBitStack(String name, boolean perTool, boolean displayInChat, IBlockState stateDefault,
+			IBlockState stateDefaultDefault, String stringDefault, IBlockState valueDefault)
+	{
+		super(name, perTool, displayInChat);
+		this.stateDefault = stateDefault;
+		this.stateDefaultDefault = stateDefaultDefault;
+		this.stringDeafult = stringDefault;
+		this.valueDefault = valueDefault;
+	}
+	
+	public void init()
+	{
+		defaultValue = getBitStack(stateDefault);
+		value = getBitStack(valueDefault);
+	}
+	
+	private ItemStack getBitStack(IBlockState defaultState)
+	{
+		ItemStack bitStack = ItemStack.EMPTY;
+		IChiselAn
