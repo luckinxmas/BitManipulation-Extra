@@ -26,4 +26,14 @@ public class ConfigRecipe extends ConfigNamed
 		return isShapedDefault;
 	}
 	
-	public boolean getUseOreDictionaryDe
+	public boolean getUseOreDictionaryDefault()
+	{
+		return useOreDictionaryDefault;
+	}
+	
+	public String[] getRecipeDefault()
+	{
+		return recipeDefault;
+	}
+	
+}
