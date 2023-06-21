@@ -13,4 +13,23 @@ public class ConfigReplacementBits
 	public ConfigReplacementBits(ConfigBitStack defaultReplacementBit, boolean useDefaultReplacementBit,
 			boolean useAnyBitsAsReplacements, boolean useAirAsReplacement)
 	{
-		this.defaultReplacementBit = def
+		this.defaultReplacementBit = defaultReplacementBit;
+		this.useDefaultReplacementBit = useDefaultReplacementBit;
+		this.useAnyBitsAsReplacements = useAnyBitsAsReplacements;
+		this.useAirAsReplacement = useAirAsReplacement;
+	}
+	
+	public void toBytes(ByteBuf buffer)
+	{
+		ByteBufUtils.writeItemStack(buffer, defaultReplacementBit.getDefaultValue());
+		buffer.writeBoolean(useDefaultReplacementBit);
+		buffer.writeBoolean(useAnyBitsAsReplacements);
+		buffer.writeBoolean(useAirAsReplacement);
+	}
+	
+	public void fromBytes(ByteBuf buffer)
+	{
+		defaultReplacementBit = new ConfigBitStack(ByteBufUtils.readItemStack(buffer));
+		useDefaultReplacementBit = buffer.readBoolean();
+		useAnyBitsAsReplacements = buffer.readBoolean();
+	
