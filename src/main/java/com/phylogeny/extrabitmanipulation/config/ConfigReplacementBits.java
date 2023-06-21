@@ -32,4 +32,32 @@ public class ConfigReplacementBits
 		defaultReplacementBit = new ConfigBitStack(ByteBufUtils.readItemStack(buffer));
 		useDefaultReplacementBit = buffer.readBoolean();
 		useAnyBitsAsReplacements = buffer.readBoolean();
+		useAirAsReplacement = buffer.readBoolean();
+	}
 	
+	public void initDefaultReplacementBit()
+	{
+		defaultReplacementBit.init();
+	}
+	
+	public ConfigBitStack getDefaultReplacementBit()
+	{
+		return defaultReplacementBit;
+	}
+	
+	public boolean useDefaultReplacementBit()
+	{
+		return useDefaultReplacementBit;
+	}
+	
+	public boolean useAnyBitsAsReplacements()
+	{
+		return useAnyBitsAsReplacements;
+	}
+	
+	public boolean useAirAsReplacement()
+	{
+		return useAirAsReplacement;
+	}
+	
+}
