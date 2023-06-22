@@ -15,4 +15,37 @@ public class ConfigShapeRender extends ConfigNamed
 		super(title);
 		this.renderOuterShapeDefault = renderOuterShapeDefault;
 		this.renderInnerShapeDefault = renderInnerShapeDefault;
-		
+		this.outerShapeAlphaDefault = outerShapeAlphaDefault;
+		this.innerShapeAlphaDefault = innerShapeAlphaDefault;
+		this.redDefault = redDefault;
+		this.greenDefault = greenDefault;
+		this.blueDefault = blueDefault;
+		this.lineWidthDefault = lineWidthDefault;
+	}
+	
+	public boolean getRenderOuterShapeDefault()
+	{
+		return renderOuterShapeDefault;
+	}
+	
+	public boolean getRenderInnerShapeDefault()
+	{
+		return renderInnerShapeDefault;
+	}
+	
+	public int getOuterShapeAlphaDefault()
+	{
+		return outerShapeAlphaDefault;
+	}
+	
+	public int getInnerShapeAlphaDefault()
+	{
+		return innerShapeAlphaDefault;
+	}
+	
+	public int getRedDefault()
+	{
+		return redDefault;
+	}
+	
+	pub
