@@ -26,4 +26,41 @@ public class ContainerPlayerArmorSlots extends ContainerPlayer
 			for (int j = 0; j < ChiseledArmorSlotsHandler.COUNT_TYPES; j++)
 			{
 				SlotChiseledArmor slot = new SlotChiseledArmor(cap, i * ChiseledArmorSlotsHandler.COUNT_TYPES + j, 77 + 18 * i + (i == 0 ? 0 : 21), 8 + j * 18);
-				addSlotT
+				addSlotToContainer(slot);
+			}
+		}
+		
+		for (int i = 0; i < inventorySlots.size(); i++)
+		{
+			Slot slot = inventorySlots.get(i);
+			if (slot.inventory instanceof InventoryCrafting || slot.inventory instanceof InventoryCraftResult)
+			{
+				SlotNull slotNull = new SlotNull();
+				slotNull.slotNumber = slot.slotNumber;
+				inventorySlots.set(i, slotNull);
+			}
+		}
+	}
+	
+	public class SlotNull extends Slot
+	{
+		
+		public SlotNull()
+		{
+			super(new InventoryBasic("", false, 1), 0, -10000, -10000);
+		}
+		
+		@Override
+		public boolean canTakeStack(EntityPlayer playerIn)
+		{
+			return false;
+		}
+		
+		@Override
+		public boolean isEnabled()
+		{
+			return false;
+		}
+		
+		@Override
+		publ
