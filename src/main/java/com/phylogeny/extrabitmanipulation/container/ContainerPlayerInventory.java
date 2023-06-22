@@ -42,4 +42,18 @@ public class ContainerPlayerInventory extends Container
 			if (index < 9)
 			{
 				if (!mergeItemStack(stack2, 9, 36, false))
-					return ItemSt
+					return ItemStack.EMPTY;
+			}
+			else if (!mergeItemStack(stack2, 0, 9, true))
+			{
+				return ItemStack.EMPTY;
+			}
+			if (stack2.isEmpty())
+				slot.putStack(ItemStack.EMPTY);
+			else
+				slot.onSlotChanged();
+		}
+		return stack;
+	}
+	
+}
