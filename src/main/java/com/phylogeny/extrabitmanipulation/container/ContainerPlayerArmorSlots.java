@@ -63,4 +63,31 @@ public class ContainerPlayerArmorSlots extends ContainerPlayer
 		}
 		
 		@Override
-		publ
+		public boolean isItemValid(ItemStack stack)
+		{
+			return false;
+		}
+		
+	}
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int index)
+	{
+		Slot slot = inventorySlots.get(index);
+		if (slot != null && slot.getHasStack())
+		{
+			ItemStack stack = slot.getStack();
+			if (index > 8 && index < 45)
+			{
+				int i = 3 - EntityLiving.getSlotForItemStack(stack).getIndex();
+				if (ChiseledArmorSlotsHandler.isItemValid(i, stack))
+				{
+					for (int j = 0; j < ChiseledArmorSlotsHandler.COUNT_SETS; j++)
+					{
+						int start = i + 46 + j * ChiseledArmorSlotsHandler.COUNT_TYPES;
+						if (mergeItemStack(stack, start, start + 1, false))
+							slot.onTake(player, stack);
+					}
+				}
+			}
+			el
