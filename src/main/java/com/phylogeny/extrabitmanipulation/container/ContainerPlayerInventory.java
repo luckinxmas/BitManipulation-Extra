@@ -14,4 +14,32 @@ public class ContainerPlayerInventory extends Container
 	{
 		for (int i1 = 0; i1 < 9; ++i1)
 		{
-			addSlotToContainer(new Slot(player.inventory,
+			addSlotToContainer(new Slot(player.inventory, i1, startX + i1 * 18, startY + 58));
+		}
+		for (int k = 0; k < 3; ++k)
+		{
+			for (int l = 0; l < 9; ++l)
+				addSlotToContainer(new Slot(player.inventory, l + k * 9 + 9, startX + l * 18, startY + k * 18));
+		}
+	}
+	
+	@Override
+	public boolean canInteractWith(EntityPlayer playerIn)
+	{
+		return true;
+	}
+	
+	@Override
+	@Nullable
+	public ItemStack transferStackInSlot(EntityPlayer player, int index)
+	{
+		ItemStack stack = ItemStack.EMPTY;
+		Slot slot = inventorySlots.get(index);
+		if (slot != null && slot.getHasStack())
+		{
+			ItemStack stack2 = slot.getStack();
+			stack = stack2.copy();
+			if (index < 9)
+			{
+				if (!mergeItemStack(stack2, 9, 36, false))
+					return ItemSt
