@@ -90,4 +90,13 @@ public class ContainerPlayerArmorSlots extends ContainerPlayer
 					}
 				}
 			}
-			el
+			else if (index > 45)
+			{
+				if (mergeItemStack(stack, 9, 45, false))
+					slot.onTake(player, stack);
+			}
+		}
+		return super.transferStackInSlot(player, index);
+	}
+	
+}
