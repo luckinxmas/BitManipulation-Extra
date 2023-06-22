@@ -15,3 +15,15 @@ import com.phylogeny.extrabitmanipulation.armor.capability.IChiseledArmorSlotsHa
 
 public class ContainerPlayerArmorSlots extends ContainerPlayer
 {
+	
+	public ContainerPlayerArmorSlots(InventoryPlayer playerInventory, boolean localWorld, EntityPlayer player)
+	{
+		super(playerInventory, localWorld, player);
+		inventorySlots.get(inventorySlots.size() - 1).xPos += 18;
+		IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(player);
+		for (int i = 0; i < ChiseledArmorSlotsHandler.COUNT_SETS; i++)
+		{
+			for (int j = 0; j < ChiseledArmorSlotsHandler.COUNT_TYPES; j++)
+			{
+				SlotChiseledArmor slot = new SlotChiseledArmor(cap, i * ChiseledArmorSlotsHandler.COUNT_TYPES + j, 77 + 18 * i + (i == 0 ? 0 : 21), 8 + j * 18);
+				addSlotT
