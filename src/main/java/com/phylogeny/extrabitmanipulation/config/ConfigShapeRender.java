@@ -48,4 +48,19 @@ public class ConfigShapeRender extends ConfigNamed
 		return redDefault;
 	}
 	
-	pub
+	public int getGreenDefault()
+	{
+		return greenDefault;
+	}
+	
+	public int getBlueDefault()
+	{
+		return blueDefault;
+	}
+	
+	public float getLineWidthDefault()
+	{
+		return lineWidthDefault;
+	}
+	
+}
