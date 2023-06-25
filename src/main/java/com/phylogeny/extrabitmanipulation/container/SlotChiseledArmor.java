@@ -11,4 +11,25 @@ public class SlotChiseledArmor extends SlotItemHandler
 	
 	public SlotChiseledArmor(IChiseledArmorSlotsHandler itemHandler, int index, int xPosition, int yPosition)
 	{
-		super(itemHandler, index, 
+		super(itemHandler, index, xPosition, yPosition);
+		this.index = index;
+	}
+	
+	public void setDisabled(boolean disabled)
+	{
+		this.disabled = disabled;
+	}
+	
+	@Override
+	public boolean getHasStack()
+	{
+		return disabled ? false : super.getHasStack();
+	}
+	
+	@Override
+	public void onSlotChanged()
+	{
+		((IChiseledArmorSlotsHandler) getItemHandler()).markSlotDirty(index);
+	}
+	
+}
