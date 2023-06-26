@@ -300,3 +300,172 @@ public class EntityBit extends Entity implements IProjectile, IEntityAdditionalS
 						if (world.isAirBlock(pos))
 						{
 							playSound(SoundEvents.BLOCK_FIRE_AMBIENT, 1.0F, 3.6F + (rand.nextFloat() - rand.nextFloat()) * 0.4F);
+							world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 11);
+						}
+					}
+					else
+					{
+						playSound(getSwimSound(), 0.2F, 1.6F + (rand.nextFloat() - rand.nextFloat()) * 0.4F);
+						int flag = 3;
+						if (world.getBlockState(pos).getBlock() == Blocks.FIRE)
+						{
+							playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+							world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+							flag = 4;
+						}
+						Vec3d hit = result.hitVec.addVector(Utility.PIXEL_D * result.sideHit.getFrontOffsetY() * 2,
+								Utility.PIXEL_D * result.sideHit.getFrontOffsetX() * 2,
+								Utility.PIXEL_D * result.sideHit.getFrontOffsetZ() * 2);
+						updateClients(new PacketBitParticles(flag, hit, pos));
+					}
+					setDead();
+				}
+				return;
+			}
+			if (!world.isRemote)
+			{
+				float volume = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ) * 0.2F;
+				if (volume > 1.0F)
+					volume = 1.0F;
+				
+				SoundEvent sound = SoundEvents.BLOCK_METAL_HIT;
+				IBlockState state = world.getBlockState(pos);
+				if (state != null)
+				{
+					SoundType soundType = state.getBlock().getSoundType(state, world, pos, this);
+					if (soundType != null)
+						sound = soundType.getFallSound();
+				}
+				playSound(sound, volume, 1.0F + (rand.nextFloat() - rand.nextFloat()) * 0.4F);
+			}
+			drop = !placeBit(world, bitStack, pos, result.hitVec, result.sideHit, world.isRemote);
+			if (!world.isRemote && !drop)
+				updateClients(new PacketPlaceEntityBit(bitStack, pos, result));
+		}
+		if (!world.isRemote)
+		{
+			if (drop)
+				entityDropItem(bitStack, 0);
+			
+			setDead();
+		}
+	}
+	
+	private void updateClients(IMessage message)
+	{
+		ExtraBitManipulation.packetNetwork.sendToAllAround(message, new TargetPoint(world.provider.getDimension(), posX, posY, posZ, 100));
+	}
+	
+	public static boolean placeBit(World world, ItemStack bitStack, BlockPos pos, Vec3d hitVec, EnumFacing sideHit, boolean simulate)
+	{
+		try
+		{
+			IChiselAndBitsAPI api2 = ChiselsAndBitsAPIAccess.apiInstance;
+			IBitLocation bitLoc = api2.getBitPos((float) hitVec.x - pos.getX(), (float) hitVec.y - pos.getY(),
+					(float) hitVec.z - pos.getZ(), sideHit, pos, false);
+			Vec3d center = new Vec3d(bitLoc.getBitX() * Utility.PIXEL_D + pos.getX() + Utility.PIXEL_D * sideHit.getFrontOffsetX(),
+					bitLoc.getBitY() * Utility.PIXEL_D + pos.getY() + Utility.PIXEL_D * sideHit.getFrontOffsetY(),
+					bitLoc.getBitZ() * Utility.PIXEL_D + pos.getZ() + Utility.PIXEL_D * sideHit.getFrontOffsetZ());
+			pos = new BlockPos(center);
+			IBitAccess bitAccess = api2.getBitAccess(world, pos);
+			if (api2.canBeChiseled(world, pos))
+			{
+				int x = (int) (Math.ceil((int) ((center.x - pos.getX()) / Utility.PIXEL_D)));
+				int y = (int) (Math.ceil((int) ((center.y - pos.getY()) / Utility.PIXEL_D)));
+				int z = (int) (Math.ceil((int) ((center.z - pos.getZ()) / Utility.PIXEL_D)));
+				if (bitAccess.getBitAt(x, y, z).isAir())
+				{
+					bitAccess.setBitAt(x, y, z, api2.createBrush(bitStack));
+					if (!simulate)
+						bitAccess.commitChanges(true);
+					
+					return true;
+				}
+			}
+		}
+		catch (CannotBeChiseled e) {}
+		catch (SpaceOccupied e) {}
+		catch (InvalidBitItem e) {}
+		return false;
+	}
+	
+	@Nullable
+	protected Entity findEntityOnPath(Vec3d start, Vec3d end)
+	{
+		Entity entity = null;
+		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().expand(motionX, motionY, motionZ).grow(1.0D));
+		double d0 = 0.0D;
+		for (int i = 0; i < list.size(); ++i)
+		{
+			Entity entity1 = list.get(i);
+			if (!entity1.canBeCollidedWith() || (entity1 == shootingEntity && ticksExisted < 5))
+				continue;
+			
+			AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow(0.30000001192092896D);
+			RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(start, end);
+			if (raytraceresult != null)
+			{
+				double d1 = start.squareDistanceTo(raytraceresult.hitVec);
+				if (d1 < d0 || d0 == 0.0D)
+				{
+					entity = entity1;
+					d0 = d1;
+				}
+			}
+		}
+		return entity;
+	}
+	
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound)
+	{
+		compound.setByte("inGround", (byte)(inGround ? 1 : 0));
+		NBTTagCompound nbt = new NBTTagCompound();
+		bitStack.writeToNBT(nbt);
+		compound.setTag(NBTKeys.ENTITY_BIT_STACK, nbt);
+	}
+	
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound)
+	{
+		inGround = compound.getByte("inGround") == 1;
+		bitStack = new ItemStack(compound.getCompoundTag(NBTKeys.ENTITY_BIT_STACK));
+	}
+	
+	@Override
+	public void writeSpawnData(ByteBuf buffer)
+	{
+		ByteBufUtils.writeItemStack(buffer, bitStack);
+		buffer.writeDouble(motionX);
+		buffer.writeDouble(motionY);
+		buffer.writeDouble(motionZ);
+	}
+	
+	@Override
+	public void readSpawnData(ByteBuf buffer)
+	{
+		bitStack = ByteBufUtils.readItemStack(buffer);
+		motionX = buffer.readDouble();
+		motionY = buffer.readDouble();
+		motionZ = buffer.readDouble();
+	}
+	
+	@Override
+	public boolean canBeAttackedWithItem()
+	{
+		return false;
+	}
+
+	@Override
+	public float getEyeHeight()
+	{
+		return 0.0F;
+	}
+	
+	@Override
+	public boolean canPassengerSteer()
+	{
+		return true;
+	}
+	
+}
