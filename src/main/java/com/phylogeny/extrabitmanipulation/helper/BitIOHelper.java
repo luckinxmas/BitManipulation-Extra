@@ -40,3 +40,28 @@ public class BitIOHelper
 	{
 		Map<IBlockState, IBitBrush> bitMap = new HashMap<IBlockState, IBitBrush>();
 		for (String entryString : entryStrings)
+		{
+			if (entryString.indexOf("-") < 0 || entryString.length() < 3)
+				continue;
+			
+			String[] entryStringArray = entryString.split("-");
+			IBlockState key = getStateFromString(entryStringArray[0]);
+			if (key == null || BitIOHelper.isAir(key))
+				continue;
+			
+			IBlockState value = getStateFromString(entryStringArray[1]);
+			if (value == null)
+				continue;
+			
+			try
+			{
+				bitMap.put(key, ChiselsAndBitsAPIAccess.apiInstance.createBrushFromState(value));
+			}
+			catch (InvalidBitItem e) {}
+		}
+		return bitMap;
+	}
+	
+	public static String[] getEntryStringsFromModelBitMap(Map<IBlockState, IBitBrush> bitMap)
+	{
+		String[] entryStrings = new String[bitMap.size()];
