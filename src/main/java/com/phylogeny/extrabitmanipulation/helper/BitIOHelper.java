@@ -65,3 +65,23 @@ public class BitIOHelper
 	public static String[] getEntryStringsFromModelBitMap(Map<IBlockState, IBitBrush> bitMap)
 	{
 		String[] entryStrings = new String[bitMap.size()];
+		int index = 0;
+		for (Entry<IBlockState, IBitBrush> entry : bitMap.entrySet())
+			entryStrings[index++] = getModelBitMapEntryString(entry);
+		
+		return entryStrings;
+	}
+	
+	public static void stateToBitMapToBytes(ByteBuf buffer, Map<IBlockState, IBitBrush> stateToBitMap)
+	{
+		if (notNullToBuffer(buffer, stateToBitMap))
+			objectToBytes(buffer, stateToBitMapToStateIdArray(stateToBitMap));
+	}
+	
+	public static Map<IBlockState, IBitBrush> stateToBitMapFromBytes(ByteBuf buffer)
+	{
+		Map<IBlockState, IBitBrush> stateToBitMap = new HashMap<IBlockState, IBitBrush>();
+		if (!buffer.readBoolean())
+			return stateToBitMap;
+		
+		int[] mapArray = (int[]) objectFr
