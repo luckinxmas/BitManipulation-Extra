@@ -84,4 +84,24 @@ public class BitIOHelper
 		if (!buffer.readBoolean())
 			return stateToBitMap;
 		
-		int[] mapArray = (int[]) objectFr
+		int[] mapArray = (int[]) objectFromBytes(buffer);
+		if (mapArray == null)
+			return stateToBitMap;
+		
+		stateToBitMapFromStateIdArray(stateToBitMap, mapArray, ChiselsAndBitsAPIAccess.apiInstance);
+		return stateToBitMap;
+	}
+	
+	private static int[] stateToBitMapToStateIdArray(Map<IBlockState, IBitBrush> stateToBitMap)
+	{
+		int counter = 0;
+		int[] mapArray = new int[stateToBitMap.size() * 2];
+		for (Entry<IBlockState, IBitBrush> entry : stateToBitMap.entrySet())
+		{
+			mapArray[counter++] = Block.getStateId(entry.getKey());
+			mapArray[counter++] = entry.getValue().getStateID();
+		}
+		return mapArray;
+	}
+	
+	private static void stateToBitMapFromStateIdArray(Map<IBlockState, IBitBrush> stateToBitMap, int[] mapArray, IChiselAndBitsAPI 
