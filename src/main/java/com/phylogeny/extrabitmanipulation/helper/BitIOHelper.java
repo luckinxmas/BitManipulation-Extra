@@ -104,4 +104,29 @@ public class BitIOHelper
 		return mapArray;
 	}
 	
-	private static void stateToBitMapFromStateIdArray(Map<IBlockState, IBitBrush> stateToBitMap, int[] mapArray, IChiselAndBitsAPI 
+	private static void stateToBitMapFromStateIdArray(Map<IBlockState, IBitBrush> stateToBitMap, int[] mapArray, IChiselAndBitsAPI api)
+	{
+		for (int i = 0; i < mapArray.length; i += 2)
+		{
+			IBlockState state = Block.getStateById(mapArray[i]);
+			if (!isAir(state))
+			{
+				try
+				{
+					stateToBitMap.put(state, api.createBrushFromState(Block.getStateById(mapArray[i + 1])));
+				}
+				catch (InvalidBitItem e) {}
+			}
+		}
+	}
+	
+	public static void writeStateToBitMapToNBT(ItemStack bitStack, String key, Map<IBlockState, IBitBrush> stateToBitMap, boolean saveStatesById)
+	{
+		if (!bitStack.hasTagCompound())
+			return;
+		
+		NBTTagCompound nbt = ItemStackHelper.getNBT(bitStack);
+		if (saveStatesById)
+		{
+			writeObjectToNBT(nbt, key + 0, stateToBitMapToStateIdArray(stateToBitMap));
+			nb
