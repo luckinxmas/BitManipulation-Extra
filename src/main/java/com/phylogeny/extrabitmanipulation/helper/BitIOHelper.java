@@ -230,4 +230,37 @@ public class BitIOHelper
 		return (new ObjectInputStream(new InflaterInputStream(new ByteArrayInputStream(bytes)))).readObject();
 	}
 	
-	private static void writeObje
+	private static void writeObjectToNBT(NBTTagCompound nbt, String key, Object object)
+	{
+		try
+		{
+			nbt.setByteArray(key, compressObject(object));
+		}
+		catch (IOException e) {}
+	}
+	
+	private static Object readObjectFromNBT(NBTTagCompound nbt, String key)
+	{
+		try
+		{
+			return decompressObject(nbt.getByteArray(key));
+		}
+		catch (ClassNotFoundException e) {}
+		catch (IOException e) {}
+		return null;
+	}
+	
+	private static Object objectFromBytes(ByteBuf buffer)
+	{
+		int length = buffer.readInt();
+		if (length == 0)
+			return null;
+		
+		try
+		{
+			byte[] bytes = new byte[length];
+			buffer.readBytes(bytes);
+			return decompressObject(bytes);
+		}
+		catch (ClassNotFoundException e) {}
+		catch (IOE
