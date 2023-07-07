@@ -129,4 +129,19 @@ public class BitIOHelper
 		if (saveStatesById)
 		{
 			writeObjectToNBT(nbt, key + 0, stateToBitMapToStateIdArray(stateToBitMap));
-			nb
+			nbt.removeTag(key + 1);
+			nbt.removeTag(key + 2);
+			nbt.removeTag(key + 3);
+		}
+		else
+		{
+			int counter = 0;
+			int n = stateToBitMap.size();
+			boolean isBlockMap = key.equals(NBTKeys.BLOCK_TO_BIT_MAP_PERMANENT);
+			String[] domainArray = new String[n * 2];
+			String[] pathArray = new String[n * 2];
+			byte[] metaArray = new byte[isBlockMap ? n : n * 2];
+			for (Entry<IBlockState, IBitBrush> entry : stateToBitMap.entrySet())
+			{
+				saveStateToMapArrays(domainArray, pathArray, isBlockMap ? null : metaArray, counter++, isBlockMap, entry.getKey());
+				saveStateToMapArrays(domainArray, pathArray, metaAr
