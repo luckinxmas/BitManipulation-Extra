@@ -178,4 +178,21 @@ public class BitIOHelper
 		
 		if (saveStatesById)
 		{
-			int[] mapArray
+			int[] mapArray = (int[]) readObjectFromNBT(nbt, key + 0);
+			if (mapArray == null)
+				return stateToBitMap;
+			
+			stateToBitMapFromStateIdArray(stateToBitMap, mapArray, api);
+		}
+		else
+		{
+			String[] domainArray = (String[]) readObjectFromNBT(nbt, key + 1);
+			String[] pathArray = (String[]) readObjectFromNBT(nbt, key + 2);
+			byte[] metaArray = (byte[]) readObjectFromNBT(nbt, key + 3);
+			if (domainArray == null || pathArray == null || metaArray == null)
+				return stateToBitMap;
+			
+			boolean isBlockMap = key.equals(NBTKeys.BLOCK_TO_BIT_MAP_PERMANENT);
+			for (int i = 0; i < domainArray.length; i += 2)
+			{
+				IBlockState state = readStat
