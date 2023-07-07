@@ -213,4 +213,21 @@ public class BitIOHelper
 	{
 		Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(domainArray[index], pathArray[index]));
 		return block == null ? Blocks.AIR.getDefaultState() : (metaArray != null
-				
+				? getStateFromMeta(block, metaArray[isBlockMap ? index / 2 : index]) : block.getDefaultState());
+	}
+	
+	private static byte[] compressObject(Object object) throws IOException
+	{
+		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+		ObjectOutputStream objectStream = new ObjectOutputStream(new DeflaterOutputStream(byteStream));
+		objectStream.writeObject(object);
+		objectStream.close();
+		return byteStream.toByteArray();
+	}
+	
+	private static Object decompressObject(byte[] bytes) throws IOException, ClassNotFoundException
+	{
+		return (new ObjectInputStream(new InflaterInputStream(new ByteArrayInputStream(bytes)))).readObject();
+	}
+	
+	private static void writeObje
