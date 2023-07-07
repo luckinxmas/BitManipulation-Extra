@@ -195,4 +195,22 @@ public class BitIOHelper
 			boolean isBlockMap = key.equals(NBTKeys.BLOCK_TO_BIT_MAP_PERMANENT);
 			for (int i = 0; i < domainArray.length; i += 2)
 			{
-				IBlockState state = readStat
+				IBlockState state = readStateFromMapArrays(domainArray, pathArray, isBlockMap ? null : metaArray, i, isBlockMap);
+				if (!isAir(state))
+				{
+					try
+					{
+						stateToBitMap.put(state, api.createBrushFromState(readStateFromMapArrays(domainArray, pathArray, metaArray, i + 1, isBlockMap)));
+					}
+					catch (InvalidBitItem e) {}
+				}
+			}
+		}
+		return stateToBitMap;
+	}
+	
+	private static IBlockState readStateFromMapArrays(String[] domainArray, String[] pathArray, byte[] metaArray, int index, boolean isBlockMap)
+	{
+		Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(domainArray[index], pathArray[index]));
+		return block == null ? Blocks.AIR.getDefaultState() : (metaArray != null
+				
