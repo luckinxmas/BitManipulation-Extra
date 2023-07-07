@@ -144,4 +144,21 @@ public class BitIOHelper
 			for (Entry<IBlockState, IBitBrush> entry : stateToBitMap.entrySet())
 			{
 				saveStateToMapArrays(domainArray, pathArray, isBlockMap ? null : metaArray, counter++, isBlockMap, entry.getKey());
-				saveStateToMapArrays(domainArray, pathArray, metaAr
+				saveStateToMapArrays(domainArray, pathArray, metaArray, counter++, isBlockMap, Block.getStateById(entry.getValue().getStateID()));
+			}
+			nbt.removeTag(key + 0);
+			writeObjectToNBT(nbt, key + 1, domainArray);
+			writeObjectToNBT(nbt, key + 2, pathArray);
+			writeObjectToNBT(nbt, key + 3, metaArray);
+		}
+	}
+	
+	private static void saveStateToMapArrays(String[] domainArray, String[] pathArray, byte[] metaArray, int index, boolean isBlockMap, IBlockState state)
+	{
+		ResourceLocation regName = state.getBlock().getRegistryName();
+		if (regName == null)
+			return;
+		
+		domainArray[index] = regName.getResourceDomain();
+		pathArray[index] = regName.getResourcePath();
+	
