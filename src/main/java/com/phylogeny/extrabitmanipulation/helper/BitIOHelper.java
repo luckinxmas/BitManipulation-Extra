@@ -161,4 +161,21 @@ public class BitIOHelper
 		
 		domainArray[index] = regName.getResourceDomain();
 		pathArray[index] = regName.getResourcePath();
+		if (metaArray != null)
+			metaArray[isBlockMap ? index / 2 : index] = (byte) state.getBlock().getMetaFromState(state);
+	}
 	
+	public static Map<IBlockState, IBitBrush> readStateToBitMapFromNBT(IChiselAndBitsAPI api, ItemStack bitStack, String key)
+	{
+		Map<IBlockState, IBitBrush> stateToBitMap = new HashMap<IBlockState, IBitBrush>();
+		if (!bitStack.hasTagCompound())
+			return stateToBitMap;
+		
+		NBTTagCompound nbt = ItemStackHelper.getNBT(bitStack);
+		boolean saveStatesById = !nbt.hasKey(key + 2);
+		if (saveStatesById ? !nbt.hasKey(key + 0) : !nbt.hasKey(key + 1) || !nbt.hasKey(key + 3))
+			return stateToBitMap;
+		
+		if (saveStatesById)
+		{
+			int[] mapArray
