@@ -263,4 +263,35 @@ public class BitIOHelper
 			return decompressObject(bytes);
 		}
 		catch (ClassNotFoundException e) {}
-		catch (IOE
+		catch (IOException e) {}
+		return null;
+	}
+	
+	private static void objectToBytes(ByteBuf buffer, Object object)
+	{
+		try
+		{
+			byte[] bytes = compressObject(object);
+			buffer.writeInt(bytes.length);
+			buffer.writeBytes(bytes);
+		}
+		catch (IOException e)
+		{
+			buffer.writeInt(0);
+		}
+	}
+	
+	public static void readStatesFromNBT(NBTTagCompound nbt, Map<IBlockState, Integer> stateMap, IBlockState[][][] stateArray)
+	{
+		String key = NBTKeys.SAVED_STATES;
+		int[] stateIDs = (int[]) readObjectFromNBT(nbt, key);
+		if (stateIDs == null)
+			stateIDs = new int[4096];
+		
+		for (int n = 0; n < stateIDs.length; n++)
+		{
+			int i = n / 256;
+			int n2 = n % 256;
+			int j = n2 / 16;
+			int k = n2 % 16;
+			IBlockState 
