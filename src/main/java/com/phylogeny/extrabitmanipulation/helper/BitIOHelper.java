@@ -294,4 +294,30 @@ public class BitIOHelper
 			int n2 = n % 256;
 			int j = n2 / 16;
 			int k = n2 % 16;
-			IBlockState 
+			IBlockState state = Block.getStateById(stateIDs[n]);
+			stateArray[i][j][k] = state;
+			if (!isAir(state))
+				stateMap.put(state, 1 + (stateMap.containsKey(state) ? stateMap.get(state) : 0));
+		}
+		if (stateIDs.length == 0)
+		{
+			IBlockState air = Blocks.AIR.getDefaultState();
+			for (int i = 0; i < 16; i++)
+			{
+				for (int j = 0; j < 16; j++)
+				{
+					for (int k = 0; k < 16; k++)
+						stateArray[i][j][k] = air;
+				}
+			}
+		}
+	}
+	
+	public static void saveBlockStates(IChiselAndBitsAPI api, EntityPlayer player, World world, AxisAlignedBB box, NBTTagCompound nbt)
+	{
+		if (world.isRemote)
+			return;
+		
+		int[] stateIDs = new int[4096];
+		int index = 0;
+		int diffX = 16 - (int) (box.m
