@@ -320,4 +320,20 @@ public class BitIOHelper
 		
 		int[] stateIDs = new int[4096];
 		int index = 0;
-		int diffX = 16 - (int) (box.m
+		int diffX = 16 - (int) (box.maxX - box.minX);
+		int diffZ = 16 - (int) (box.maxZ - box.minZ);
+		int halfDiffX = diffX / 2;
+		int halfDiffZ = diffZ / 2;
+		int minX = (int) (box.minX - halfDiffX);
+		int maxX = (int) (box.maxX + (diffX - halfDiffX));
+		int minZ = (int) (box.minZ - halfDiffZ);
+		int maxZ = (int) (box.maxZ + (diffZ - halfDiffZ));
+		IBlockState airState = Blocks.AIR.getDefaultState();
+		for (int x = minX; x < maxX; x++)
+		{
+			for (int y = (int) box.minY; y < box.minY + 16; y++)
+			{
+				for (int z = minZ; z < maxZ; z++)
+				{
+					IBlockState state;
+					if (y <= box.maxY && x >= box.minX && x <= box.maxX && z >= box.minZ && z <= box.maxZ)
