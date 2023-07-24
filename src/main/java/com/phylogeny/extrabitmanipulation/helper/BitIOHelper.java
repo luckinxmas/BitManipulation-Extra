@@ -337,3 +337,30 @@ public class BitIOHelper
 				{
 					IBlockState state;
 					if (y <= box.maxY && x >= box.minX && x <= box.maxX && z >= box.minZ && z <= box.maxZ)
+					{
+						BlockPos pos = new BlockPos(x, y, z);
+						state = world.getBlockState(pos);
+						if (api.isBlockChiseled(world, pos) && state.getBlock() instanceof IMultiStateBlock)
+							state = ((IMultiStateBlock) state.getBlock()).getPrimaryState(world, pos);
+					}
+					else
+					{
+						state = airState;
+					}
+					stateIDs[index++] = Block.getStateId(state);
+				}
+			}
+		}
+		String key = NBTKeys.SAVED_STATES;
+		writeObjectToNBT(nbt, key, stateIDs);
+		player.inventoryContainer.detectAndSendChanges();
+	}
+	
+	public static boolean isAir(IBlockState state)
+	{
+		return state.equals(Blocks.AIR.getDefaultState());
+	}
+	
+	public static boolean isAir(Block block)
+	{
+		
