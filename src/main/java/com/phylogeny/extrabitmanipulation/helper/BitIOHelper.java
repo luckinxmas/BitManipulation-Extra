@@ -418,4 +418,27 @@ public class BitIOHelper
 		if (regName == null)
 			return "minecraft:air";
 		
-		Str
+		String valueString = regName.getResourceDomain() + ":" + regName.getResourcePath();
+		if (!state.equals(block.getDefaultState()))
+			valueString += ":" + block.getMetaFromState(state);
+		
+		return valueString;
+	}
+	
+	public static boolean hasBitMapsInNbt(ItemStack stack)
+	{
+		NBTTagCompound nbt = ItemStackHelper.getNBT(stack);
+		for (int i = 0; i < 4; i++)
+		{
+			if (nbt.hasKey(NBTKeys.STATE_TO_BIT_MAP_PERMANENT + i) || nbt.hasKey(NBTKeys.BLOCK_TO_BIT_MAP_PERMANENT + i))
+				return true;
+		}
+		return false;
+	}
+	
+	public static void clearAllBitMapsFromNbt(ItemStack stack)
+	{
+		NBTTagCompound nbt = ItemStackHelper.getNBT(stack);
+		for (int i = 0; i < 4; i++)
+		{
+			nbt.rem
