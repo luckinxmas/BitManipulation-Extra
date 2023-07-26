@@ -458,4 +458,23 @@ public class BitIOHelper
 		while (iterator1.hasNext() && iterator2.hasNext())
 		{
 			Entry<IBlockState, IBitBrush> entry1 = iterator1.next();
-			Entry<IBlockState, IBitBrush> 
+			Entry<IBlockState, IBitBrush> entry2 = iterator2.next();
+			if (getModelBitMapEntryString(entry1).equals(getModelBitMapEntryString(entry2)))
+				matches++;
+		}
+		return matches == n;
+	}
+	
+	private static String getModelBitMapEntryString(Entry<IBlockState, IBitBrush> entry)
+	{
+		return getStringFromState(entry.getKey()) + "-" + getStringFromState(entry.getValue().getState());
+	}
+	
+	public static boolean notNullToBuffer(ByteBuf buffer, Object object)
+	{
+		boolean notNull = object != null;
+		buffer.writeBoolean(notNull);
+		return notNull;
+	}
+	
+}
