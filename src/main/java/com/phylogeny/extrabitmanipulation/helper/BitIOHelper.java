@@ -363,4 +363,33 @@ public class BitIOHelper
 	
 	public static boolean isAir(Block block)
 	{
+		return block.equals(Blocks.AIR);
+	}
+	
+	public static void stateToBytes(ByteBuf buffer, IBlockState state)
+	{
+		buffer.writeInt(Block.getStateId(state));
+	}
+	
+	public static IBlockState stateFromBytes(ByteBuf buffer)
+	{
+		return Block.getStateById(buffer.readInt());
+	}
+	
+	public static IBlockState getStateFromString(String stateString)
+	{
+		if (stateString.isEmpty())
+			return null;
 		
+		int meta = -1;
+		int i = stateString.lastIndexOf(":");
+		if (i >= 0 && i < stateString.length() - 1)
+		{
+			try
+			{
+				meta = Integer.parseInt(stateString.substring(i + 1));
+				stateString = stateString.substring(0, i);
+			}
+			catch (NumberFormatException e) {}
+		}
+		Block block = Block.getBlock
