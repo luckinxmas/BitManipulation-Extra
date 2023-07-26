@@ -441,4 +441,21 @@ public class BitIOHelper
 		NBTTagCompound nbt = ItemStackHelper.getNBT(stack);
 		for (int i = 0; i < 4; i++)
 		{
-			nbt.rem
+			nbt.removeTag(NBTKeys.STATE_TO_BIT_MAP_PERMANENT + i);
+			nbt.removeTag(NBTKeys.BLOCK_TO_BIT_MAP_PERMANENT + i);
+		}
+	}
+	
+	public static boolean areSortedBitMapsIdentical(Map<IBlockState, IBitBrush> map1, Map<IBlockState, IBitBrush> map2)
+	{
+		int n = map1.size();
+		if (n != map2.size())
+			return false;
+		
+		int matches = 0;
+		Iterator<Entry<IBlockState, IBitBrush>> iterator1 = map1.entrySet().iterator();
+		Iterator<Entry<IBlockState, IBitBrush>> iterator2 = map2.entrySet().iterator();
+		while (iterator1.hasNext() && iterator2.hasNext())
+		{
+			Entry<IBlockState, IBitBrush> entry1 = iterator1.next();
+			Entry<IBlockState, IBitBrush> 
