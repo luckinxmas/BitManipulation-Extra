@@ -162,3 +162,250 @@ public class BitInventoryHelper
 			ItemStack stack = inventoy.getStackInSlot(i);
 			if (stack.isEmpty() || !(stack.getItem() instanceof ItemBlock))
 				continue;
+			
+			Block block2 = ((ItemBlock) stack.getItem()).getBlock();
+			if (block2 != block)
+				continue;
+			
+			int count = stack.getCount();
+			for (int j = 0; j < count; j++)
+			{
+				if (quota >= 4096)
+				{
+					quota -= 4096;
+					stack.shrink(1);
+				}
+				else
+				{
+					stack.shrink(1);
+					break;
+				}
+				if (quota <= 0) break;
+			}
+			if (quota > 0 && quota < 4096)
+			{
+				Vec3d spawnPos = new Vec3d(player.posX, player.posY, player.posZ);
+				quota = 4096 - quota;
+				int stakCount = (int) Math.ceil(quota / 64.0);
+				for (int j = 0; j < stakCount; j++)
+				{
+					ItemStack stack2 = bitStack.copy();
+					stack2.setCount(Math.min(64, quota));
+					quota -= stack2.getCount();
+					api.giveBitToPlayer(player, stack2, spawnPos);
+				}
+			}
+			if (quota <= 0) break;
+		}
+	}
+	
+	public static int removeOrAddInventoryBits(IChiselAndBitsAPI api, EntityPlayer player, ItemStack stackBitType, int quota, boolean addBits)
+	{
+		if (quota <= 0)
+			return quota;
+		
+		InventoryPlayer inventoy = player.inventory;
+		for (int i = 0; i < inventoy.getSizeInventory(); i++)
+		{
+			ItemStack stack = inventoy.getStackInSlot(i);
+			if (!addBits)
+				quota = removeBitsFromStack(api, stackBitType, quota, inventoy, null, i, stack);
+			
+			if (api.getItemType(stack) == ItemType.BIT_BAG)
+			{
+				IItemHandler itemHandler = getItemHandler(stack);
+				if (itemHandler == null)
+					continue;
+				
+				for (int j = 0; j < itemHandler.getSlots(); j++)
+				{
+					quota = addBits ? addBitsToInventoryOfStack(quota, itemHandler, j, stackBitType)
+							: removeBitsFromStack(api, stackBitType, quota, null, itemHandler, j, itemHandler.getStackInSlot(j));
+					if (quota <= 0) break;
+				}
+			}
+			if (quota <= 0) break;
+		}
+		return quota;
+	}
+	
+	private static int addBitsToInventoryOfStack(int quota, IItemHandler itemHandler, int index, ItemStack stack)
+	{
+		if (!stack.isEmpty())
+		{
+			int size = stack.getCount();
+			ItemStack remainingStack = itemHandler.insertItem(index, stack, false);
+			int reduction = size - (!remainingStack.isEmpty() ? remainingStack.getCount() : 0);
+			quota -= reduction;
+			stack.shrink(reduction);
+		}
+		return quota;
+	}
+	
+	private static int removeBitsFromStack(IChiselAndBitsAPI api, ItemStack setBitStack,
+			int quota, @Nullable InventoryPlayer inventoy, @Nullable IItemHandler itemHandler, int index, ItemStack stack)
+	{
+		if (areBitStacksEqual(api, setBitStack, stack))
+		{
+			int size = stack.getCount();
+			if (size > quota)
+			{
+				if (itemHandler != null)
+				{
+					itemHandler.extractItem(index, quota, false);
+				}
+				else
+				{
+					stack.shrink(quota);
+				}
+				quota = 0;
+			}
+			else
+			{
+				if (itemHandler != null)
+				{
+					itemHandler.extractItem(index, size, false);
+				}
+				else if (inventoy != null)
+				{
+					inventoy.setInventorySlotContents(index, ItemStack.EMPTY);
+				}
+				quota -= size;
+			}
+		}
+		return quota;
+	}
+	
+	public static void giveOrDropStacks(EntityPlayer player, World world, BlockPos pos, Shape shape,
+			IChiselAndBitsAPI api, Map<IBlockState, Integer> bitTypes)
+	{
+		if (bitTypes != null)
+		{
+			Set<IBlockState> keySet = bitTypes.keySet();
+			for (IBlockState state : keySet)
+			{
+				ItemStack stackBitType;
+				IBitBrush bitType;
+				try
+				{
+					stackBitType = api.getBitItem(state);
+					if (stackBitType.getItem() == null)
+						continue;
+
+					bitType = api.createBrush(stackBitType);
+				}
+				catch (InvalidBitItem e)
+				{
+					continue;
+				}
+				int totalBits = bitTypes.get(state);
+				if (Configs.dropBitsAsFullChiseledBlocks && totalBits >= 4096)
+				{
+					IBitAccess bitAccess = api.createBitItem(ItemStack.EMPTY);
+					setAllBits(bitAccess, bitType);
+					int blockCount = totalBits / 4096;
+					totalBits -= blockCount * 4096;
+					while (blockCount > 0)
+					{
+						int stackSize = blockCount > 64 ? 64 : blockCount;
+						@SuppressWarnings("null")
+						ItemStack stack2 = bitAccess.getBitsAsItem(null, ItemType.CHISLED_BLOCK, false);
+						if (!stack2.isEmpty())
+						{
+							stack2.setCount(stackSize);
+							givePlayerStackOrDropOnGround(player, world, api, pos, shape, stack2);
+						}
+						blockCount -= stackSize;
+					}
+				}
+				int quota;
+				while (totalBits > 0)
+				{
+					quota = totalBits > 64 ? 64 : totalBits;
+					ItemStack bitStack2 = bitType.getItemStack(quota);
+					givePlayerStackOrDropOnGround(player, world, api, pos, shape, bitStack2);
+					totalBits -= quota;
+				}
+			}
+			bitTypes.clear();
+			if (Configs.placeBitsInInventory) player.inventoryContainer.detectAndSendChanges();
+		}
+	}
+	
+	private static void givePlayerStackOrDropOnGround(EntityPlayer player, World world, IChiselAndBitsAPI api, BlockPos pos, Shape shape, ItemStack stack)
+	{
+		if (Configs.placeBitsInInventory)
+		{
+			removeOrAddInventoryBits(api, player, stack, stack.getCount(), true);
+			if (stack.getCount() > 0)
+				player.inventory.addItemStackToInventory(stack);
+		}
+		if (stack.getCount() > 0)
+		{
+			if (Configs.dropBitsInBlockspace)
+			{
+				spawnStacksInShape(world, pos, shape, stack);
+			}
+			else
+			{
+				player.dropItem(stack, false, false);
+			}
+		}
+	}
+	
+	private static void spawnStacksInShape(World world, BlockPos pos, Shape shape, ItemStack stack)
+	{
+		if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && !world.restoringBlockSnapshots)
+		{
+			Vec3d spawnPoint = shape.getRandomInternalPoint(world, pos);
+			EntityItem entityitem = new EntityItem(world, spawnPoint.x, spawnPoint.y - 0.25, spawnPoint.z, stack);
+			entityitem.setDefaultPickupDelay();
+			world.spawnEntity(entityitem);
+		}
+	}
+	
+	private static void setAllBits(IBitAccess bitAccess, IBitBrush bit)
+	{
+		for (int i = 0; i < 16; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				for (int k = 0; k < 16; k++)
+				{
+					try
+					{
+						bitAccess.setBitAt(i, j, k, bit);
+					}
+					catch (SpaceOccupied e) {}
+				}
+			}
+		}
+	}
+	
+	public static void setHeldDesignStack(EntityPlayer player, ItemStack stackChiseledBlock)
+	{
+		ItemStack stack = player.getHeldItemMainhand();
+		ItemType itemType = ChiselsAndBitsAPIAccess.apiInstance.getItemType(stack);
+		if (itemType == null || !ItemStackHelper.isDesignItemType(itemType))
+			return;
+		
+		IBitAccess bitAccess = ChiselsAndBitsAPIAccess.apiInstance.createBitItem(stackChiseledBlock);
+		if (bitAccess == null)
+			return;
+		
+		ItemStack stackDesign = bitAccess.getBitsAsItem(EnumFacing.getFront(ItemStackHelper.getNBTOrNew(stack)
+				.getInteger(ChiselsAndBitsReferences.NBT_KEY_DESIGN_SIDE)), itemType, false);
+		if (stackDesign.isEmpty())
+			stackDesign = new ItemStack(Item.getByNameOrId(ChiselsAndBitsReferences.MOD_ID + ":" + (itemType == ItemType.POSITIVE_DESIGN
+			? ChiselsAndBitsReferences.ITEM_PATH_DESIGN_POSITIVE : (itemType == ItemType.NEGATIVE_DESIGN
+			? ChiselsAndBitsReferences.ITEM_PATH_DESIGN_NEGATIVE : ChiselsAndBitsReferences.ITEM_PATH_DESIGN_MIRROR))));
+		
+		if (!stack.isEmpty() && stack.hasTagCompound())
+		{
+			stackDesign.setTagInfo(ChiselsAndBitsReferences.NBT_KEY_DESIGN_MODE,
+					new NBTTagString(ItemStackHelper.getNBT(stack).getString(ChiselsAndBitsReferences.NBT_KEY_DESIGN_MODE)));
+		}
+		player.setHeldItem(EnumHand.MAIN_HAND, stackDesign);
+	}
+	
+}
