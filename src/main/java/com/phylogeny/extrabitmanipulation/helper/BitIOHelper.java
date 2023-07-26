@@ -392,4 +392,30 @@ public class BitIOHelper
 			}
 			catch (NumberFormatException e) {}
 		}
-		Block block = Block.getBlock
+		Block block = Block.getBlockFromName(stateString);
+		if (block == null)
+		{
+			LogHelper.getLogger().error("Block failed to load from the following string: " + stateString);
+			return null;
+		}
+		
+		return meta < 0 ? block.getDefaultState() : getStateFromMeta(block, meta);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static IBlockState getStateFromMeta(Block block, int meta)
+	{
+		return block.getStateFromMeta(meta);
+	}
+	
+	public static String getStringFromState(IBlockState state)
+	{
+		if (state == null)
+			return "minecraft:air";
+		
+		Block block = state.getBlock();
+		ResourceLocation regName = block.getRegistryName();
+		if (regName == null)
+			return "minecraft:air";
+		
+		Str
