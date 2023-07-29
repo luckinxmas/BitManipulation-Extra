@@ -119,3 +119,111 @@ public enum KeyBindingsExtraBitManipulation implements IKeyConflictContext
 		}
 	},
 	
+	CONTROL("Control", Keyboard.KEY_NONE, true)
+	{
+		@Override
+		public boolean isKeyDown()
+		{
+			return isKeyDown(GuiScreen.isCtrlKeyDown());
+		}
+		
+		@Override
+		public boolean isActive()
+		{
+			ItemStack stack = getHeldItemMainhandSafe();
+			return ItemStackHelper.isSculptingToolStack(stack) || ItemStackHelper.isModelingToolStack(stack) || ItemStackHelper.isChiseledArmorStack(stack);
+		}
+	},
+	
+	ALT("Alt", Keyboard.KEY_X, false)
+	{
+		@Override
+		public boolean isKeyDown()
+		{
+			return isKeyDown(GuiScreen.isAltKeyDown());
+		}
+		
+		@Override
+		public boolean isActive()
+		{
+			ItemStack stack = getHeldItemMainhandSafe();
+			return ItemStackHelper.isSculptingToolStack(stack) || ItemStackHelper.isChiseledArmorStack(stack);
+		}
+		
+		@Override
+		public String getText()
+		{
+			return keyBinding.getKeyCode() == Keyboard.KEY_NONE ? description.toUpperCase() : ("[" + keyBinding.getDisplayName() + "]");
+		}
+	};
+	
+	protected KeyBinding keyBinding;
+	protected String description = "";
+	private boolean anyConflicts;
+	
+	private KeyBindingsExtraBitManipulation(String description, int defaultKeyCode)
+	{
+		this(description, defaultKeyCode, false);
+	}
+	
+	private KeyBindingsExtraBitManipulation(String description, int defaultKeyCode, boolean anyConflicts)
+	{
+		this.description = description;
+		this.anyConflicts = anyConflicts;
+		keyBinding = new KeyBinding("keybinding." + Reference.MOD_ID + "." + description.toLowerCase(),
+				this, getModifier(), defaultKeyCode, "itemGroup." + Reference.MOD_ID);
+	}
+	
+	public boolean isKeyDown()
+	{
+		return getKeyBinding().isKeyDown();
+	}
+	
+	protected boolean isKeyDown(boolean defaultCheck)
+	{
+		return getKeyBinding().getKeyCode() == Keyboard.KEY_NONE ? defaultCheck : getKeyBinding().isKeyDown();
+	}
+	
+	public static void init()
+	{
+		for (KeyBindingsExtraBitManipulation keyBinding : values())
+			keyBinding.registerKeyBinding();
+	}
+	
+	protected KeyModifier getModifier()
+	{
+		return KeyModifier.NONE;
+	}
+	
+	private void registerKeyBinding()
+	{
+		ClientRegistry.registerKeyBinding(keyBinding);
+	}
+	
+	public String getText()
+	{
+		return keyBinding.isSetToDefaultValue() ? description.toUpperCase() : ("[" + keyBinding.getDisplayName() + "]");
+	}
+	
+	public KeyBinding getKeyBinding()
+	{
+		return keyBinding;
+	}
+	
+	@Override
+	public boolean conflicts(IKeyConflictContext other)
+	{
+		return conflictsInGame(other) || other == SHIFT || other == CONTROL || (anyConflicts && (other == ALT || other == OPEN_BIT_MAPPING_GUI));
+	}
+	
+	protected boolean conflictsInGame(IKeyConflictContext other)
+	{
+		return other == this || other == KeyConflictContext.IN_GAME;
+	}
+	
+	private static ItemStack getHeldItemMainhandSafe()
+	{
+		return ClientHelper.getPlayer() == null ? ItemStack.EMPTY : ClientHelper.getHeldItemMainhand();
+	}
+	
+}
