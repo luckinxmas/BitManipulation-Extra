@@ -1058,3 +1058,275 @@ public class BitToolSettingsHelper
 			buffer.writeDouble(originBodyPart.y);
 			buffer.writeDouble(originBodyPart.z);
 		}
+		
+		@Override
+		public void fromBytes(ByteBuf buffer)
+		{
+			super.fromBytes(buffer);
+			boxCollection = new AxisAlignedBB(buffer.readDouble(), buffer.readDouble(), buffer.readDouble(),
+					buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
+			facing = EnumFacing.values()[buffer.readInt()];
+			originBodyPart = new Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
+		}
+		
+		public EnumFacing getFacing()
+		{
+			return facing;
+		}
+		
+		public AxisAlignedBB getCollectionBox()
+		{
+			return boxCollection;
+		}
+		
+		public Vec3d getOriginBodyPart()
+		{
+			return originBodyPart;
+		}
+		
+	}
+	
+	public static class ArmorBodyPartTemplateBoxData
+	{
+		private EnumFacing facingBox;
+		AxisAlignedBB boxTemplate;
+		
+		public ArmorBodyPartTemplateBoxData(NBTTagCompound nbt, ItemChiseledArmor armorPiece)
+		{
+			facingBox = BitAreaHelper.readFacingFromNBT(nbt, NBTKeys.ARMOR_FACING_BOX);
+			boxTemplate = ItemChiseledArmor.getBodyPartTemplateBox(nbt.getFloat(NBTKeys.ARMOR_YAW_PLAYER), nbt.getBoolean(NBTKeys.ARMOR_USE_BIT_GRID),
+					facingBox, BitAreaHelper.readFacingFromNBT(nbt, NBTKeys.ARMOR_FACING_PLACEMENT), BitAreaHelper.readBlockPosFromNBT(nbt, NBTKeys.ARMOR_POS),
+					BitAreaHelper.readVecFromNBT(nbt, NBTKeys.ARMOR_HIT), BitToolSettingsHelper.getArmorScale(nbt),
+					BitToolSettingsHelper.getArmorMovingPart(nbt, armorPiece));
+		}
+		
+		public EnumFacing getFacingBox()
+		{
+			return facingBox;
+		}
+		
+		public AxisAlignedBB getBox()
+		{
+			return boxTemplate;
+		}
+		
+	}
+	
+	public static class ModelReadData
+	{
+		private int areaMode, chunkSnapMode;
+		private boolean guiOpen;
+		
+		public ModelReadData() {}
+		
+		public ModelReadData(NBTTagCompound nbt)
+		{
+			areaMode = BitToolSettingsHelper.getModelAreaMode(nbt);
+			chunkSnapMode = BitToolSettingsHelper.getModelSnapMode(nbt);
+			guiOpen = BitToolSettingsHelper.getModelGuiOpen(nbt);
+		}
+		
+		public void toBytes(ByteBuf buffer)
+		{
+			buffer.writeInt(areaMode);
+			buffer.writeInt(chunkSnapMode);
+			buffer.writeBoolean(guiOpen);
+		}
+		
+		public void fromBytes(ByteBuf buffer)
+		{
+			areaMode = buffer.readInt();
+			chunkSnapMode = buffer.readInt();
+			guiOpen = buffer.readBoolean();
+		}
+		
+		public int getAreaMode()
+		{
+			return areaMode;
+		}
+		
+		public int getSnapMode()
+		{
+			return chunkSnapMode;
+		}
+		
+		public boolean getGuiOpen()
+		{
+			return guiOpen;
+		}
+		
+	}
+	
+	public static class ModelWriteData
+	{
+		private ConfigReplacementBits replacementBitsUnchiselable = new ConfigReplacementBits();
+		private ConfigReplacementBits replacementBitsInsufficient = new ConfigReplacementBits();
+		private Map<IBlockState, IBitBrush> stateToBitMap, blockToBitMap;
+		private boolean bitMapPerTool;
+		
+		public ModelWriteData() {}
+		
+		public ModelWriteData(boolean bitMapPerTool)
+		{
+			this.bitMapPerTool = bitMapPerTool;
+			replacementBitsUnchiselable = Configs.replacementBitsUnchiselable;
+			replacementBitsInsufficient = Configs.replacementBitsInsufficient;
+			stateToBitMap = Configs.modelStateToBitMap;
+			blockToBitMap = Configs.modelBlockToBitMap;
+		}
+		
+		public void toBytes(ByteBuf buffer)
+		{
+			replacementBitsUnchiselable.toBytes(buffer);
+			replacementBitsInsufficient.toBytes(buffer);
+			buffer.writeBoolean(bitMapPerTool);
+			if (!bitMapPerTool)
+			{
+				BitIOHelper.stateToBitMapToBytes(buffer, stateToBitMap);
+				BitIOHelper.stateToBitMapToBytes(buffer, blockToBitMap);
+			}
+		}
+		
+		public void fromBytes(ByteBuf buffer)
+		{
+			replacementBitsUnchiselable.fromBytes(buffer);
+			replacementBitsInsufficient.fromBytes(buffer);
+			bitMapPerTool = buffer.readBoolean();
+			stateToBitMap = bitMapPerTool ? null : BitIOHelper.stateToBitMapFromBytes(buffer);
+			blockToBitMap = bitMapPerTool ? null : BitIOHelper.stateToBitMapFromBytes(buffer);
+		}
+		
+		public ConfigReplacementBits getReplacementBitsUnchiselable()
+		{
+			return replacementBitsUnchiselable;
+		}
+		
+		public ConfigReplacementBits getReplacementBitsInsufficient()
+		{
+			return replacementBitsInsufficient;
+		}
+		
+		public Map<IBlockState, IBitBrush> getStateToBitMap(IChiselAndBitsAPI api, ItemStack stack)
+		{
+			return bitMapPerTool ? BitIOHelper.readStateToBitMapFromNBT(api, stack, NBTKeys.STATE_TO_BIT_MAP_PERMANENT) : stateToBitMap;
+		}
+		
+		public Map<IBlockState, IBitBrush> getBlockToBitMap(IChiselAndBitsAPI api, ItemStack stack)
+		{
+			return bitMapPerTool ? BitIOHelper.readStateToBitMapFromNBT(api, stack, NBTKeys.BLOCK_TO_BIT_MAP_PERMANENT) : blockToBitMap;
+		}
+		
+	}
+	
+	public static class SculptingData
+	{
+		private int sculptMode, direction, shapeType, semiDiameter, wallThickness;
+		private boolean targetBitGridVertexes, hollowShape, openEnds, offsetShape;
+		private ItemStack setBitStack;
+		private float semiDiameterPadding;
+		
+		public SculptingData() {}
+		
+		public SculptingData(NBTTagCompound nbt, ItemSculptingTool toolItem)
+		{
+			sculptMode = BitToolSettingsHelper.getSculptMode(nbt);
+			direction = BitToolSettingsHelper.getDirection(nbt);
+			shapeType = BitToolSettingsHelper.getShapeType(nbt, toolItem.isCurved());
+			targetBitGridVertexes = BitToolSettingsHelper.isBitGridTargeted(nbt);
+			semiDiameter =  BitToolSettingsHelper.getSemiDiameter(nbt);
+			hollowShape = BitToolSettingsHelper.isHollowShape(nbt, toolItem.removeBits());
+			openEnds = BitToolSettingsHelper.areEndsOpen(nbt);
+			wallThickness = BitToolSettingsHelper.getWallThickness(nbt);
+			setBitStack = BitToolSettingsHelper.getBitStack(nbt, toolItem.removeBits());
+			semiDiameterPadding = Configs.semiDiameterPadding;
+			offsetShape = BitToolSettingsHelper.isShapeOffset(nbt);
+		}
+		
+		public void toBytes(ByteBuf buffer)
+		{
+			buffer.writeInt(sculptMode);
+			buffer.writeInt(direction);
+			buffer.writeInt(shapeType);
+			buffer.writeBoolean(targetBitGridVertexes);
+			buffer.writeInt(semiDiameter);
+			buffer.writeBoolean(hollowShape);
+			buffer.writeBoolean(openEnds);
+			buffer.writeInt(wallThickness);
+			ByteBufUtils.writeItemStack(buffer, setBitStack);
+			buffer.writeFloat(semiDiameterPadding);
+			buffer.writeBoolean(offsetShape);
+		}
+		
+		public void fromBytes(ByteBuf buffer)
+		{
+			sculptMode = buffer.readInt();
+			direction = buffer.readInt();
+			shapeType = buffer.readInt();
+			targetBitGridVertexes = buffer.readBoolean();
+			semiDiameter = buffer.readInt();
+			hollowShape = buffer.readBoolean();
+			openEnds = buffer.readBoolean();
+			wallThickness = buffer.readInt();
+			setBitStack = ByteBufUtils.readItemStack(buffer);
+			semiDiameterPadding = buffer.readFloat();
+			offsetShape = buffer.readBoolean();
+		}
+		
+		public int getSculptMode()
+		{
+			return sculptMode;
+		}
+		
+		public int getDirection()
+		{
+			return direction;
+		}
+		
+		public int getShapeType()
+		{
+			return shapeType;
+		}
+		
+		public int getSemiDiameter()
+		{
+			return semiDiameter;
+		}
+		
+		public int getWallThickness()
+		{
+			return wallThickness;
+		}
+		
+		public boolean isBitGridTargeted()
+		{
+			return targetBitGridVertexes;
+		}
+		
+		public boolean isHollowShape()
+		{
+			return hollowShape;
+		}
+		
+		public boolean areEndsOpen()
+		{
+			return openEnds;
+		}
+		
+		public ItemStack getBitStack()
+		{
+			return setBitStack;
+		}
+		
+		public float getSemiDiameterPadding()
+		{
+			return semiDiameterPadding;
+		}
+		
+		public boolean isShapeOffset()
+		{
+			return offsetShape;
+		}
+		
+	}
+	
+}
