@@ -24,4 +24,11 @@ public class RecipesExtraBitManipulation
 	}
 	
 	@SubscribeEvent
-	void registerRecipes(RegistryEvent.Register<IRecip
+	void registerRecipes(RegistryEvent.Register<IRecipe> event)
+	{
+		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledHelmetDiamond, Items.DIAMOND_HELMET, 272);
+		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledChestplateDiamond, Items.DIAMOND_CHESTPLATE, 444);
+		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledLeggingsDiamond, Items.DIAMOND_LEGGINGS, 572);
+		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledBootsDiamond, Items.DIAMOND_BOOTS, 272);
+		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledHelmetIron, Items.IRON_HELMET, 272);
+		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseled
