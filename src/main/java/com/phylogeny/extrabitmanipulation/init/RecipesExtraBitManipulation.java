@@ -44,4 +44,12 @@ public class RecipesExtraBitManipulation
 	
 	private static void registerChiseledArmorRecipe(RegistryEvent.Register<IRecipe> event, Item output, Item input, int bitCost)
 	{
-		ModItem
+		ModItems items = ChiselsAndBits.getItems();
+		NonNullList<Ingredient> ingredients = NonNullList.<Ingredient>create();
+		ingredients.add(Ingredient.fromStacks(new ItemStack(input)));
+		ingredients.add(Ingredient.fromStacks(new ItemStack(items.itemChiselStone), new ItemStack(items.itemChiselIron),
+				new ItemStack(items.itemChiselGold), new ItemStack(items.itemChiselDiamond)));
+		event.getRegistry().register(new RecipeChiseledArmor(ingredients, output, input, bitCost));
+	}
+	
+}
