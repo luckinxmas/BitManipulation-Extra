@@ -31,4 +31,17 @@ public class RecipesExtraBitManipulation
 		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledLeggingsDiamond, Items.DIAMOND_LEGGINGS, 572);
 		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledBootsDiamond, Items.DIAMOND_BOOTS, 272);
 		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledHelmetIron, Items.IRON_HELMET, 272);
-		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseled
+		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledChestplateIron, Items.IRON_CHESTPLATE, 444);
+		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledLeggingsIron, Items.IRON_LEGGINGS, 572);
+		registerChiseledArmorRecipes(event, ItemsExtraBitManipulation.chiseledBootsIron, Items.IRON_BOOTS, 272);
+	}
+	
+	private static void registerChiseledArmorRecipes(RegistryEvent.Register<IRecipe> event, Item itemChiseled, Item itemVanilla, int bitCost)
+	{
+		registerChiseledArmorRecipe(event, itemChiseled, itemVanilla, bitCost);
+		registerChiseledArmorRecipe(event, itemVanilla, itemChiseled, bitCost);
+	}
+	
+	private static void registerChiseledArmorRecipe(RegistryEvent.Register<IRecipe> event, Item output, Item input, int bitCost)
+	{
+		ModItem
