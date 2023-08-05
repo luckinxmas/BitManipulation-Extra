@@ -30,3 +30,15 @@ import noppes.npcs.entity.EntityCustomNpc;
 import noppes.npcs.entity.EntityNPC64x32;
 
 import com.phylogeny.extrabitmanipulation.armor.ChiseledArmorStackHandeler;
+import com.phylogeny.extrabitmanipulation.armor.LayerChiseledArmor;
+import com.phylogeny.extrabitmanipulation.client.ClientHelper;
+import com.phylogeny.extrabitmanipulation.reference.CustomNPCsReferences;
+
+public class RenderLayersExtraBitManipulation
+{
+	private static List<LayerChiseledArmor> armorLayers = new ArrayList<LayerChiseledArmor>();
+	private static List<LayerChiseledArmor> armorLayersMob = new ArrayList<LayerChiseledArmor>();
+	private static List<LayerChiseledArmor> armorLayersPlayer = new ArrayList<LayerChiseledArmor>();
+	private static boolean layersInitializedPlayerCNPC;
+	
+	public static void 
