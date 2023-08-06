@@ -66,4 +66,22 @@ public class RenderLayersExtraBitManipulation
 		}
 		armorLayers.addAll(armorLayersPlayer);
 		if (CustomNPCsReferences.isLoaded)
-			MinecraftForge.EVENT_BUS.register(new RenderLayersExtraBitManipulation())
+			MinecraftForge.EVENT_BUS.register(new RenderLayersExtraBitManipulation());
+	}
+	
+	@SubscribeEvent
+	public void initLayersCNPCs(@SuppressWarnings("unused") RenderLivingEvent.Pre<EntityCustomNpc> event)
+	{
+		if (layersInitializedPlayerCNPC)
+			return;
+		
+		addLayerChiseledArmorToEntityRender(EntityCustomNpc.class);
+		addLayerChiseledArmorToEntityRender(EntityNPC64x32.class);
+		layersInitializedPlayerCNPC = true;
+	}
+	
+	private static <T extends EntityLivingBase> void addLayerChiseledArmorToEntityRender(Class <? extends Entity > entityClass)
+	{
+		Render<T> renderer = ClientHelper.getRenderManager().getEntityClassRenderObject(entityClass);
+		LayerChiseledArmor layer = new LayerChiseledArmor((RenderLivingBase<T>) renderer);
+		((RenderLivingBase<T>) renderer).add
