@@ -41,4 +41,16 @@ public class RenderLayersExtraBitManipulation
 	private static List<LayerChiseledArmor> armorLayersPlayer = new ArrayList<LayerChiseledArmor>();
 	private static boolean layersInitializedPlayerCNPC;
 	
-	public static void 
+	public static void initLayers()
+	{
+		addLayerChiseledArmorToEntityRender(EntityArmorStand.class);
+		addLayerChiseledArmorToEntityRender(EntityVillager.class);
+		addLayerChiseledArmorToEntityRender(EntityZombieVillager.class);
+		addLayerChiseledArmorToEntityRender(EntityZombie.class);
+		addLayerChiseledArmorToEntityRender(EntityGiantZombie.class);
+		addLayerChiseledArmorToEntityRender(EntityPigZombie.class);
+		addLayerChiseledArmorToEntityRender(EntitySkeleton.class);
+		addLayerChiseledArmorToEntityRender(EntityWitherSkeleton.class);
+		addLayerChiseledArmorToEntityRender(EntityHusk.class);
+		addLayerChiseledArmorToEntityRender(EntityStray.class);
+		addL
