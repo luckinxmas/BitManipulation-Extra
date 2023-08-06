@@ -53,4 +53,17 @@ public class RenderLayersExtraBitManipulation
 		addLayerChiseledArmorToEntityRender(EntityWitherSkeleton.class);
 		addLayerChiseledArmorToEntityRender(EntityHusk.class);
 		addLayerChiseledArmorToEntityRender(EntityStray.class);
-		addL
+		addLayerChiseledArmorToEntityRender(EntityVex.class);
+		addLayerChiseledArmorToEntityRender(EntityVindicator.class);
+		addLayerChiseledArmorToEntityRender(EntityEvoker.class);
+		addLayerChiseledArmorToEntityRender(EntityIllusionIllager.class);
+		armorLayers.addAll(armorLayersMob);
+		for (RenderPlayer renderPlayer : ClientHelper.getRenderManager().getSkinMap().values())
+		{
+			LayerChiseledArmor layer = new LayerChiseledArmor(renderPlayer);
+			renderPlayer.addLayer(layer);
+			armorLayersPlayer.add(layer);
+		}
+		armorLayers.addAll(armorLayersPlayer);
+		if (CustomNPCsReferences.isLoaded)
+			MinecraftForge.EVENT_BUS.register(new RenderLayersExtraBitManipulation())
