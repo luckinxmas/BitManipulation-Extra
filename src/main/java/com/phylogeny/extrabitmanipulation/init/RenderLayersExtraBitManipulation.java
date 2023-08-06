@@ -84,4 +84,28 @@ public class RenderLayersExtraBitManipulation
 	{
 		Render<T> renderer = ClientHelper.getRenderManager().getEntityClassRenderObject(entityClass);
 		LayerChiseledArmor layer = new LayerChiseledArmor((RenderLivingBase<T>) renderer);
-		((RenderLivingBase<T>) renderer).add
+		((RenderLivingBase<T>) renderer).addLayer(layer);
+		armorLayersMob.add(layer);
+	}
+	
+	public static void clearRenderMaps()
+	{
+		ChiseledArmorStackHandeler.clearModelMap();
+		for (LayerChiseledArmor layer : armorLayers)
+			layer.clearDisplayListsMap();
+	}
+	
+	public static void removeFromRenderMaps(NBTTagCompound nbt)
+	{
+		ChiseledArmorStackHandeler.removeFromModelMap(nbt);
+		for (LayerChiseledArmor layer : armorLayers)
+			layer.removeFromDisplayListsMap(nbt);
+	}
+	
+	public static void forceUpdateModels(boolean isPlayerModel)
+	{
+		for (LayerChiseledArmor layer : isPlayerModel ? armorLayersPlayer : armorLayersMob)
+			layer.updateModelAndRenderers(true);
+	}
+	
+}
