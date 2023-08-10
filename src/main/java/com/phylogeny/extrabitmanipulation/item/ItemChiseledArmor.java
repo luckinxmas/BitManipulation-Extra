@@ -204,3 +204,544 @@ public class ItemChiseledArmor extends ItemArmor
 			if (!world.isRemote && !creativeMode)
 			{
 				bitsPlaced = BitInventoryHelper.removeOrAddInventoryBits(api, player, bitStack.copy(), bitsPlaced, false);
+				BitInventoryHelper.removeBitsFromBlocks(api, player, bitStack, BlocksExtraBitManipulation.bodyPartTemplate, bitsPlaced);
+				player.inventoryContainer.detectAndSendChanges();
+			}
+			if (bitsPlaced > 0)
+			{
+				ItemSculptingTool.playPlacementSound(player, world, pos, 1.0F);
+				if (world.isRemote)
+					ClientHelper.printChatMessageWithDeletion("Created a " + getPartAndScaleText(templateData.getMovingPart(), templateData.getScale()) +
+							" and set collection reference area" );
+			}
+		}
+		if (!world.isRemote)
+		{
+			writeCollectionBoxToNBT(nbt, player.rotationYaw, player.isSneaking(), player.getHorizontalFacing().getOpposite(), pos, facing, hit);
+			player.getHeldItemMainhand().setTagCompound(nbt);
+		}
+		return bitsPlaced > 0 ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
+	}
+	
+	public static String getPartAndScaleText(ArmorMovingPart part, int scale)
+	{
+		return SCALE_TITLES[scale] + " scale " + part.getBodyPartTemplate().getName().toLowerCase() + " template";
+	}
+	
+	public static void writeCollectionBoxToNBT(NBTTagCompound nbt, float playerYaw, boolean useBitGrid,
+			EnumFacing facingBox, BlockPos pos, EnumFacing facingPlacement, Vec3d hit)
+	{
+		BitAreaHelper.writeFacingToNBT(facingBox, nbt, NBTKeys.ARMOR_FACING_BOX);
+		BitAreaHelper.writeFacingToNBT(facingPlacement, nbt, NBTKeys.ARMOR_FACING_PLACEMENT);
+		BitAreaHelper.writeBlockPosToNBT(pos, nbt, NBTKeys.ARMOR_POS);
+		BitAreaHelper.writeVecToNBT(hit, nbt, NBTKeys.ARMOR_HIT);
+		nbt.setFloat(NBTKeys.ARMOR_YAW_PLAYER, playerYaw);
+		nbt.setBoolean(NBTKeys.ARMOR_USE_BIT_GRID, useBitGrid);
+	}
+	
+	private static int placeBodyPartTemplateBits(World world, BlockPos pos, IChiselAndBitsAPI api, AxisAlignedBB box, IBitBrush bitBodyPartTemplate, int bitsPlaced)
+	{
+		IBitAccess bitAccess;
+		try
+		{
+			bitAccess = api.getBitAccess(world, pos);
+		}
+		catch (CannotBeChiseled e)
+		{
+			return bitsPlaced;
+		}
+		for (int i = 0; i < 16; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				for (int k = 0; k < 16; k++)
+				{
+					IBitBrush bit = bitAccess.getBitAt(i, j, k);
+					if (!bit.isAir())
+						continue;
+					
+					double x = pos.getX() + i * Utility.PIXEL_D + 0.5 * Utility.PIXEL_D;
+					double y = pos.getY() + j * Utility.PIXEL_D + 0.5 * Utility.PIXEL_D;
+					double z = pos.getZ() + k * Utility.PIXEL_D + 0.5 * Utility.PIXEL_D;
+					if (x < box.minX || x > box.maxX || y < box.minY || y > box.maxY || z < box.minZ || z > box.maxZ)
+						continue;
+					
+					try
+					{
+						bitAccess.setBitAt(i, j, k, bitBodyPartTemplate);
+						bitsPlaced++;
+					}
+					catch (SpaceOccupied e) {}
+				}
+			}
+		}
+		bitAccess.commitChanges(true);
+		return bitsPlaced;
+	}
+	
+	public static AxisAlignedBB getBodyPartTemplateBox(EntityPlayer player, EnumFacing facingPlacement, BlockPos pos, Vec3d hit, int scale, ArmorMovingPart part)
+	{
+		return getBodyPartTemplateBox(player.rotationYaw, player.isSneaking(), player.getHorizontalFacing(), facingPlacement, pos, hit, scale, part);
+	}
+	
+	public static AxisAlignedBB getBodyPartTemplateBox(float playerYaw, boolean useBitGrid, EnumFacing facingBox,
+			EnumFacing facingPlacement, BlockPos pos, Vec3d hit, int scale, ArmorMovingPart part)
+	{
+		scale = (int) Math.pow(2, scale);
+		BodyPartTemplate bodyPart = part.getBodyPartTemplate();
+		boolean isHead = bodyPart == BodyPartTemplate.HEAD;
+		double semiDiameterX = (bodyPart == BodyPartTemplate.LIMB ? 2 : 4) * scale * Utility.PIXEL_D;
+		double semiDiameterY = (isHead ? 4 : 6) * scale * Utility.PIXEL_D;
+		double semiDiameterZ = (isHead ? 4 : 2) * scale * Utility.PIXEL_D;
+		if (facingBox.getAxis() == Axis.X)
+		{
+			double tempX = semiDiameterX;
+			semiDiameterX = semiDiameterZ;
+			semiDiameterZ = tempX;
+		}
+		int offsetX = facingPlacement.getFrontOffsetX();
+		int offsetY = facingPlacement.getFrontOffsetY();
+		int offsetZ = facingPlacement.getFrontOffsetZ();
+		double x2, y2, z2;
+		AxisAlignedBB box = null;
+		if (useBitGrid)
+		{
+			float hitX = (float) hit.x - pos.getX();
+			float hitY = (float) hit.y - pos.getY();
+			float hitZ = (float) hit.z - pos.getZ();
+			IBitLocation bitLoc = ChiselsAndBitsAPIAccess.apiInstance.getBitPos(hitX, hitY, hitZ, facingPlacement, pos, false);
+			if (bitLoc != null)
+			{
+				x2 = bitLoc.getBitX() * Utility.PIXEL_D;
+				y2 = bitLoc.getBitY() * Utility.PIXEL_D;
+				z2 = bitLoc.getBitZ() * Utility.PIXEL_D;
+				double offset = facingPlacement.getAxisDirection() == AxisDirection.POSITIVE ? Utility.PIXEL_D : 0;
+				box = new AxisAlignedBB(x2 - semiDiameterX, y2 - semiDiameterY, z2 - semiDiameterZ, x2 + semiDiameterX, y2 + semiDiameterY,
+						z2 + semiDiameterZ).offset((semiDiameterX + offset) * offsetX, (semiDiameterY + offset) * offsetY,
+							(semiDiameterZ + offset) * offsetZ).offset(pos);
+			}
+		}
+		else
+		{
+			x2 = pos.getX() + 0.5;
+			y2 = pos.getY() + 0.5;
+			z2 = pos.getZ() + 0.5;
+			box = new AxisAlignedBB(x2 - semiDiameterX, y2 - semiDiameterY, z2 - semiDiameterZ, x2 + semiDiameterX, y2 + semiDiameterY,
+					z2 + semiDiameterZ).offset(0, (semiDiameterY - 0.5) * (offsetY != 0 ? offsetY : 1), 0).offset(offsetX, offsetY,offsetZ);
+			if (scale == 4 && bodyPart != BodyPartTemplate.LIMB)
+			{
+				if (facingBox.getAxis() != Axis.X || isHead)
+					box = box.offset((facingPlacement.getAxis() == Axis.X ? (facingPlacement.getAxisDirection() == AxisDirection.POSITIVE)
+							: (playerYaw % 360 > (playerYaw > 0 ? 180 : -180))) ? 0.5 : -0.5, 0, 0);
+				if (facingBox.getAxis() == Axis.X || isHead)
+					box = box.offset(0, 0, (facingPlacement.getAxis() == Axis.Z ? (facingPlacement.getAxisDirection() == AxisDirection.POSITIVE)
+							: ((playerYaw - 90) % 360 > (playerYaw > 90 ? 180 : -180))) ? 0.5 : -0.5);
+			}																																																			
+		}
+		return box; 
+	}
+	
+	public static boolean collectArmorBlocks(EntityPlayer player, ArmorCollectionData collectionData)
+	{
+		ItemStack stack = player.getHeldItemMainhand();
+		NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+		DataChiseledArmorPiece armorPiece = new DataChiseledArmorPiece(nbt, ((ItemChiseledArmor) stack.getItem()).armorType);
+		World world = player.world;
+		AxisAlignedBB boxCollection = collectionData.getCollectionBox();
+		AxisAlignedBB boxBlocks = new AxisAlignedBB(Math.floor(boxCollection.minX), Math.floor(boxCollection.minY), Math.floor(boxCollection.minZ),
+				Math.ceil(boxCollection.maxX), Math.ceil(boxCollection.maxY), Math.ceil(boxCollection.maxZ));
+		IChiselAndBitsAPI api = ChiselsAndBitsAPIAccess.apiInstance;
+		ArmorMovingPart movingPart = collectionData.getMovingPart();
+		EnumFacing facingBox = collectionData.getFacing();
+		Vec3d orginBox = collectionData.getOriginBodyPart();
+		float scale = 1 / (float) Math.pow(2, collectionData.getScale());
+		int blocksCollected = 0;
+		for (int i = (int) boxBlocks.minX; i <= boxBlocks.maxX; i++)
+		{
+			for (int j = (int) boxBlocks.minY; j <= boxBlocks.maxY; j++)
+			{
+				for (int k = (int) boxBlocks.minZ; k <= boxBlocks.maxZ; k++)
+				{
+					blocksCollected = collectBits(world, new BlockPos(i, j, k), api, boxCollection,
+							facingBox, orginBox, scale, armorPiece, movingPart, blocksCollected);
+				}
+			}
+		}
+		if (blocksCollected > 0)
+		{
+			if (world.isRemote)
+			{
+				ClientHelper.printChatMessageWithDeletion("Imported " + blocksCollected + " block cop" + (blocksCollected > 1 ? "ies" : "y") +
+						" at " + SCALE_TITLES[collectionData.getScale()] + " scale into the " + collectionData.getMovingPart().getName().toLowerCase());
+			}
+			else
+			{
+				armorPiece.saveToNBT(nbt);
+				stack.setTagCompound(nbt);
+				player.inventoryContainer.detectAndSendChanges();
+			}
+		}
+		return blocksCollected > 0;
+	}
+	
+	private static int collectBits(World world, BlockPos pos, IChiselAndBitsAPI api, AxisAlignedBB boxCollection, EnumFacing facingBox,
+			Vec3d orginBox, float scale, DataChiseledArmorPiece armorPiece, ArmorMovingPart movingPart, int blocksCollected)
+	{
+		IBitAccess bitAccess;
+		try
+		{
+			bitAccess = api.getBitAccess(world, pos);
+		}
+		catch (CannotBeChiseled e)
+		{
+			return blocksCollected;
+		}
+		IBitAccess bitAccessNew = api.createBitItem(ItemStack.EMPTY);
+		if (bitAccessNew == null)
+			return blocksCollected;
+		
+		boolean bitsCollected = false;
+		for (int i = 0; i < 16; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				for (int k = 0; k < 16; k++)
+				{
+					IBitBrush bit = bitAccess.getBitAt(i, j, k);
+					if (bit.isAir() || bit.getState() == BlocksExtraBitManipulation.bodyPartTemplate.getDefaultState())
+						continue;
+					
+					double x = pos.getX() + i * Utility.PIXEL_D + 0.5 * Utility.PIXEL_D;
+					double y = pos.getY() + j * Utility.PIXEL_D + 0.5 * Utility.PIXEL_D;
+					double z = pos.getZ() + k * Utility.PIXEL_D + 0.5 * Utility.PIXEL_D;
+					if (x < boxCollection.minX || x > boxCollection.maxX || y < boxCollection.minY
+							|| y > boxCollection.maxY || z < boxCollection.minZ || z > boxCollection.maxZ)
+						continue;
+					
+					try
+					{
+						if (!world.isRemote)
+							bitAccessNew.setBitAt(i, j, k, bit);
+						
+						bitsCollected = true;
+					}
+					catch (SpaceOccupied e) {}
+				}
+			}
+		}
+		if (!world.isRemote && bitsCollected)
+		{
+			ArmorItem armorItem = new ArmorItem(bitAccessNew.getBitsAsItem(null, ItemType.CHISLED_BLOCK, false));
+			if (facingBox != EnumFacing.NORTH)
+				armorItem.addGlOperation(GlOperation.createRotation((facingBox.getHorizontalAngle() + 180) % 360, 0, 1, 0));
+			
+			if (scale != 1)
+				armorItem.addGlOperation(GlOperation.createScale(scale, scale, scale));
+			
+			AxisAlignedBB box = new AxisAlignedBB(pos);
+			float x = (float) (box.minX - orginBox.x);
+			float y = (float) (box.minY - orginBox.y);
+			float z = (float) (box.minZ - orginBox.z);
+			if (x != 0 || y != 0 || z != 0)
+				armorItem.addGlOperation(GlOperation.createTranslation(x, y, z));
+			
+			armorPiece.addItemToPart(movingPart.getPartIndex(), armorItem);
+		}
+		if (bitsCollected)
+			blocksCollected++;
+		
+		return blocksCollected;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
+	{
+		boolean shiftDown = GuiScreen.isShiftKeyDown();
+		boolean ctrlDown = GuiScreen.isCtrlKeyDown();
+		ItemBitToolBase.addColorInformation(tooltip, shiftDown);
+		NBTTagCompound nbt = stack.getTagCompound();
+		int mode = BitToolSettingsHelper.getArmorMode(nbt);
+		boolean targetBits = BitToolSettingsHelper.areArmorBitsTargeted(nbt);
+		if (shiftDown)
+		{
+			tooltip.add(ItemBitToolBase.colorSettingText(BitToolSettingsHelper.getArmorModeText(mode), Configs.armorMode));
+			tooltip.add(ItemBitToolBase.colorSettingText(BitToolSettingsHelper.getArmorScaleText(nbt), Configs.armorScale));
+			tooltip.add(ItemBitToolBase.colorSettingText(BitToolSettingsHelper.getArmorBitsTargetedText(targetBits), Configs.armorTargetBits));
+		}
+		if (!ctrlDown || shiftDown)
+		{
+			tooltip.add(ItemBitToolBase.colorSettingText(BitToolSettingsHelper.getArmorMovingPartText(nbt, this),
+					BitToolSettingsHelper.getArmorMovingPartConfig(armorType)));
+		}
+		if (shiftDown)
+			return;
+		
+		if (!ctrlDown)
+		{
+			ItemBitToolBase.addKeyInformation(tooltip, true);
+			return;
+		}
+		if (mode == 1)
+		{
+			String target = targetBits ? "bit" : "block";
+			tooltip.add("Left click a " + target + ", drag to another ");
+			tooltip.add("    " + target + ", then release to import copies");
+			if (targetBits)
+			{
+				tooltip.add("    of all intersecting bits into the");
+				tooltip.add("    selected moving part as blocks.");
+			}
+			else
+			{
+				tooltip.add("    of all intersecting blocks into the");
+				tooltip.add("    selected moving part.");
+			}
+		}
+		else
+		{
+			tooltip.add("Left click a block to set the collection");
+			tooltip.add("    reference area for the bodypart");
+			tooltip.add("    template of the selected moving part.");
+			tooltip.add("    (sneaking will allow the area to be");
+			tooltip.add("    placed outside of the block grid)");
+		}
+		if (mode == 0)
+		{
+			tooltip.add("Right click to do so and fill that area");
+			tooltip.add("    with bits of bodypart template blocks.");
+		}
+		tooltip.add("");
+		String controlText = ItemBitToolBase.getColoredKeyBindText(KeyBindingsExtraBitManipulation.CONTROL);
+		if (KeyBindingsExtraBitManipulation.OPEN_BIT_MAPPING_GUI.getKeyBinding().isSetToDefaultValue())
+		{
+			tooltip.add(controlText + " right click to toggle mode.");
+		}
+		else
+		{
+			tooltip.add(controlText + " right click or press " + KeyBindingsExtraBitManipulation.OPEN_BIT_MAPPING_GUI.getText());
+			tooltip.add("    to open mapping/preview GUI.");
+		}
+		tooltip.add(controlText + " mouse wheel to cycle scale.");
+		tooltip.add("");
+		String altText = ItemBitToolBase.getColoredKeyBindText(KeyBindingsExtraBitManipulation.ALT);
+		tooltip.add(altText + " right click to toggle collection");
+		tooltip.add("     target between bits & blocks.");
+		tooltip.add(altText + " mouse wheel to cycle moving part.");
+		ItemBitToolBase.addKeybindReminders(tooltip, KeyBindingsExtraBitManipulation.SHIFT, KeyBindingsExtraBitManipulation.CONTROL);
+	}
+	
+	public static enum ArmorType
+	{
+		HELMET("Helmet", EntityEquipmentSlot.HEAD, 1),
+		CHESTPLATE("Chestplate", EntityEquipmentSlot.CHEST, 3),
+		LEGGINGS("Leggings", EntityEquipmentSlot.LEGS, 3),
+		BOOTS("Boots", EntityEquipmentSlot.FEET, 2);
+		
+		private String name;
+		private int movingpartCount;
+		private EntityEquipmentSlot equipmentSlot;
+		@SideOnly(Side.CLIENT)
+		private ItemStack iconStack;
+		
+		private ArmorType(String name, int movingpartCount)
+		{
+			this(name, null, movingpartCount);
+		}
+		
+		private ArmorType(String name, @Nullable EntityEquipmentSlot equipmentSlot, int movingpartCount)
+		{
+			this.name = name;
+			this.movingpartCount = movingpartCount;
+			this.equipmentSlot = equipmentSlot;
+		}
+		
+		public String getName()
+		{
+			return name;
+		}
+		
+		public int getMovingpartCount()
+		{
+			return movingpartCount;
+		}
+		
+		public @Nullable EntityEquipmentSlot getEquipmentSlot()
+		{
+			return equipmentSlot;
+		}
+		
+		@SideOnly(Side.CLIENT)
+		public void initIconStack(Item item)
+		{
+			iconStack = new ItemStack(item);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		public IBakedModel getIconModel()
+		{
+			return ClientHelper.getRenderItem().getItemModelWithOverrides(iconStack, null, ClientHelper.getPlayer());
+		}
+		
+		public int getSlotIndex(int indexArmorSet)
+		{
+			return ordinal() + (indexArmorSet - 1) * ChiseledArmorSlotsHandler.COUNT_TYPES;
+		}
+		
+	}
+	
+	public static enum BodyPartTemplate
+	{
+		HEAD("Head"),
+		TORSO("Torso"),
+		LIMB("Limb");
+		
+		private String name;
+		
+		private BodyPartTemplate(String name)
+		{
+			this.name = name;
+		}
+		
+		public String getName()
+		{
+			return name;
+		}
+		
+	}
+	
+	public static enum ModelMovingPart
+	{
+		HEAD(BodyPartTemplate.HEAD, 6, 12, "Head"),
+		BODY(BodyPartTemplate.TORSO, 1, 13, "Body"),
+		ARM_RIGHT(BodyPartTemplate.LIMB, 3, 17, "Right Arm"),
+		ARM_LEFT(BodyPartTemplate.LIMB, 2, 16, "Left Arm"),
+		LEG_RIGHT(BodyPartTemplate.LIMB, 5, 19, "Right Leg"),
+		LEG_LEFT(BodyPartTemplate.LIMB, 4, 18, "Left Leg");
+		
+		private BodyPartTemplate template;
+		private int partIndexOverlay, partIndexNoppes;
+		private String name;
+		
+		private ModelMovingPart(BodyPartTemplate template, int partIndexOverlay, int partIndexNoppes, String name)
+		{
+			this.template = template;
+			this.partIndexOverlay = partIndexOverlay;
+			this.partIndexNoppes = partIndexNoppes;
+			this.name = name;
+		}
+		
+		public BodyPartTemplate getBodyPartTemplate()
+		{
+			return template;
+		}
+		
+		public int getPartIndexNoppes()
+		{
+			return partIndexNoppes;
+		}
+		
+		public String getName()
+		{
+			return name;
+		}
+		
+		public String getOverlayName()
+		{
+			return EnumPlayerModelParts.values()[partIndexOverlay].getName().getFormattedText();
+		}
+		
+	}
+	
+	public static enum ArmorMovingPart
+	{
+		HEAD(ModelMovingPart.HEAD, 0, 1, "Head"),
+		TORSO(ModelMovingPart.BODY, 0, 2, "Torso"),
+		PELVIS(ModelMovingPart.BODY, 0, 1, "Pelvis"),
+		ARM_RIGHT(ModelMovingPart.ARM_RIGHT, 1, 1, "Right Arm"),
+		ARM_LEFT(ModelMovingPart.ARM_LEFT, 2, 2, "Left Arm"),
+		LEG_RIGHT(ModelMovingPart.LEG_RIGHT, 1, 3, 1, "Right Leg"),
+		LEG_LEFT(ModelMovingPart.LEG_LEFT, 2, 2, "Left Leg"),
+		FOOT_RIGHT(ModelMovingPart.LEG_RIGHT, 0, 1, "Right Foot"),
+		FOOT_LEFT(ModelMovingPart.LEG_LEFT, 1, 2, "Left Foot");
+		
+		private ModelMovingPart modelPart;
+		private int partIndex, modelCount, opaqueIndex;
+		private String name;
+		@SideOnly(Side.CLIENT)
+		private ModelResourceLocation[] iconModelLocationsDiamond, iconModelLocationsIron;
+		
+		private ArmorMovingPart(ModelMovingPart modelPart, int partIndex, int modelCount, String name)
+		{
+			this(modelPart, partIndex, modelCount, 0, name);
+		}
+		
+		private ArmorMovingPart(ModelMovingPart modelPart, int partIndex, int modelCount, int opaqueIndex, String name)
+		{
+			this.modelPart = modelPart;
+			this.partIndex = partIndex;
+			this.modelCount = modelCount;
+			this.opaqueIndex = opaqueIndex;
+			this.name = name;
+		}
+		
+		public ModelMovingPart getModelMovingPart()
+		{
+			return modelPart;
+		}
+		
+		public BodyPartTemplate getBodyPartTemplate()
+		{
+			return modelPart.getBodyPartTemplate();
+		}
+		
+		public int getPartIndex()
+		{
+			return partIndex;
+		}
+		
+		public String getName()
+		{
+			return name;
+		}
+		
+		@SideOnly(Side.CLIENT)
+		public IBakedModel[] getIconModels(ArmorMaterial material)
+		{
+			ModelResourceLocation[] iconModelLocations = material == ArmorMaterial.DIAMOND ? iconModelLocationsDiamond : iconModelLocationsIron;
+			IBakedModel[] models = new IBakedModel[iconModelLocations.length];
+			for (int i = 0; i < iconModelLocations.length; i++)
+			{
+				models[i] = ClientHelper.getBlockModelShapes().getModelManager().getModel(iconModelLocations[i]);
+			}
+			return models;
+		}
+		
+		@SideOnly(Side.CLIENT)
+		public static ResourceLocation[] initAndGetIconModelLocations()
+		{
+			List<ResourceLocation> modelLocations = new ArrayList<>();
+			for (ArmorMovingPart part : ArmorMovingPart.values())
+			{
+				part.iconModelLocationsDiamond = new ModelResourceLocation[part.modelCount];
+				part.iconModelLocationsIron = new ModelResourceLocation[part.modelCount];
+				for (int i = 0; i < part.modelCount; i++)
+				{
+					part.iconModelLocationsDiamond[i] = createIconModelLocation(part, i, ArmorMaterial.DIAMOND);
+					part.iconModelLocationsIron[i] = createIconModelLocation(part, i, ArmorMaterial.IRON);
+					modelLocations.add(part.iconModelLocationsDiamond[i]);
+					modelLocations.add(part.iconModelLocationsIron[i]);
+				}
+			}
+			return modelLocations.toArray(new ResourceLocation[modelLocations.size()]);
+		}
+		
+		private static ModelResourceLocation createIconModelLocation(ArmorMovingPart part, int index, ArmorMaterial material)
+		{
+			return new ModelResourceLocation(new ResourceLocation(Reference.MOD_ID, "moving_part_"
+					+ (index == part.opaqueIndex ? material.toString().toLowerCase() + "_" : "") + part.name.toLowerCase().replace(" ", "_") + "_" + index), null);
+		}
+		
+	}
+	
+}
