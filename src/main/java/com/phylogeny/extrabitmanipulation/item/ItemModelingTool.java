@@ -48,4 +48,24 @@ import com.phylogeny.extrabitmanipulation.packet.PacketCreateModel;
 import com.phylogeny.extrabitmanipulation.reference.Configs;
 import com.phylogeny.extrabitmanipulation.reference.NBTKeys;
 
-public class ItemModelingTool extends ItemBitToo
+public class ItemModelingTool extends ItemBitToolBase
+{
+	public static final String[] AREA_MODE_TITLES = new String[]{"Centered", "Corner", "Drawn"};
+	public static final String[] SNAP_MODE_TITLES = new String[]{"Off", "Snap-to-Chunk XZ", "Snap-to-Chunk XYZ"};
+	
+	public ItemModelingTool(String name)
+	{
+		super(name);
+	}
+	
+	public NBTTagCompound initialize(ItemStack stack, ModelReadData modelingData)
+	{
+		NBTTagCompound nbt = ItemStackHelper.initNBT(stack);
+		initInt(nbt, NBTKeys.MODEL_AREA_MODE, modelingData.getAreaMode());
+		initInt(nbt, NBTKeys.MODEL_SNAP_MODE, modelingData.getSnapMode());
+		initBoolean(nbt, NBTKeys.MODEL_GUI_OPEN, modelingData.getGuiOpen());
+		return nbt;
+	}
+	
+	@Override
+	publi
