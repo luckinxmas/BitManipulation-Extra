@@ -68,4 +68,18 @@ public class ItemModelingTool extends ItemBitToolBase
 	}
 	
 	@Override
-	publi
+	public EnumActionResult onItemUse(EntityPlayer player, World world,
+			BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		ItemStack stack = player.getHeldItem(hand);
+		if (world.isRemote && stack.hasTagCompound())
+		{
+			@SuppressWarnings("null")
+			ModelWriteData modelingData = new ModelWriteData(stack.getTagCompound().getBoolean(NBTKeys.BIT_MAPS_PER_TOOL));
+			if (createModel(stack, player, world, pos, facing, modelingData) == EnumActionResult.SUCCESS)
+				ExtraBitManipulation.packetNetwork.sendToServer(new PacketCreateModel(pos, facing, modelingData));
+		}
+		return EnumActionResult.SUCCESS;
+	}
+	
+	public EnumActio
