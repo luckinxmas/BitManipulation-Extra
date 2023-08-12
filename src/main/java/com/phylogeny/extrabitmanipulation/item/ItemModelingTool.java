@@ -106,4 +106,22 @@ public class ItemModelingTool extends ItemBitToolBase
 		Map<IBitBrush, Integer> bitMap = new HashMap<IBitBrush, Integer>();
 		Map<IBlockState, Integer> missingBitMap = mapBitsToStates(api, modelingData.getReplacementBitsUnchiselable(),
 				modelingData.getReplacementBitsInsufficient(), BitInventoryHelper.getInventoryBitCounts(api, player), stateMap, stateToBitCountArray,
-				modelingData.getStateToBitMap(api, stack), modelingData.getBlockToBitMap(api, stack), bitMap,
+				modelingData.getStateToBitMap(api, stack), modelingData.getBlockToBitMap(api, stack), bitMap, player.capabilities.isCreativeMode);
+		if (!missingBitMap.isEmpty())
+		{
+			if (world.isRemote)
+			{
+				int missingBitCount = 0;
+				for (IBlockState state : missingBitMap.keySet())
+					missingBitCount += missingBitMap.get(state);
+				
+				sendMessage(player, "Missing " + missingBitCount + " bits to represent the following blocks:");
+				for (IBlockState state : missingBitMap.keySet())
+				{
+					String name = getBlockName(state, new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)));
+					sendMessage(player, "  " + missingBitMap.get(state) + " - " + name);
+				}
+			}
+			return EnumActionResult.FAIL;
+		}
+		return createModel(player, world, pos, stack, api, stateArray, state
