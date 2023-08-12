@@ -82,4 +82,22 @@ public class ItemModelingTool extends ItemBitToolBase
 		return EnumActionResult.SUCCESS;
 	}
 	
-	public EnumActio
+	public EnumActionResult createModel(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing facing, ModelWriteData modelingData)
+	{
+		if (!stack.hasTagCompound())
+			return EnumActionResult.FAIL;
+		
+		if (!world.getBlockState(pos).getBlock().isReplaceable(world, pos))
+		{
+			pos = pos.offset(facing);
+			if (!world.isAirBlock(pos))
+				return EnumActionResult.FAIL;
+		}
+		world.setBlockToAir(pos);
+		IChiselAndBitsAPI api = ChiselsAndBitsAPIAccess.apiInstance;
+		NBTTagCompound nbt = ItemStackHelper.getNBT(stack);
+		if (!nbt.hasKey(NBTKeys.SAVED_STATES))
+			return EnumActionResult.FAIL;
+		
+		Map<IBlockState, Integer> stateMap = new HashMap<IBlockState, Integer>();
+		IBlockState[][
