@@ -124,4 +124,28 @@ public class ItemModelingTool extends ItemBitToolBase
 			}
 			return EnumActionResult.FAIL;
 		}
-		return createModel(player, world, pos, stack, api, stateArray, state
+		return createModel(player, world, pos, stack, api, stateArray, stateToBitCountArray, bitMap);
+	}
+	
+	private EnumActionResult createModel(EntityPlayer player, World world, BlockPos pos, ItemStack stack, IChiselAndBitsAPI api, IBlockState[][][] stateArray,
+			Map<IBlockState, ArrayList<BitCount>> stateToBitCountArray, Map<IBitBrush, Integer> bitMap)
+	{
+		IBitAccess bitAccess;
+		try
+		{
+			bitAccess = api.getBitAccess(world, pos);
+		}
+		catch (CannotBeChiseled e)
+		{
+			e.printStackTrace();
+			return EnumActionResult.FAIL;
+		}
+		try
+		{
+			api.beginUndoGroup(player);
+			if (!createModel(player, world, stack, stateArray, stateToBitCountArray, bitAccess))
+				return EnumActionResult.FAIL;
+			
+			bitAccess.commitChanges(true);
+		}
+		
