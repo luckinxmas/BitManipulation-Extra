@@ -100,4 +100,10 @@ public class ItemModelingTool extends ItemBitToolBase
 			return EnumActionResult.FAIL;
 		
 		Map<IBlockState, Integer> stateMap = new HashMap<IBlockState, Integer>();
-		IBlockState[][
+		IBlockState[][][] stateArray = new IBlockState[16][16][16];
+		BitIOHelper.readStatesFromNBT(nbt, stateMap, stateArray);
+		Map<IBlockState, ArrayList<BitCount>> stateToBitCountArray = new HashMap<IBlockState, ArrayList<BitCount>>();
+		Map<IBitBrush, Integer> bitMap = new HashMap<IBitBrush, Integer>();
+		Map<IBlockState, Integer> missingBitMap = mapBitsToStates(api, modelingData.getReplacementBitsUnchiselable(),
+				modelingData.getReplacementBitsInsufficient(), BitInventoryHelper.getInventoryBitCounts(api, player), stateMap, stateToBitCountArray,
+				modelingData.getStateToBitMap(api, stack), modelingData.getBlockToBitMap(api, stack), bitMap,
