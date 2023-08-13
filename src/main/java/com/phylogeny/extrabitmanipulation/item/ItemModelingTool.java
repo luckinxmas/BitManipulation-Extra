@@ -148,4 +148,23 @@ public class ItemModelingTool extends ItemBitToolBase
 			
 			bitAccess.commitChanges(true);
 		}
-		
+		finally
+		{
+			api.endUndoGroup(player);
+		}
+		if (!world.isRemote && !player.capabilities.isCreativeMode)
+		{
+			for (IBitBrush bit : bitMap.keySet())
+			{
+				BitInventoryHelper.removeOrAddInventoryBits(api, player, bit.getItemStack(1), bitMap.get(bit).intValue(), false);
+				player.inventoryContainer.detectAndSendChanges();
+			}
+		}
+		damageTool(stack, player);
+		return EnumActionResult.SUCCESS;
+	}
+	
+	public boolean createModel(EntityPlayer player, World world, ItemStack stack, IBlockState[][][] stateArray,
+			Map<IBlockState, ArrayList<BitCount>> stateToBitCountArray, IBitAccess bitAccess)
+	{
+		if (!ItemStackHelper.hasKey(sta
