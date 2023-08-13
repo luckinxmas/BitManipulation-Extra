@@ -167,4 +167,34 @@ public class ItemModelingTool extends ItemBitToolBase
 	public boolean createModel(EntityPlayer player, World world, ItemStack stack, IBlockState[][][] stateArray,
 			Map<IBlockState, ArrayList<BitCount>> stateToBitCountArray, IBitAccess bitAccess)
 	{
-		if (!ItemStackHelper.hasKey(sta
+		if (!ItemStackHelper.hasKey(stack, NBTKeys.SAVED_STATES))
+			return false;
+		
+		for (int i = 0; i < 16; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				for (int k = 0; k < 16; k++)
+				{
+					try
+					{
+						IBitBrush bit = null;
+						IBlockState state = stateArray[i][j][k];
+						if (!state.equals(Blocks.AIR.getDefaultState()))
+						{
+							for (BitCount bitCount : stateToBitCountArray.get(state))
+							{
+								if (bitCount.count > 0)
+								{
+									bitCount.count--;
+									bit = bitCount.bit;
+									break;
+								}
+							}
+						}
+						bitAccess.setBitAt(i, j, k, bit);
+					}
+					catch (SpaceOccupied e)
+					{
+						if (world != null && world.isRemote)
+							sen
