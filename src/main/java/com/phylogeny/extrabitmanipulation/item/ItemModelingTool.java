@@ -197,4 +197,19 @@ public class ItemModelingTool extends ItemBitToolBase
 					catch (SpaceOccupied e)
 					{
 						if (world != null && world.isRemote)
-							sen
+							sendMessage(player, "Multipart(s) are in the way.");
+						
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	public Map<IBlockState, Integer> mapBitsToStates(IChiselAndBitsAPI api, ConfigReplacementBits replacementBitsUnchiselable,
+			ConfigReplacementBits replacementBitsInsufficient, Map<Integer, Integer> inventoryBitCounts, Map<IBlockState, Integer> stateMap,
+			Map<IBlockState, ArrayList<BitCount>> stateToBitCountArray, Map<IBlockState, IBitBrush> manualStateToBitMap,
+			Map<IBlockState, IBitBrush> manualBlockToBitMap, Map<IBitBrush, Integer> bitMap, boolean isCreative)
+	{
+		Map<IBlockState, Integer> missingBitMap = n
