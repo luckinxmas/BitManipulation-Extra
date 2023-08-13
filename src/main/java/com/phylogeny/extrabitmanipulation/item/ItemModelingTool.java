@@ -212,4 +212,19 @@ public class ItemModelingTool extends ItemBitToolBase
 			Map<IBlockState, ArrayList<BitCount>> stateToBitCountArray, Map<IBlockState, IBitBrush> manualStateToBitMap,
 			Map<IBlockState, IBitBrush> manualBlockToBitMap, Map<IBitBrush, Integer> bitMap, boolean isCreative)
 	{
-		Map<IBlockState, Integer> missingBitMap = n
+		Map<IBlockState, Integer> missingBitMap = new HashMap<IBlockState, Integer>();
+		Map<IBlockState, Integer> skippedStatesMap = new HashMap<IBlockState, Integer>();
+		Map<IBlockState, ArrayList<BitCount>> skippedBitCountArrayMap = new HashMap<IBlockState, ArrayList<BitCount>>();
+		for (int pass = 0; pass < 2; pass++)
+		{
+			for (IBlockState state : stateMap.keySet())
+			{
+				if (pass == 1 && !skippedStatesMap.containsKey(state))
+					continue;
+				
+				int bitCount = stateMap.get(state);
+				ArrayList<BitCount> bitCountArray = pass == 1 ? skippedBitCountArrayMap.get(state) : new ArrayList<BitCount>();
+				int remainingBitCount = pass == 1 ? skippedStatesMap.get(state) : 0;
+				try
+				{
+					if (pass 
