@@ -360,4 +360,22 @@ public class ItemModelingTool extends ItemBitToolBase
 		boolean ctrlDown = GuiScreen.isCtrlKeyDown();
 		addColorInformation(tooltip, shiftDown);
 		NBTTagCompound nbt = stack.getTagCompound();
-		int areaMode = BitT
+		int areaMode = BitToolSettingsHelper.getModelAreaMode(nbt);
+		int snapMode = BitToolSettingsHelper.getModelSnapMode(nbt);
+		if (!ctrlDown || shiftDown)
+		{
+			tooltip.add(colorSettingText(BitToolSettingsHelper.getModelAreaModeText(areaMode), Configs.modelAreaMode));
+		}
+		if (shiftDown)
+		{
+			tooltip.add(colorSettingText(BitToolSettingsHelper.getModelSnapModeText(snapMode), Configs.modelSnapMode));
+			tooltip.add(colorSettingText(BitToolSettingsHelper.getModelGuiOpenText(nbt), Configs.modelGuiOpen));
+		}
+		else
+		{
+			if (ctrlDown)
+			{
+				if (areaMode == 2)
+				{
+					tooltip.add("Left click a block, drag to");
+					tooltip.add("    another block, then re
