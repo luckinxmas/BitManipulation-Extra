@@ -271,4 +271,29 @@ public class ItemModelingTool extends ItemBitToolBase
 			try
 			{
 				remainingBitCount = addBitCountObject(bitCountArray, bitMap, inventoryBitCounts,
-						api.createBrush(replacementBitsConfig.getDefaultReplacementBit().getDefaultValue()), remainingBitCount, isCr
+						api.createBrush(replacementBitsConfig.getDefaultReplacementBit().getDefaultValue()), remainingBitCount, isCreative);
+			}
+			catch (InvalidBitItem e) {}
+		}
+		if (remainingBitCount > 0 && replacementBitsConfig.useAnyBitsAsReplacements())
+		{
+			if (pass == 0)
+				return -remainingBitCount;
+			
+			try
+			{
+				for (Integer stateID : inventoryBitCounts.keySet())
+				{
+					remainingBitCount = addBitCountObject(bitCountArray, bitMap, inventoryBitCounts,
+							api.createBrushFromState(Block.getStateById(stateID)), remainingBitCount, isCreative);
+					if (remainingBitCount == 0)
+						break;
+				}
+			}
+			catch (InvalidBitItem e) {}
+		}
+		if (remainingBitCount > 0 && (replacementBitsConfig.useAirAsReplacement()))
+		{
+			try
+			{
+				remainingBitCount = addBitCountObject(bitCountArray, bitMap, 
