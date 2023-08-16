@@ -336,4 +336,28 @@ public class ItemModelingTool extends ItemBitToolBase
 		String name = state.getBlock().getUnlocalizedName();
 		if (blockStack.getItem() != null)
 		{
+			name = blockStack.getDisplayName();
+		}
+		else if (state.getMaterial().isLiquid())
+		{
+			Fluid fluid = FluidRegistry.lookupFluidForBlock(state.getBlock());
+			if (fluid != null)
+				name = StringUtils.capitalize(fluid.getName());
+		}
+		else
+		{
+			Item item = Item.getItemFromBlock(state.getBlock());
+			if (item != Items.AIR)
+				name = item.toString();
+		}
+		return name;
+	}
 	
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flag)
+	{
+		boolean shiftDown = GuiScreen.isShiftKeyDown();
+		boolean ctrlDown = GuiScreen.isCtrlKeyDown();
+		addColorInformation(tooltip, shiftDown);
+		NBTTagCompound nbt = stack.getTagCompound();
+		int areaMode = BitT
