@@ -316,3 +316,24 @@ public class ItemModelingTool extends ItemBitToolBase
 		int inventoryBitCount = isCreative ? Integer.MAX_VALUE : (hasBitSurvival ? inventoryBitCounts.get(bit.getStateID()) : 0);
 		if (inventoryBitCount > 0)
 		{
+			int bitCount2 = Math.min(inventoryBitCount, bitCount);
+			bitCountArray.add(new BitCount(bit, bitCount2));
+			bitCount -= bitCount2;
+			bitMap.put(bit, bitCount2 + (bitMap.containsKey(bit) ? bitMap.get(bit) : 0));
+			if (hasBitSurvival)
+				inventoryBitCounts.put(bit.getStateID(), inventoryBitCount - bitCount2);
+		}
+		return bitCount;
+	}
+	
+	private void sendMessage(EntityPlayer player, String message)
+	{
+		player.sendMessage(new TextComponentString(message));
+	}
+	
+	private String getBlockName(IBlockState state, ItemStack blockStack)
+	{
+		String name = state.getBlock().getUnlocalizedName();
+		if (blockStack.getItem() != null)
+		{
+	
