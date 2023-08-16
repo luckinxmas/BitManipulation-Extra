@@ -378,4 +378,28 @@ public class ItemModelingTool extends ItemBitToolBase
 				if (areaMode == 2)
 				{
 					tooltip.add("Left click a block, drag to");
-					tooltip.add("    another block, then re
+					tooltip.add("    another block, then release");
+					tooltip.add("    to read all intersecting");
+					tooltip.add("    block states.");
+				}
+				else
+				{
+					tooltip.add("Left click a block to read all");
+					String readText = "    block states in an area";
+					if (areaMode == 0)
+					{
+						tooltip.add(readText);
+						tooltip.add("    centered on the nearest");
+					}
+					else
+					{
+						tooltip.add(readText + " that");
+						tooltip.add("    faces away from the player");
+						tooltip.add("    and has one of its corners");
+						tooltip.add("    positioned on the nearest");
+					}
+					tooltip.add("    block grid vertex.");
+					if (snapMode > 0)
+					{
+						tooltip.add("    (the area will snap in the");
+						if (
