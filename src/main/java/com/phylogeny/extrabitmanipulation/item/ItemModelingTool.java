@@ -238,4 +238,21 @@ public class ItemModelingTool extends ItemBitToolBase
 								inventoryBitCounts, bitCountArray, remainingBitCount, isCreative, pass);
 						if (remainingBitCount < 0)
 						{
-							skippedStatesMap.p
+							skippedStatesMap.put(state, remainingBitCount * -1);
+							skippedBitCountArrayMap.put(state, bitCountArray);
+						}
+					}
+				}
+				catch (InvalidBitItem e)
+				{
+					remainingBitCount = getReplacementBit(api, replacementBitsUnchiselable, bitMap,
+							inventoryBitCounts, bitCountArray, bitCount, isCreative, pass);
+					if (remainingBitCount < 0)
+					{
+						skippedStatesMap.put(state, remainingBitCount * -1);
+						skippedBitCountArrayMap.put(state, bitCountArray);
+					}
+				}
+				stateToBitCountArray.put(state, bitCountArray);
+				if (remainingBitCount > 0 && (pass == 1 || !skippedStatesMap.containsKey(state)))
+					missingBitMap.put(state, remainingBitCount);
