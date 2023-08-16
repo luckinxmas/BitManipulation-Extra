@@ -296,4 +296,23 @@ public class ItemModelingTool extends ItemBitToolBase
 		{
 			try
 			{
-				remainingBitCount = addBitCountObject(bitCountArray, bitMap, 
+				remainingBitCount = addBitCountObject(bitCountArray, bitMap, inventoryBitCounts,
+						api.createBrush(null), remainingBitCount, isCreative);
+			}
+			catch (InvalidBitItem e) {}
+		}
+		return remainingBitCount;
+	}
+	
+	private int addBitCountObject(ArrayList<BitCount> bitCountArray, Map<IBitBrush, Integer> bitMap,
+			Map<Integer, Integer> inventoryBitCounts, IBitBrush bit, int bitCount, boolean isCreative)
+	{
+		if (bit.isAir())
+		{
+			bitCountArray.add(new BitCount(bit, bitCount));
+			return 0;
+		}
+		boolean hasBitSurvival = inventoryBitCounts.containsKey(bit.getStateID()) && !isCreative;
+		int inventoryBitCount = isCreative ? Integer.MAX_VALUE : (hasBitSurvival ? inventoryBitCounts.get(bit.getStateID()) : 0);
+		if (inventoryBitCount > 0)
+		{
