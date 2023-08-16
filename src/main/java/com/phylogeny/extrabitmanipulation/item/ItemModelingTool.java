@@ -256,3 +256,19 @@ public class ItemModelingTool extends ItemBitToolBase
 				stateToBitCountArray.put(state, bitCountArray);
 				if (remainingBitCount > 0 && (pass == 1 || !skippedStatesMap.containsKey(state)))
 					missingBitMap.put(state, remainingBitCount);
+			}
+			if (skippedStatesMap.isEmpty())
+				break;
+		}
+		return missingBitMap;
+	}
+	
+	private int getReplacementBit(IChiselAndBitsAPI api, ConfigReplacementBits replacementBitsConfig, Map<IBitBrush, Integer> bitMap,
+			Map<Integer, Integer> inventoryBitCounts, ArrayList<BitCount> bitCountArray, int remainingBitCount, boolean isCreative, int pass)
+	{
+		if (pass == 0 && replacementBitsConfig.useDefaultReplacementBit())
+		{
+			try
+			{
+				remainingBitCount = addBitCountObject(bitCountArray, bitMap, inventoryBitCounts,
+						api.createBrush(replacementBitsConfig.getDefaultReplacementBit().getDefaultValue()), remainingBitCount, isCr
