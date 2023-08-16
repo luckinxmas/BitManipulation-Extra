@@ -227,4 +227,15 @@ public class ItemModelingTool extends ItemBitToolBase
 				int remainingBitCount = pass == 1 ? skippedStatesMap.get(state) : 0;
 				try
 				{
-					if (pass 
+					if (pass == 0)
+						remainingBitCount = addBitCountObject(bitCountArray, bitMap, inventoryBitCounts, manualStateToBitMap.containsKey(state)
+								? manualStateToBitMap.get(state) : (manualBlockToBitMap.containsKey(state.getBlock().getDefaultState())
+												? manualBlockToBitMap.get(state.getBlock().getDefaultState()) : api.createBrushFromState(state)),
+												bitCount, isCreative);
+					if (remainingBitCount > 0)
+					{
+						remainingBitCount = getReplacementBit(api, replacementBitsInsufficient, bitMap,
+								inventoryBitCounts, bitCountArray, remainingBitCount, isCreative, pass);
+						if (remainingBitCount < 0)
+						{
+							skippedStatesMap.p
