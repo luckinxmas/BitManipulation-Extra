@@ -402,4 +402,26 @@ public class ItemModelingTool extends ItemBitToolBase
 					if (snapMode > 0)
 					{
 						tooltip.add("    (the area will snap in the");
-						if (
+						if (snapMode == 1)
+						{
+							tooltip.add("    XZ axes to the 2D chuck");
+						}
+						else
+						{
+							tooltip.add("    XYZ axes to the 3D chuck");
+						}
+						tooltip.add("    containing the block looked at)");
+					}
+				}
+				
+				tooltip.add("Right click to create model block.");
+				tooltip.add("");
+				String shiftText = getColoredKeyBindText(KeyBindingsExtraBitManipulation.SHIFT);
+				if (KeyBindingsExtraBitManipulation.OPEN_BIT_MAPPING_GUI.getKeyBinding().isSetToDefaultValue())
+				{
+					tooltip.add(shiftText + " right click to open");
+					tooltip.add("    mapping/preview GUI.");
+				}
+				else
+				{
+					tooltip.add(shiftText + "
