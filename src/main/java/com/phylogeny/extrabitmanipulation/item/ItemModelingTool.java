@@ -424,4 +424,15 @@ public class ItemModelingTool extends ItemBitToolBase
 				}
 				else
 				{
-					tooltip.add(shiftText + "
+					tooltip.add(shiftText + " right click or press " + KeyBindingsExtraBitManipulation.OPEN_BIT_MAPPING_GUI.getText());
+					tooltip.add("    to open mapping/preview GUI.");
+				}
+				tooltip.add(shiftText + " mouse wheel to cycle");
+				tooltip.add("    area modes.");
+				tooltip.add("");
+				String controlText = getColoredKeyBindText(KeyBindingsExtraBitManipulation.CONTROL);
+				tooltip.add(controlText + " right click to toggle GUI");
+				tooltip.add("    opening upon model read.");
+				tooltip.add(controlText + " mouse wheel to");
+				tooltip.add("    cycle chunk snap mode.");
+				addKeybindReminders(tooltip, KeyBindingsExtraBitManipulation.SHIFT, KeyBindingsExtraBitManipulation.CO
