@@ -36,4 +36,15 @@ public class PacketBitMappingsPerTool extends PacketBoolean
 					ItemStack stack = player.getHeldItemMainhand();
 					if (ItemStackHelper.isModelingToolStack(stack))
 					{
-						NBTTagCompound nbt = ItemS
+						NBTTagCompound nbt = ItemStackHelper.getNBT(stack);
+						nbt.setBoolean(NBTKeys.BIT_MAPS_PER_TOOL, message.value);
+						player.inventoryContainer.detectAndSendChanges();
+					}
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
