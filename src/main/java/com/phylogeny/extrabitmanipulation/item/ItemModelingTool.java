@@ -435,4 +435,41 @@ public class ItemModelingTool extends ItemBitToolBase
 				tooltip.add("    opening upon model read.");
 				tooltip.add(controlText + " mouse wheel to");
 				tooltip.add("    cycle chunk snap mode.");
-				addKeybindReminders(tooltip, KeyBindingsExtraBitManipulation.SHIFT, KeyBindingsExtraBitManipulation.CO
+				addKeybindReminders(tooltip, KeyBindingsExtraBitManipulation.SHIFT, KeyBindingsExtraBitManipulation.CONTROL);
+			}
+			else
+			{
+				addKeyInformation(tooltip, true);
+			}
+		}
+	}
+	
+	public static class BitCount
+	{
+		private IBitBrush bit;
+		private int count;
+		
+		public BitCount(IBitBrush bit, int count)
+		{
+			this.bit = bit;
+			this.count = count;
+		}
+		
+		public IBitBrush getBit()
+		{
+			return bit;
+		}
+
+		public void setBit(IBitBrush bit)
+		{
+			this.bit = bit;
+		}
+
+		public int getCount()
+		{
+			return count;
+		}
+		
+	}
+	
+}
