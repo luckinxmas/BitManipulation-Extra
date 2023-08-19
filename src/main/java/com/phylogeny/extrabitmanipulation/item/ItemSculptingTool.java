@@ -251,3 +251,305 @@ public class ItemSculptingTool extends ItemBitToolBase
 						f = Utility.PIXEL_F * 0.5F;
 						vecOffset = BitAreaHelper.getBitGridOffset(side, inside, hitX, hitY, hitZ, removeBits);
 					}
+					if (shapeType == 4 || shapeType == 5)
+					{
+						AsymmetricalShape asymmetricalShape = (AsymmetricalShape) shape;
+						asymmetricalShape.setEquilateral(true);
+						float radius = addPadding(semiDiameter, padding) - f;
+						asymmetricalShape.init(x2 + f * (float) vecOffset.x, y2 + f * (float) vecOffset.y, z2 + f * (float) vecOffset.z, radius,
+								radius, radius, direction, hollowShape, wallThickness, openEnds);
+					}
+					else
+					{
+						((SymmetricalShape) shape).init(x2 + f * (float) vecOffset.x, y2 + f * (float) vecOffset.y, z2 + f * (float) vecOffset.z,
+								addPadding(semiDiameter, padding) - f, direction, hollowShape, wallThickness, openEnds);
+					}
+				}
+				boolean creativeMode = player.capabilities.isCreativeMode;
+				Map<IBlockState, Integer> bitTypes = null;
+				if (removeBits && !world.isRemote && !creativeMode)
+					bitTypes = new HashMap<IBlockState, Integer>();
+				
+				int initialpossibleUses = Integer.MAX_VALUE;
+				IBitBrush setBit = null;
+				try
+				{
+					setBit = api.createBrush(setBitStack);
+					if (!removeBits && !creativeMode)
+						initialpossibleUses = BitInventoryHelper.countInventoryBits(api, player, setBitStack);
+				}
+				catch (InvalidBitItem e) {}
+				int remainingUses = nbt.getInteger(NBTKeys.REMAINING_USES);
+				if (!creativeMode && initialpossibleUses > remainingUses)
+					initialpossibleUses = remainingUses;
+				
+				int possibleUses = initialpossibleUses;
+				boolean changed = false;
+				try
+				{
+					api.beginUndoGroup(player);
+					for (int i = (int) box.minX; i <= box.maxX; i++)
+					{
+						for (int j = (int) box.minY; j <= box.maxY; j++)
+						{
+							for (int k = (int) box.minZ; k <= box.maxZ; k++)
+							{
+								if (possibleUses > 0)
+									possibleUses = sculptBlock(api, player, world, new BlockPos(i, j, k), shape, bitTypes, possibleUses, setBit);
+							}
+						}
+					}
+				}
+				finally
+				{
+					api.endUndoGroup(player);
+					if (!world.isRemote && !Configs.dropBitsPerBlock)
+						BitInventoryHelper.giveOrDropStacks(player, world, pos, shape, api, bitTypes);
+					
+					int change = initialpossibleUses - possibleUses;
+					int newRemainingUses = remainingUses - (((ConfigProperty) Configs.itemPropertyMap.get(this)).takesDamage ? change : 0);
+					if (!world.isRemote && !creativeMode)
+					{
+						nbt.setInteger(NBTKeys.REMAINING_USES, newRemainingUses);
+						if (!removeBits)
+							BitInventoryHelper.removeOrAddInventoryBits(api, player, setBitStack, change, false);
+						
+						if (newRemainingUses <= 0)
+						{
+							player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+							ForgeEventFactory.onPlayerDestroyItem(player, stack, player.getActiveHand());
+						}
+						player.inventoryContainer.detectAndSendChanges();
+					}
+					if (!creativeMode && newRemainingUses <= 0)
+						player.renderBrokenItemStack(stack);
+					
+					changed = possibleUses < initialpossibleUses;
+					if (changed)
+						playPlacementSound(player, world, pos, 8.0F);
+				}
+				return changed;
+			}
+		}
+		return false;
+	}
+	
+	public static void playPlacementSound(EntityPlayer player, World world, BlockPos pos, float volumeReduction)
+	{
+		@SuppressWarnings("deprecation")
+		SoundType sound = Blocks.STONE.getSoundType();
+		world.playSound(player, pos, sound.getPlaceSound(), SoundCategory.BLOCKS, (sound.getVolume()) / volumeReduction, sound.getPitch() * 0.8F);
+	}
+	
+	private float addPadding(float value, float padding)
+	{
+		return (value + padding) * Utility.PIXEL_F;
+	}
+	
+	private float addPaddingToMin(float value1, float value2, float padding)
+	{
+		return Math.min(value1, value2) - padding * Utility.PIXEL_F;
+	}
+	
+	private float addPaddingToMax(float value1, float value2, float padding)
+	{
+		return Math.max(value1, value2) + padding * Utility.PIXEL_F;
+	}
+	
+	public static boolean wasInsideClicked(EnumFacing dir, Vec3d hit, BlockPos pos)
+	{
+		if (hit != null)
+		{
+			switch (dir.ordinal())
+			{
+				case 0:	return hit.y > pos.getY();
+				case 1:	return hit.y < pos.getY() + 1;
+				case 2:	return hit.z > pos.getZ();
+				case 3:	return hit.z < pos.getZ() + 1;
+				case 4:	return hit.x > pos.getX();
+				case 5:	return hit.x < pos.getX() + 1;
+			}
+		}
+		return false;
+	}
+	
+	@SuppressWarnings("null")
+	private int sculptBlock(IChiselAndBitsAPI api, EntityPlayer player, World world, BlockPos pos, Shape shape,
+			Map<IBlockState, Integer> bitTypes, int remainingUses, IBitBrush setBit)
+	{
+		if (isValidBlock(api, world, pos))
+		{
+			IBitAccess bitAccess;
+			try
+			{
+				bitAccess = api.getBitAccess(world, pos);
+			}
+			catch (CannotBeChiseled e)
+			{
+				return remainingUses;
+			}
+			boolean byPassBitChecks = shape.isBlockInsideShape(pos);
+			int initialRemainingUses = remainingUses;
+			for (int i = 0; i < 16; i++)
+			{
+				for (int j = 0; j < 16; j++)
+				{
+					for (int k = 0; k < 16; k++)
+					{
+						IBitBrush bit = bitAccess.getBitAt(i, j, k);
+						if ((removeBits ? (!bit.isAir() && !(setBit != null && !setBit.isAir() && !setBit.getState().equals(bit.getState()))) : bit.isAir())
+								&& (byPassBitChecks || shape.isPointInsideShape(pos, i, j, k)))
+						{
+							if (bitTypes != null)
+							{
+								IBlockState state = bit.getState();
+								if (!bitTypes.containsKey(state))
+								{
+									bitTypes.put(state, 1);
+								}
+								else
+								{
+									bitTypes.put(state, bitTypes.get(state) + 1);
+								}
+							}
+							try
+							{
+								bitAccess.setBitAt(i, j, k, removeBits ? null : setBit);
+								remainingUses--;
+							}
+							catch (SpaceOccupied e) {}
+							if (remainingUses == 0)
+							{
+								bitAccess.commitChanges(true);
+								return remainingUses;
+							}
+						}
+					}
+				}
+			}
+			if (!world.isRemote && Configs.dropBitsPerBlock)
+				BitInventoryHelper.giveOrDropStacks(player, world, pos, shape, api, bitTypes);
+			
+			if (remainingUses < initialRemainingUses)
+				bitAccess.commitChanges(true);
+		}
+		return remainingUses;
+	}
+	
+	private boolean isValidBlock(IChiselAndBitsAPI api, World world, BlockPos pos)
+	{
+		return api.canBeChiseled(world, pos) && (!removeBits || !world.isAirBlock(pos));
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flag)
+	{
+		boolean shiftDown = GuiScreen.isShiftKeyDown();
+		boolean ctrlDown = GuiScreen.isCtrlKeyDown();
+		addColorInformation(tooltip, shiftDown);
+		NBTTagCompound nbt = stack.getTagCompound();
+		int mode = BitToolSettingsHelper.getSculptMode(nbt);
+		if (shiftDown)
+			tooltip.add(colorSettingText(BitToolSettingsHelper.getSculptModeText(mode), Configs.sculptMode));
+		
+		ItemStack setBitStack = BitToolSettingsHelper.getBitStack(nbt, removeBits);
+		if (!ctrlDown || shiftDown)
+		{
+			String bitType = "Bit Type To " + (removeBits ? "Remove" : "Add") + ": ";
+			if (!setBitStack.isEmpty())
+			{
+				String bitStateName = "N/A";
+				IBlockState state = ModUtil.getStateById(ItemChiseledBit.getStackState(setBitStack));
+				if (state != null)
+				{
+					String name = ItemChiseledBit.getBitStateName(state);
+					if (name != null)
+						bitStateName = name;
+				}
+				bitType += bitStateName;
+			}
+			else
+			{
+				bitType += removeBits ? "any" : "none";
+			}
+			tooltip.add(colorSettingText(bitType, removeBits ? Configs.sculptSetBitWire : Configs.sculptSetBitSpade));
+		}
+		if (shiftDown)
+		{
+			int shapeType = BitToolSettingsHelper.getShapeType(nbt, curved);
+			tooltip.add(colorSettingText(BitToolSettingsHelper.getDirectionText(nbt, shapeType == 4 || shapeType == 5), Configs.sculptDirection));
+			tooltip.add(colorSettingText(BitToolSettingsHelper.getShapeTypeText(shapeType),
+					removeBits ? Configs.sculptShapeTypeCurved : Configs.sculptShapeTypeFlat));
+			boolean targetBits = BitToolSettingsHelper.isBitGridTargeted(nbt);
+			tooltip.add(colorSettingText(BitToolSettingsHelper.getBitGridTargetedText(targetBits), Configs.sculptTargetBitGridVertexes)
+					+ (targetBits ? " (corners)" : " (centers)"));
+			tooltip.add(colorSettingText(BitToolSettingsHelper.getSemiDiameterText(nbt), Configs.sculptSemiDiameter));
+			if (!removeBits)
+				tooltip.add(colorSettingText(BitToolSettingsHelper.getOffsetShapeText(nbt), Configs.sculptOffsetShape));
+			
+			tooltip.add(colorSettingText(BitToolSettingsHelper.getHollowShapeText(nbt, this),
+					removeBits ? Configs.sculptHollowShapeWire : Configs.sculptHollowShapeSpade));
+			tooltip.add(colorSettingText("  - " + BitToolSettingsHelper.getOpenEndsText(nbt), Configs.sculptOpenEnds));
+			tooltip.add(colorSettingText("  - " + BitToolSettingsHelper.getWallThicknessText(nbt), Configs.sculptWallThickness));
+		}
+		else
+		{
+			if (ctrlDown)
+			{
+				String shiftText = getColoredKeyBindText(KeyBindingsExtraBitManipulation.SHIFT);
+				String removeAddText = removeBits ? "remove" : "add";
+				String toFromText = removeBits ? "from" : "to";
+				if (mode == 2)
+				{
+					tooltip.add("Left click point on block, drag");
+					tooltip.add("    to another point, then");
+					tooltip.add("    release to " + removeAddText + " bits " + toFromText);
+					tooltip.add("    all intersecting blocks.");
+				}
+				else
+				{
+					String shapeControlText = "Left click block to " + removeAddText + " bits";
+					if (mode == 0)
+						shapeControlText += ".";
+					
+					tooltip.add(shapeControlText);
+					if (mode != 0)
+					{
+						String areaText = toFromText;
+						tooltip.add("    " + areaText + " all intersecting blocks.");
+					}
+				}
+				tooltip.add("Right click to cycle modes.");
+				if (!removeBits)
+					tooltip.add(shiftText + " left click bit to set bit type.");
+				
+				tooltip.add(shiftText + " mouse wheel to change");
+				tooltip.add("    " + (removeBits ? "removal" : "addition") + (Configs.displayNameDiameter ? " " : " semi-") + "diameter.");
+				tooltip.add("");
+				String controlText = getColoredKeyBindText(KeyBindingsExtraBitManipulation.CONTROL);
+				tooltip.add(controlText + " right click to");
+				tooltip.add("    change shape.");
+				tooltip.add(controlText + " left click to toggle");
+				tooltip.add("    target between");
+				tooltip.add("    bits & vertecies.");
+				tooltip.add(controlText + " mouse wheel to");
+				tooltip.add("    change direction.");
+				tooltip.add("");
+				String altText = getColoredKeyBindText(KeyBindingsExtraBitManipulation.ALT);
+				tooltip.add(altText + " right click to toggle");
+				tooltip.add("    shapes solid or hollow.");
+				tooltip.add(altText + " left click to toggle hollow");
+				tooltip.add("    shapes open or closed.");
+				tooltip.add(altText + " mouse wheel to change hollow");
+				tooltip.add("    shape wall thickness.");
+				addKeybindReminders(tooltip, KeyBindingsExtraBitManipulation.SHIFT,
+						KeyBindingsExtraBitManipulation.CONTROL, KeyBindingsExtraBitManipulation.ALT);
+			}
+			else
+			{
+				addKeyInformation(tooltip, true);
+			}
+		}
+	}
+	
+}
