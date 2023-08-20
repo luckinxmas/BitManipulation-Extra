@@ -35,4 +35,8 @@ public abstract class PacketBlockInteraction implements IMessage
 	public void fromBytes(ByteBuf buffer)
 	{
 		pos = BlockPos.fromLong(buffer.readLong());
-		side = EnumFacing.getFront(buffer.readIn
+		side = EnumFacing.getFront(buffer.readInt());
+		hit = new Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
+	}
+	
+}
