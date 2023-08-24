@@ -36,4 +36,28 @@ public class PacketChangeArmorItemList extends PacketChangeChiseledArmorList
 	public PacketChangeArmorItemList(ArmorType armorType, int indexArmorSet, int partIndex, int armorItemIndex,
 			int selectedEntry, ListOperation listOperation, ItemStack stack, NBTTagCompound glOperationsNbt, boolean refreshLists, EntityPlayer player)
 	{
-		super(glOperationsNbt, armorType, indexArmorSet, 
+		super(glOperationsNbt, armorType, indexArmorSet, partIndex, armorItemIndex, selectedEntry, refreshLists, player);
+		this.listOperation = listOperation;
+		this.stack = stack;
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		super.toBytes(buffer);
+		buffer.writeInt(listOperation.ordinal());
+		ByteBufUtils.writeItemStack(buffer, stack);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		listOperation = ListOperation.values()[buffer.readInt()];
+		stack = ByteBufUtils.readItemStack(buffer);
+	}
+	
+	public static class Handler implements IMessageHandler<PacketChangeArmorItemList, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketChangeA
