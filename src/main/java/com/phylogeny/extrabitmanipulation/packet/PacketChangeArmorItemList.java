@@ -22,4 +22,18 @@ import com.phylogeny.extrabitmanipulation.armor.ArmorItem;
 import com.phylogeny.extrabitmanipulation.armor.DataChiseledArmorPiece;
 import com.phylogeny.extrabitmanipulation.client.ClientHelper;
 import com.phylogeny.extrabitmanipulation.container.ContainerPlayerInventory;
-import com.phylogeny.extrab
+import com.phylogeny.extrabitmanipulation.helper.ItemStackHelper;
+import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor.ArmorType;
+import com.phylogeny.extrabitmanipulation.reference.NBTKeys;
+
+public class PacketChangeArmorItemList extends PacketChangeChiseledArmorList
+{
+	private ItemStack stack;
+	private ListOperation listOperation;
+	
+	public PacketChangeArmorItemList() {}
+	
+	public PacketChangeArmorItemList(ArmorType armorType, int indexArmorSet, int partIndex, int armorItemIndex,
+			int selectedEntry, ListOperation listOperation, ItemStack stack, NBTTagCompound glOperationsNbt, boolean refreshLists, EntityPlayer player)
+	{
+		super(glOperationsNbt, armorType, indexArmorSet, 
