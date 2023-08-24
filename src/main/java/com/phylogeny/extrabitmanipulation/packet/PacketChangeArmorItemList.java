@@ -60,4 +60,19 @@ public class PacketChangeArmorItemList extends PacketChangeChiseledArmorList
 	public static class Handler implements IMessageHandler<PacketChangeArmorItemList, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final PacketChangeA
+		public IMessage onMessage(final PacketChangeArmorItemList message, final MessageContext ctx)
+		{
+			final boolean serverSide = ctx.side == Side.SERVER;
+			IThreadListener mainThread = serverSide ? (WorldServer) ctx.getServerHandler().player.world : ClientHelper.getThreadListener();
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = serverSide ? ctx.getServerHandler().player : ClientHelper.getPlayer();
+					ItemStack stack = ItemStackHelper.getChiseledArmorStack(player, message.armorType, message.indexArmorSet);
+					if (!ItemStackHelper.isChiseledArmorStack(stack))
+						return;
+					
+					message.initData(message, stack);
+					NB
