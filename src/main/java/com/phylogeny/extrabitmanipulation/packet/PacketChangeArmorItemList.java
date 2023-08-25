@@ -75,4 +75,18 @@ public class PacketChangeArmorItemList extends PacketChangeChiseledArmorList
 						return;
 					
 					message.initData(message, stack);
-					NB
+					NBTTagCompound nbt = ItemStackHelper.getNBT(stack);
+					NBTTagCompound data = message.getData(nbt, serverSide);
+					NBTTagList movingParts = data.getTagList(NBTKeys.ARMOR_PART_DATA, NBT.TAG_LIST);
+					NBTBase nbtBase = movingParts.get(message.value);
+					if (nbtBase.getId() != NBT.TAG_LIST)
+						return;
+					
+					Container container = player.openContainer;
+					if (container == null || !(container instanceof ContainerPlayerInventory))
+						return;
+					
+					NBTTagList itemList = (NBTTagList) nbtBase;
+					int glListRemovalIndex = -1;
+					boolean add = message.listOperation == ListOperation.ADD;
+					if (message.listOperation == ListOperation
