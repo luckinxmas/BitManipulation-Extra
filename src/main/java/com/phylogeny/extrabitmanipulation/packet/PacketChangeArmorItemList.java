@@ -89,4 +89,18 @@ public class PacketChangeArmorItemList extends PacketChangeChiseledArmorList
 					NBTTagList itemList = (NBTTagList) nbtBase;
 					int glListRemovalIndex = -1;
 					boolean add = message.listOperation == ListOperation.ADD;
-					if (message.listOperation == ListOperation
+					if (message.listOperation == ListOperation.MODIFY)
+					{
+						NBTTagCompound armorItemNbt = itemList.getCompoundTagAt(message.armorItemIndex);
+						ItemStackHelper.saveStackToNBT(armorItemNbt, message.stack, NBTKeys.ARMOR_ITEM);
+						itemList.set(message.armorItemIndex, armorItemNbt);
+					}
+					else if (add)
+					{
+						NBTTagCompound armorItemNbt = new NBTTagCompound();
+						ArmorItem armorItem = new ArmorItem(message.stack);
+						armorItem.saveToNBT(armorItemNbt);
+						if (message.nbt.hasKey(NBTKeys.ARMOR_GL_OPERATIONS))
+							armorItemNbt.setTag(NBTKeys.ARMOR_GL_OPERATIONS, message.nbt.getTagList(NBTKeys.ARMOR_GL_OPERATIONS, NBT.TAG_COMPOUND));
+						
+						itemList.appendTa
