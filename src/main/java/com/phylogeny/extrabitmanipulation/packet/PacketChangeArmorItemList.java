@@ -117,4 +117,18 @@ public class PacketChangeArmorItemList extends PacketChangeChiseledArmorList
 					{
 						ExtraBitManipulation.packetNetwork.sendTo(new PacketChangeArmorItemList(message.armorType, message.indexArmorSet,
 								message.value, message.armorItemIndex, message.selectedEntry, message.listOperation,
-								message.stack,
+								message.stack, message.nbt, message.refreshLists, player), (EntityPlayerMP) player);
+					}
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+	public static enum ListOperation
+	{
+		ADD, REMOVE, MODIFY;
+	}
+	
+}
