@@ -103,4 +103,18 @@ public class PacketChangeArmorItemList extends PacketChangeChiseledArmorList
 						if (message.nbt.hasKey(NBTKeys.ARMOR_GL_OPERATIONS))
 							armorItemNbt.setTag(NBTKeys.ARMOR_GL_OPERATIONS, message.nbt.getTagList(NBTKeys.ARMOR_GL_OPERATIONS, NBT.TAG_COMPOUND));
 						
-						itemList.appendTa
+						itemList.appendTag(armorItemNbt);
+					}
+					else
+					{
+						itemList.removeTag(message.armorItemIndex);
+						glListRemovalIndex = message.armorItemIndex;
+					}
+					movingParts.set(message.value, itemList);
+					DataChiseledArmorPiece.setPartData(data, movingParts);
+					message.finalizeDataChange(message, stack, nbt, data, serverSide, true, add, glListRemovalIndex);
+					if (serverSide)
+					{
+						ExtraBitManipulation.packetNetwork.sendTo(new PacketChangeArmorItemList(message.armorType, message.indexArmorSet,
+								message.value, message.armorItemIndex, message.selectedEntry, message.listOperation,
+								message.stack,
