@@ -22,4 +22,21 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 public abstract class PacketChangeChiseledArmorList extends PacketArmorSlotInt
 {
 	protected int armorItemIndex, selectedEntry;
-	protected boolean ref
+	protected boolean refreshLists;
+	protected NBTTagCompound nbt = new NBTTagCompound();
+	
+	public PacketChangeChiseledArmorList() {}
+	
+	public PacketChangeChiseledArmorList(NBTTagCompound nbt, ArmorType armorType, int indexArmorSet,
+			int partIndex, int armorItemIndex, int selectedEntry, boolean refreshLists, @Nullable EntityPlayer player)
+	{
+		super(armorType, indexArmorSet, partIndex);
+		this.nbt = nbt;
+		this.armorItemIndex = armorItemIndex;
+		this.selectedEntry = selectedEntry;
+		this.refreshLists = refreshLists;
+		if (indexArmorSet > 0 && player instanceof EntityPlayerMP)
+		{
+			IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(player);
+			if (cap != null)
+				cap.markSlotDirty(armorType.getSlotIn
