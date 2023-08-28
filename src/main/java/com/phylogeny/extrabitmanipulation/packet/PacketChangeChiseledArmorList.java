@@ -39,4 +39,30 @@ public abstract class PacketChangeChiseledArmorList extends PacketArmorSlotInt
 		{
 			IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(player);
 			if (cap != null)
-				cap.markSlotDirty(armorType.getSlotIn
+				cap.markSlotDirty(armorType.getSlotIndex(indexArmorSet));
+		}
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		super.toBytes(buffer);
+		ByteBufUtils.writeTag(buffer, nbt);
+		buffer.writeInt(armorItemIndex);
+		buffer.writeInt(selectedEntry);
+		buffer.writeBoolean(refreshLists);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		nbt = ByteBufUtils.readTag(buffer);
+		armorItemIndex = buffer.readInt();
+		selectedEntry = buffer.readInt();
+		refreshLists = buffer.readBoolean();
+	}
+	
+	protected NBTTagCompound getData(NBTTagCompound nbt, boolean serverSide)
+	{
+		NBTTagCompound data = ItemStackHelper.getArmorData
