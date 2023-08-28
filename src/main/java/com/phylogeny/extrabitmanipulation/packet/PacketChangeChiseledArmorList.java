@@ -65,4 +65,24 @@ public abstract class PacketChangeChiseledArmorList extends PacketArmorSlotInt
 	
 	protected NBTTagCompound getData(NBTTagCompound nbt, boolean serverSide)
 	{
-		NBTTagCompound data = ItemStackHelper.getArmorData
+		NBTTagCompound data = ItemStackHelper.getArmorData(nbt);
+		if (!serverSide)
+			RenderLayersExtraBitManipulation.removeFromRenderMaps(data);
+		
+		return data;
+	}
+	
+	protected void initData(final PacketChangeChiseledArmorList message, ItemStack stack)
+	{
+		NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+		if (nbt.hasKey(NBTKeys.ARMOR_DATA))
+			return;
+		
+		new DataChiseledArmorPiece(message.armorType).saveToNBT(nbt);
+		stack.setTagCompound(nbt);
+	}
+	
+	protected void finalizeDataChange(PacketChangeChiseledArmorList message, ItemStack stack, NBTTagCompound nbt,
+			NBTTagCompound data, boolean serverSide, boolean isArmorItem, boolean scrollToEnd, int glListRemovalIndex)
+	{
+		nbt.setTag(NBTKeys.ARMOR_DATA,
