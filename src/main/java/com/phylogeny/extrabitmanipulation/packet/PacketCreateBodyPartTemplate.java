@@ -14,4 +14,29 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper.ArmorBodyPartTemplateData;
 import com.phylogeny.extrabitmanipulation.helper.ItemStackHelper;
-import com.phylogeny.extrabitmanipulation.item.It
+import com.phylogeny.extrabitmanipulation.item.ItemChiseledArmor;
+
+public class PacketCreateBodyPartTemplate extends PacketBlockInteraction implements IMessage
+{
+	private ArmorBodyPartTemplateData templateData = new ArmorBodyPartTemplateData();
+	
+	public PacketCreateBodyPartTemplate() {}
+	
+	public PacketCreateBodyPartTemplate(BlockPos pos, EnumFacing side, Vec3d hit, ArmorBodyPartTemplateData templateData)
+	{
+		super(pos, side, hit);
+		this.templateData = templateData;
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		super.toBytes(buffer);
+		templateData.toBytes(buffer);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		templateDa
