@@ -39,4 +39,21 @@ public class PacketCreateBodyPartTemplate extends PacketBlockInteraction impleme
 	public void fromBytes(ByteBuf buffer)
 	{
 		super.fromBytes(buffer);
-		templateDa
+		templateData.fromBytes(buffer);
+	}
+	
+	public static class Handler implements IMessageHandler<PacketCreateBodyPartTemplate, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketCreateBodyPartTemplate message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					ItemStack stack = player.getHeldItemMainhand();
+					if (ItemStackHelper.isChiseledArmorStack(stack))
+						ItemChiseledArmor.createBodyPartTemplate(player, player.world, message.pos, message.side, message.hit, message.templa
