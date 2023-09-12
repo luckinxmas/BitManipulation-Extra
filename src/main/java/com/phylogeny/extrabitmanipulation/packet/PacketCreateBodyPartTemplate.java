@@ -56,4 +56,12 @@ public class PacketCreateBodyPartTemplate extends PacketBlockInteraction impleme
 					EntityPlayer player = ctx.getServerHandler().player;
 					ItemStack stack = player.getHeldItemMainhand();
 					if (ItemStackHelper.isChiseledArmorStack(stack))
-						ItemChiseledArmor.createBodyPartTemplate(player, player.world, message.pos, message.side, message.hit, message.templa
+						ItemChiseledArmor.createBodyPartTemplate(player, player.world, message.pos, message.side, message.hit, message.templateData);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
