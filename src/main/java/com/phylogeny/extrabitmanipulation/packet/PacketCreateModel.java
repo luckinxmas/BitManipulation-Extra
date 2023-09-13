@@ -35,4 +35,24 @@ public class PacketCreateModel extends PacketBlockInteraction implements IMessag
 		modelingData.toBytes(buffer);
 	}
 	
-	@Over
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		modelingData.fromBytes(buffer);
+	}
+	
+	public static class Handler implements IMessageHandler<PacketCreateModel, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketCreateModel message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					ItemStack stack = player.getHeldItemMainhand();
+					if (ItemStackHelper.isModelingToolStack(stack))
