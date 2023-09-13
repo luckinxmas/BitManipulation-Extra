@@ -56,3 +56,12 @@ public class PacketCreateModel extends PacketBlockInteraction implements IMessag
 					EntityPlayer player = ctx.getServerHandler().player;
 					ItemStack stack = player.getHeldItemMainhand();
 					if (ItemStackHelper.isModelingToolStack(stack))
+						((ItemModelingTool) stack.getItem()).createModel(stack, player, player.world, message.pos, message.side, message.modelingData);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
