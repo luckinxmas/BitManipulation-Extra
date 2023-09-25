@@ -27,4 +27,17 @@ public class PacketOpenBitMappingGui extends PacketEmpty
 				@Override
 				public void run()
 				{
-					EntityPlayer player = ctx.getServerHandler().pla
+					EntityPlayer player = ctx.getServerHandler().player;
+					ItemStack stack = player.getHeldItemMainhand();
+					if (ItemStackHelper.isModelingToolStack(stack) || ItemStackHelper.isDesignStack(stack))
+					{
+						player.openGui(ExtraBitManipulation.instance, GuiIDs.BIT_MAPPING.getID(), player.world, 0, 0, 0);
+					}
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
