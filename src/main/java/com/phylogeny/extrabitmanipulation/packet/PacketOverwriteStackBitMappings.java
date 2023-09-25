@@ -52,4 +52,20 @@ public class PacketOverwriteStackBitMappings extends PacketBitMapIO
 			mainThread.addScheduledTask(new Runnable()
 			{
 				@Override
-				pu
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					ItemStack stack = player.getHeldItemMainhand();
+					if (ItemStackHelper.isModelingToolStack(stack))
+					{
+						BitIOHelper.writeStateToBitMapToNBT(stack, message.nbtKey, message.bitMap, message.saveStatesById);
+						player.inventoryContainer.detectAndSendChanges();
+					}
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
