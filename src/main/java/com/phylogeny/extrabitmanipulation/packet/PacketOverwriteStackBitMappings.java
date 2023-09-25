@@ -26,4 +26,30 @@ public class PacketOverwriteStackBitMappings extends PacketBitMapIO
 	public PacketOverwriteStackBitMappings(Map<IBlockState, IBitBrush> bitMap, String nbtKey, boolean saveStatesById)
 	{
 		super(nbtKey, saveStatesById);
-		this.bitMap = bit
+		this.bitMap = bitMap;
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		super.toBytes(buffer);
+		BitIOHelper.stateToBitMapToBytes(buffer, bitMap);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		bitMap = BitIOHelper.stateToBitMapFromBytes(buffer);
+	}
+	
+	public static class Handler implements IMessageHandler<PacketOverwriteStackBitMappings, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketOverwriteStackBitMappings message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				pu
