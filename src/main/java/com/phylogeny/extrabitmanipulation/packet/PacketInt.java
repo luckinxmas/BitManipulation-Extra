@@ -9,4 +9,21 @@ public abstract class PacketInt implements IMessage
 	
 	public PacketInt() {}
 	
-	public PacketIn
+	public PacketInt(int value)
+	{
+		this.value = value;
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		buffer.writeInt(value);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		value = buffer.readInt();
+	}
+	
+}
