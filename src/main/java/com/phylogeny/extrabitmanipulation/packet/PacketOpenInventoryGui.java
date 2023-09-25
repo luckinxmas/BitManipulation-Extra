@@ -1,3 +1,4 @@
+
 package com.phylogeny.extrabitmanipulation.packet;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,14 +11,19 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import com.phylogeny.extrabitmanipulation.ExtraBitManipulation;
 import com.phylogeny.extrabitmanipulation.reference.GuiIDs;
 
-public class PacketOpenChiseledArmorGui extends PacketEmpty
+public class PacketOpenInventoryGui extends PacketBoolean
 {
-	public PacketOpenChiseledArmorGui() {}
+	public PacketOpenInventoryGui() {}
 	
-	public static class Handler implements IMessageHandler<PacketOpenChiseledArmorGui, IMessage>
+	public PacketOpenInventoryGui(boolean openVanilla)
+	{
+		super(openVanilla);
+	}
+	
+	public static class Handler implements IMessageHandler<PacketOpenInventoryGui, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final PacketOpenChiseledArmorGui message, final MessageContext ctx)
+		public IMessage onMessage(final PacketOpenInventoryGui message, final MessageContext ctx)
 		{
 			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
 			mainThread.addScheduledTask(new Runnable()
@@ -26,7 +32,11 @@ public class PacketOpenChiseledArmorGui extends PacketEmpty
 				public void run()
 				{
 					EntityPlayer player = ctx.getServerHandler().player;
-					player.openGui(ExtraBitManipulation.instance, GuiIDs.CHISELED_ARMOR.getID(), player.world, 0, 0, 0);
+					player.openContainer.onContainerClosed(player);
+					if (message.value)
+						player.openContainer = player.inventoryContainer;
+					else
+						player.openGui(ExtraBitManipulation.instance, GuiIDs.CHISELED_ARMOR_SLOTS.getID(), player.world, 0, 0, 0);
 				}
 			});
 			return null;
