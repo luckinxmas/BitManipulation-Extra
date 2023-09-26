@@ -23,4 +23,29 @@ public class PacketPlaceEntityBit implements IMessage
 	
 	public PacketPlaceEntityBit() {}
 	
-	public PacketPlaceEntityBit(ItemStack bitStack, BlockPos pos, RayTraceRe
+	public PacketPlaceEntityBit(ItemStack bitStack, BlockPos pos, RayTraceResult result)
+	{
+		this.bitStack = bitStack;
+		this.pos = pos;
+		this.hitVec = result.hitVec;
+		this.sideHit = result.sideHit;
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		ByteBufUtils.writeItemStack(buffer, bitStack);
+		buffer.writeLong(pos.toLong());
+		buffer.writeDouble(hitVec.x);
+		buffer.writeDouble(hitVec.y);
+		buffer.writeDouble(hitVec.z);
+		buffer.writeInt(sideHit.ordinal());
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		bitStack = ByteBufUtils.readItemStack(buffer);
+		pos = BlockPos.fromLong(buffer.readLong());
+		hitVec = new Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
+		sideHit = EnumFacing.getFront(buffer.readIn
