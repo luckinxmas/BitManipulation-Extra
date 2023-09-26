@@ -48,4 +48,25 @@ public class PacketPlaceEntityBit implements IMessage
 		bitStack = ByteBufUtils.readItemStack(buffer);
 		pos = BlockPos.fromLong(buffer.readLong());
 		hitVec = new Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
-		sideHit = EnumFacing.getFront(buffer.readIn
+		sideHit = EnumFacing.getFront(buffer.readInt());
+	}
+	
+	public static class Handler implements IMessageHandler<PacketPlaceEntityBit, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketPlaceEntityBit message, final MessageContext ctx)
+		{
+			ClientHelper.getThreadListener().addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityBit.placeBit(ClientHelper.getWorld(), message.bitStack, message.pos, message.hitVec, message.sideHit, false);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
