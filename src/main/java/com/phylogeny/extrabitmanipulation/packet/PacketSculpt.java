@@ -15,4 +15,26 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import com.phylogeny.extrabitmanipulation.helper.BitIOHelper;
 import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper.SculptingData;
 import com.phylogeny.extrabitmanipulation.helper.ItemStackHelper;
-import com.phylogeny.extrabitmanipulation.item.ItemSculptingTool
+import com.phylogeny.extrabitmanipulation.item.ItemSculptingTool;
+
+public class PacketSculpt extends PacketBlockInteraction implements IMessage
+{
+	private Vec3d drawnStartPoint;
+	private SculptingData sculptingData = new SculptingData();
+	
+	public PacketSculpt() {}
+	
+	public PacketSculpt(BlockPos pos, EnumFacing side, Vec3d hit, Vec3d drawnStartPoint, SculptingData sculptingData)
+	{
+		super(pos, side, hit);
+		this.drawnStartPoint = drawnStartPoint;
+		this.sculptingData = sculptingData;
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		super.toBytes(buffer);
+		if (BitIOHelper.notNullToBuffer(buffer, drawnStartPoint))
+		{
+			buffer.writeDouble(drawnStartPo
