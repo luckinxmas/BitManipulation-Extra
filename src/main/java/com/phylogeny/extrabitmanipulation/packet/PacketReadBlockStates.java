@@ -38,4 +38,26 @@ public class PacketReadBlockStates extends PacketBlockInteraction implements IMe
 		super.toBytes(buffer);
 		if (BitIOHelper.notNullToBuffer(buffer, drawnStartPoint))
 		{
-			buffer.writeInt
+			buffer.writeInt(drawnStartPoint.getX());
+			buffer.writeInt(drawnStartPoint.getY());
+			buffer.writeInt(drawnStartPoint.getZ());
+		}
+		modelingData.toBytes(buffer);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		if (buffer.readBoolean())
+			drawnStartPoint = new Vec3i(buffer.readInt(), buffer.readInt(), buffer.readInt());
+		
+		modelingData.fromBytes(buffer);
+	}
+	
+	public static class Handler implements IMessageHandler<PacketReadBlockStates, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketReadBlockStates message, final MessageContext ctx)
+		{
+			IThreadListener mainTh
