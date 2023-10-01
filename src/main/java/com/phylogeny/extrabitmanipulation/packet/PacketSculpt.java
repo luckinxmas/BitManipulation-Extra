@@ -37,4 +37,27 @@ public class PacketSculpt extends PacketBlockInteraction implements IMessage
 		super.toBytes(buffer);
 		if (BitIOHelper.notNullToBuffer(buffer, drawnStartPoint))
 		{
-			buffer.writeDouble(drawnStartPo
+			buffer.writeDouble(drawnStartPoint.x);
+			buffer.writeDouble(drawnStartPoint.y);
+			buffer.writeDouble(drawnStartPoint.z);
+		}
+		sculptingData.toBytes(buffer);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		if (buffer.readBoolean())
+			drawnStartPoint = new Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
+		
+		sculptingData.fromBytes(buffer);
+	}
+	
+	public static class Handler implements IMessageHandler<PacketSculpt, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketSculpt message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.ad
