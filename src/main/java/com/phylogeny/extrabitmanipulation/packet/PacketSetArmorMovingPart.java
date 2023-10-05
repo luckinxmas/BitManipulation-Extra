@@ -19,4 +19,22 @@ public class PacketSetArmorMovingPart extends PacketArmorSlotInt
 	
 	public PacketSetArmorMovingPart(int partIndex, @Nullable ArmorType armorType, int indexArmorSet)
 	{
-		super(armorType, indexArmorSet, par
+		super(armorType, indexArmorSet, partIndex);
+	}
+	
+	public static class Handler implements IMessageHandler<PacketSetArmorMovingPart, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketSetArmorMovingPart message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					ItemStack stack = getArmorStack(player, message);
+					if (!stack.isEmpty())
+						BitToolSettingsHelper.setArmorMovingPart(player, stack, message.value, null, message.armorType, 0);
+				}
