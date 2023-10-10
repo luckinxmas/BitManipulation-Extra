@@ -38,3 +38,10 @@ public class PacketSetArmorMovingPart extends PacketArmorSlotInt
 					if (!stack.isEmpty())
 						BitToolSettingsHelper.setArmorMovingPart(player, stack, message.value, null, message.armorType, 0);
 				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
