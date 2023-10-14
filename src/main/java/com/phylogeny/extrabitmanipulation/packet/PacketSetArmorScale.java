@@ -35,3 +35,13 @@ public class PacketSetArmorScale extends PacketArmorSlotInt
 				{
 					EntityPlayer player = ctx.getServerHandler().player;
 					ItemStack stack = getArmorStack(player, message);
+					if (!stack.isEmpty())
+						BitToolSettingsHelper.setArmorScale(player, stack, message.value, null, message.armorType, message.indexArmorSet);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
