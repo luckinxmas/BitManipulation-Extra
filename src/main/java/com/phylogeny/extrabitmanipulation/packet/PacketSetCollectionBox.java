@@ -24,4 +24,33 @@ public class PacketSetCollectionBox extends PacketBlockInteraction
 	
 	public PacketSetCollectionBox() {}
 	
-	public PacketSetCollectionBox(float playerYaw, boolean useBitGrid, EnumFacing facingBox, BlockPos pos, EnumFacing facingPlacement, Vec3d hit
+	public PacketSetCollectionBox(float playerYaw, boolean useBitGrid, EnumFacing facingBox, BlockPos pos, EnumFacing facingPlacement, Vec3d hit)
+	{
+		super(pos, facingPlacement, hit);
+		this.playerYaw = playerYaw;
+		this.useBitGrid = useBitGrid;
+		this.facingBox = facingBox;
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		super.toBytes(buffer);
+		buffer.writeFloat(playerYaw);
+		buffer.writeBoolean(useBitGrid);
+		buffer.writeInt(facingBox.ordinal());
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		playerYaw = buffer.readFloat();
+		useBitGrid = buffer.readBoolean();
+		facingBox = EnumFacing.getFront(buffer.readInt());
+	}
+	
+	public static class Handler implements IMessageHandler<PacketSetCollectionBox, IMessage>
+	{
+		@Override
+		public IMessage on
