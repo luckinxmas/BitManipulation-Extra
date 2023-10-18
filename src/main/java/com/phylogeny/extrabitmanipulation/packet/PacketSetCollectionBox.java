@@ -68,3 +68,14 @@ public class PacketSetCollectionBox extends PacketBlockInteraction
 						NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
 						ItemChiseledArmor.writeCollectionBoxToNBT(nbt, message.playerYaw, message.useBitGrid,
 								message.facingBox, message.pos, message.side, message.hit);
+						stack.setTagCompound(nbt);
+						player.inventoryContainer.detectAndSendChanges();
+					}
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
