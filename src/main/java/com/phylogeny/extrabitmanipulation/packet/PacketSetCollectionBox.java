@@ -53,4 +53,18 @@ public class PacketSetCollectionBox extends PacketBlockInteraction
 	public static class Handler implements IMessageHandler<PacketSetCollectionBox, IMessage>
 	{
 		@Override
-		public IMessage on
+		public IMessage onMessage(final PacketSetCollectionBox message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					ItemStack stack = player.getHeldItemMainhand();
+					if (ItemStackHelper.isChiseledArmorStack(stack))
+					{
+						NBTTagCompound nbt = ItemStackHelper.getNBTOrNew(stack);
+						ItemChiseledArmor.writeCollectionBoxToNBT(nbt, message.playerYaw, message.useBitGrid,
+								message.facingBox, message.pos, message.side, message.hit);
