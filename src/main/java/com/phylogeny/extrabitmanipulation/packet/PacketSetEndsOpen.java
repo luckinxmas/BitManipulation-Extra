@@ -11,4 +11,31 @@ import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper;
 
 public class PacketSetEndsOpen extends PacketBoolean
 {
-	public PacketSetEn
+	public PacketSetEndsOpen() {}
+	
+	public PacketSetEndsOpen(boolean openEnds)
+	{
+		super(openEnds);
+	}
+	
+	public static class Handler implements IMessageHandler<PacketSetEndsOpen, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketSetEndsOpen message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					BitToolSettingsHelper.setEndsOpen(player, player.getHeldItemMainhand(), message.value, null);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
