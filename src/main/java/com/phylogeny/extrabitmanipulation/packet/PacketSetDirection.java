@@ -30,4 +30,12 @@ public class PacketSetDirection extends PacketInt
 				public void run()
 				{
 					EntityPlayer player = ctx.getServerHandler().player;
-					BitToolSettingsHelper.setDirection(player, 
+					BitToolSettingsHelper.setDirection(player, player.getHeldItemMainhand(), message.value, null);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
