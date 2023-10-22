@@ -43,4 +43,18 @@ public class PacketSetHollowShape implements IMessage
 		public IMessage onMessage(final PacketSetHollowShape message, final MessageContext ctx)
 		{
 			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
-			mainThread.addScheduledTask(new 
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					BitToolSettingsHelper.setHollowShape(player, player.getHeldItemMainhand(), message.isWire, message.hollowShape, null);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
