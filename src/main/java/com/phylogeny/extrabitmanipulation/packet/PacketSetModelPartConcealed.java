@@ -22,3 +22,29 @@ public class PacketSetModelPartConcealed extends PacketArmorSlotInt
 {
 	private boolean isOverlay, remove;
 	
+	public PacketSetModelPartConcealed() {}
+	
+	public PacketSetModelPartConcealed(@Nullable ArmorType armorType, int indexArmorSet, ModelMovingPart part, boolean isOverlay, boolean remove)
+	{
+		super(armorType, indexArmorSet, part.ordinal());
+		this.isOverlay = isOverlay;
+		this.remove = remove;
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		super.toBytes(buffer);
+		buffer.writeBoolean(isOverlay);
+		buffer.writeBoolean(remove);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		isOverlay = buffer.readBoolean();
+		remove = buffer.readBoolean();
+	}
+	
+	public static class Handler im
