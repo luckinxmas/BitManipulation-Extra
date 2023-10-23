@@ -24,4 +24,18 @@ public class PacketSetModelGuiOpen extends PacketBoolean
 		public IMessage onMessage(final PacketSetModelGuiOpen message, final MessageContext ctx)
 		{
 			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
-			mainThread.addScheduledTask(n
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					BitToolSettingsHelper.setModelGuiOpen(player, player.getHeldItemMainhand(), message.value, null);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
