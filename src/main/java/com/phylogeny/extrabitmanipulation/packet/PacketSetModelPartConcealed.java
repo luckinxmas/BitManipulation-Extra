@@ -47,4 +47,24 @@ public class PacketSetModelPartConcealed extends PacketArmorSlotInt
 		remove = buffer.readBoolean();
 	}
 	
-	public static class Handler im
+	public static class Handler implements IMessageHandler<PacketSetModelPartConcealed, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketSetModelPartConcealed message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					ItemStack stack = getArmorStack(player, message);
+					if (stack.isEmpty())
+						return;
+					
+					NBTTagCompound nbt = stack.getTagCompound();
+					if (nbt == null)
+						return;
+					
+					ModelPartConcealer modelPartConcealer 
