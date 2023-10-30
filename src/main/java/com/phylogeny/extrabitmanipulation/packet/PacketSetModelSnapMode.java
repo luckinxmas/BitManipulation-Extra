@@ -21,4 +21,21 @@ public class PacketSetModelSnapMode extends PacketInt
 	public static class Handler implements IMessageHandler<PacketSetModelSnapMode, IMessage>
 	{
 		@Override
-		pu
+		public IMessage onMessage(final PacketSetModelSnapMode message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					BitToolSettingsHelper.setModelSnapMode(player, player.getHeldItemMainhand(), message.value, null);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
