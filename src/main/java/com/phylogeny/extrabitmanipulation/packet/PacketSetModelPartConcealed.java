@@ -67,4 +67,21 @@ public class PacketSetModelPartConcealed extends PacketArmorSlotInt
 					if (nbt == null)
 						return;
 					
-					ModelPartConcealer modelPartConcealer 
+					ModelPartConcealer modelPartConcealer = ModelPartConcealer.loadFromNBT(nbt);
+					if (modelPartConcealer == null)
+						modelPartConcealer = new ModelPartConcealer();
+					
+					modelPartConcealer.addOrRemove(message.value, message.isOverlay, message.remove);
+					modelPartConcealer.saveToNBT(nbt);
+					player.inventoryContainer.detectAndSendChanges();
+					IChiseledArmorSlotsHandler cap = ChiseledArmorSlotsHandler.getCapability(player);
+					if (cap != null)
+						cap.onContentsChanged(message.armorType.getSlotIndex(message.indexArmorSet));
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
