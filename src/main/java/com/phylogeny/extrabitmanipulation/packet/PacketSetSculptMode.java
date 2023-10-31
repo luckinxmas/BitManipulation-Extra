@@ -23,4 +23,19 @@ public class PacketSetSculptMode extends PacketInt
 		@Override
 		public IMessage onMessage(final PacketSetSculptMode message, final MessageContext ctx)
 		{
-			IThreadListener main
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addScheduledTask(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					EntityPlayer player = ctx.getServerHandler().player;
+					BitToolSettingsHelper.setSculptMode(player, player.getHeldItemMainhand(), message.value, null);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
