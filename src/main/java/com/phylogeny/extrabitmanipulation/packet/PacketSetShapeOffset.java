@@ -1,3 +1,4 @@
+
 package com.phylogeny.extrabitmanipulation.packet;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,19 +10,19 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.phylogeny.extrabitmanipulation.helper.BitToolSettingsHelper;
 
-public class PacketSetSemiDiameter extends PacketInt
+public class PacketSetShapeOffset extends PacketBoolean
 {
-	public PacketSetSemiDiameter() {}
+	public PacketSetShapeOffset() {}
 	
-	public PacketSetSemiDiameter(int semiDiameter)
+	public PacketSetShapeOffset(boolean offsetShape)
 	{
-		super(semiDiameter);
+		super(offsetShape);
 	}
 	
-	public static class Handler implements IMessageHandler<PacketSetSemiDiameter, IMessage>
+	public static class Handler implements IMessageHandler<PacketSetShapeOffset, IMessage>
 	{
 		@Override
-		public IMessage onMessage(final PacketSetSemiDiameter message, final MessageContext ctx)
+		public IMessage onMessage(final PacketSetShapeOffset message, final MessageContext ctx)
 		{
 			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
 			mainThread.addScheduledTask(new Runnable()
@@ -30,7 +31,7 @@ public class PacketSetSemiDiameter extends PacketInt
 				public void run()
 				{
 					EntityPlayer player = ctx.getServerHandler().player;
-					BitToolSettingsHelper.setSemiDiameter(player, player.getHeldItemMainhand(), message.value, null);
+					BitToolSettingsHelper.setShapeOffset(player, player.getHeldItemMainhand(), message.value, null);
 				}
 			});
 			return null;
