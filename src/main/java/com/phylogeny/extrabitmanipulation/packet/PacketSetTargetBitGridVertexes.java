@@ -29,4 +29,13 @@ public class PacketSetTargetBitGridVertexes extends PacketBoolean
 				@Override
 				public void run()
 				{
-					EntityPlayer player = ctx.getServerHa
+					EntityPlayer player = ctx.getServerHandler().player;
+					BitToolSettingsHelper.setBitGridTargeted(player, player.getHeldItemMainhand(), message.value, null);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
