@@ -33,4 +33,9 @@ public class PacketSetWallThickness extends PacketInt
 					BitToolSettingsHelper.setWallThickness(player, player.getHeldItemMainhand(), message.value, null);
 				}
 			});
-			retu
+			return null;
+		}
+		
+	}
+	
+}
