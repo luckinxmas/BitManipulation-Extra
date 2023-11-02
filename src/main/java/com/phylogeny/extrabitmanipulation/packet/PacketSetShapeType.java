@@ -50,3 +50,11 @@ public class PacketSetShapeType implements IMessage
 				{
 					EntityPlayer player = ctx.getServerHandler().player;
 					BitToolSettingsHelper.setShapeType(player, player.getHeldItemMainhand(), message.isCurved, message.shapeType, null);
+				}
+			});
+			return null;
+		}
+		
+	}
+	
+}
