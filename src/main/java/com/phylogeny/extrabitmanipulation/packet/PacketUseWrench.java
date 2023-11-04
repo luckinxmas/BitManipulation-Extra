@@ -24,4 +24,30 @@ public class PacketUseWrench extends PacketBlockInteraction implements IMessage
 	public PacketUseWrench(BlockPos pos, EnumFacing side, boolean bitRequirement, boolean invertDirection)
 	{
 		super(pos, side, new Vec3d(0, 0, 0));
-		this.bitRequirement
+		this.bitRequirement = bitRequirement;
+		this.invertDirection = invertDirection;
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buffer)
+	{
+		super.toBytes(buffer);
+		buffer.writeBoolean(bitRequirement);
+		buffer.writeBoolean(invertDirection);
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buffer)
+	{
+		super.fromBytes(buffer);
+		bitRequirement = buffer.readBoolean();
+		invertDirection = buffer.readBoolean();
+	}
+	
+	public static class Handler implements IMessageHandler<PacketUseWrench, IMessage>
+	{
+		@Override
+		public IMessage onMessage(final PacketUseWrench message, final MessageContext ctx)
+		{
+			IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
+			mainThread.addSch
