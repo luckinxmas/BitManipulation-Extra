@@ -14,4 +14,19 @@ import com.phylogeny.extrabitmanipulation.client.ClientEventHandler;
 import com.phylogeny.extrabitmanipulation.client.ClientHelper;
 import com.phylogeny.extrabitmanipulation.client.render.RenderEntityBit;
 import com.phylogeny.extrabitmanipulation.entity.EntityBit;
-import com.phylogeny.ex
+import com.phylogeny.extrabitmanipulation.init.ItemsExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.init.KeyBindingsExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.init.ModelRegistration;
+import com.phylogeny.extrabitmanipulation.init.ReflectionExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.init.RenderLayersExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.init.SoundsExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.reference.ChiselsAndBitsReferences;
+import com.phylogeny.extrabitmanipulation.reference.Configs;
+
+public class ProxyClient extends ProxyCommon
+{
+	
+	@Override
+	public void preinit(FMLPreInitializationEvent event)
+	{
+		super.pre
