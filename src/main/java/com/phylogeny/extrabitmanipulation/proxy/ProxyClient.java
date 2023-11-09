@@ -29,4 +29,24 @@ public class ProxyClient extends ProxyCommon
 	@Override
 	public void preinit(FMLPreInitializationEvent event)
 	{
-		super.pre
+		super.preinit(event);
+		ReflectionExtraBitManipulation.initReflectionFieldsClient();
+		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+		MinecraftForge.EVENT_BUS.register(new SoundsExtraBitManipulation());
+		MinecraftForge.EVENT_BUS.register(new ModelRegistration());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBit.class, new IRenderFactory<EntityBit>()
+		{
+			@Override
+			public Render<EntityBit> createRenderFor(RenderManager manager)
+			{
+				return new RenderEntityBit(manager);
+			}
+		});
+	}
+	
+	@Override
+	public void init()
+	{
+		super.init();
+		KeyBindingsExtraBitManipulation.init();
+		FMLInterModComms.sendMessage(ChiselsAndBitsReferences.MOD_ID, "initkeybindi
