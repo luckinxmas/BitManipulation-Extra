@@ -49,4 +49,24 @@ public class ProxyClient extends ProxyCommon
 	{
 		super.init();
 		KeyBindingsExtraBitManipulation.init();
-		FMLInterModComms.sendMessage(ChiselsAndBitsReferences.MOD_ID, "initkeybindi
+		FMLInterModComms.sendMessage(ChiselsAndBitsReferences.MOD_ID, "initkeybindingannotations", "");
+	}
+	
+	@Override
+	public void postinit()
+	{
+		RenderLayersExtraBitManipulation.initLayers();
+		Configs.sculptSetBitWire.init();
+		Configs.sculptSetBitSpade.init();
+		Configs.replacementBitsUnchiselable.initDefaultReplacementBit();
+		Configs.replacementBitsInsufficient.initDefaultReplacementBit();
+		Configs.initModelingBitMaps();
+		ClientHelper.getItemColors().registerItemColorHandler(new IItemColor()
+		{
+			@Override
+			public int getColorFromItemstack(ItemStack stack, int tintIndex)
+			{
+				return tintIndex;
+			}
+		}, ItemsExtraBitManipulation.chiseledHelmetDiamond, ItemsExtraBitManipulation.chiseledChestplateDiamond,
+			ItemsExtr
