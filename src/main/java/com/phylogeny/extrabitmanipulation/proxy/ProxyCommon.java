@@ -18,4 +18,13 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import com.phylogeny.extrabitmanipulation.ExtraBitManipulation;
-import com.phylogeny.extrabitmanipulation.armor.capability.ChiseledArmorSlotsEventH
+import com.phylogeny.extrabitmanipulation.armor.capability.ChiseledArmorSlotsEventHandler;
+import com.phylogeny.extrabitmanipulation.armor.capability.ChiseledArmorSlotsHandler;
+import com.phylogeny.extrabitmanipulation.armor.capability.ChiseledArmorSlotsStorage;
+import com.phylogeny.extrabitmanipulation.armor.capability.IChiseledArmorSlotsHandler;
+import com.phylogeny.extrabitmanipulation.client.gui.GuiBitMapping;
+import com.phylogeny.extrabitmanipulation.client.gui.armor.GuiChiseledArmor;
+import com.phylogeny.extrabitmanipulation.client.gui.armor.GuiInventoryArmorSlots;
+import com.phylogeny.extrabitmanipulation.config.ConfigHandlerExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.container.ContainerHeldItem;
+import com.phylogeny.extrabitmani
