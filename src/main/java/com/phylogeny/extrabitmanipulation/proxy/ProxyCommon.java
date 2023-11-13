@@ -27,4 +27,13 @@ import com.phylogeny.extrabitmanipulation.client.gui.armor.GuiChiseledArmor;
 import com.phylogeny.extrabitmanipulation.client.gui.armor.GuiInventoryArmorSlots;
 import com.phylogeny.extrabitmanipulation.config.ConfigHandlerExtraBitManipulation;
 import com.phylogeny.extrabitmanipulation.container.ContainerHeldItem;
-import com.phylogeny.extrabitmani
+import com.phylogeny.extrabitmanipulation.container.ContainerPlayerArmorSlots;
+import com.phylogeny.extrabitmanipulation.container.ContainerPlayerInventory;
+import com.phylogeny.extrabitmanipulation.entity.EntityBit;
+import com.phylogeny.extrabitmanipulation.helper.ItemStackHelper;
+import com.phylogeny.extrabitmanipulation.init.BlocksExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.init.ItemsExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.init.PacketRegistration;
+import com.phylogeny.extrabitmanipulation.init.RecipesExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.init.ReflectionExtraBitManipulation;
+import com.phylogeny.extrabitmanipulation.ref
