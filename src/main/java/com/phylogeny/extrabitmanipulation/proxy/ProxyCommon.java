@@ -36,4 +36,19 @@ import com.phylogeny.extrabitmanipulation.init.ItemsExtraBitManipulation;
 import com.phylogeny.extrabitmanipulation.init.PacketRegistration;
 import com.phylogeny.extrabitmanipulation.init.RecipesExtraBitManipulation;
 import com.phylogeny.extrabitmanipulation.init.ReflectionExtraBitManipulation;
-import com.phylogeny.extrabitmanipulation.ref
+import com.phylogeny.extrabitmanipulation.reference.BaublesReferences;
+import com.phylogeny.extrabitmanipulation.reference.CustomNPCsReferences;
+import com.phylogeny.extrabitmanipulation.reference.GuiIDs;
+import com.phylogeny.extrabitmanipulation.reference.JeiReferences;
+import com.phylogeny.extrabitmanipulation.reference.MorePlayerModelsReference;
+import com.phylogeny.extrabitmanipulation.reference.Reference;
+
+public class ProxyCommon implements IGuiHandler
+{
+	
+	public void preinit(FMLPreInitializationEvent event)
+	{
+		BlocksExtraBitManipulation.blocksInit();
+		ItemsExtraBitManipulation.itemsInit(event);
+		BaublesReferences.isLoaded = Loader.isModLoaded(BaublesReferences.MOD_ID);
+		JeiReference
