@@ -67,4 +67,26 @@ public class ProxyCommon implements IGuiHandler
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ChiselsAndBits.getItems().itemBlockBit, new BehaviorProjectileDispense()
 		{
 			@Override
-			protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack s
+			protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn)
+			{
+				return new EntityBit(worldIn, position.getX(), position.getY(), position.getZ(), stackIn);
+			}
+		});
+		ReflectionExtraBitManipulation.initReflectionFieldsCommon();
+		ChiseledArmorSlotsEventHandler.addCommandTabCompletions();
+	}
+	
+	public void init()
+	{
+		RecipesExtraBitManipulation.registerOres();
+		NetworkRegistry.INSTANCE.registerGuiHandler(ExtraBitManipulation.instance, new ProxyCommon());
+	}
+	
+	public void postinit() {}
+	
+	public static ContainerHeldItem createBitMappingContainer(EntityPlayer player)
+	{
+		return new ContainerHeldItem(player, 60, 137);
+	}
+	
+	public static ContainerPlayerInventory createArm
