@@ -59,4 +59,12 @@ public class ProxyCommon implements IGuiHandler
 		MinecraftForge.EVENT_BUS.register(new ItemsExtraBitManipulation());
 		MinecraftForge.EVENT_BUS.register(new BlocksExtraBitManipulation());
 		MinecraftForge.EVENT_BUS.register(new RecipesExtraBitManipulation());
-		MinecraftForge.EVENT_BUS.register(new ChiseledArmorSlotsEv
+		MinecraftForge.EVENT_BUS.register(new ChiseledArmorSlotsEventHandler());
+		CapabilityManager.INSTANCE.register(IChiseledArmorSlotsHandler.class, new ChiseledArmorSlotsStorage(), ChiseledArmorSlotsHandler::new);
+		PacketRegistration.registerPackets();
+		ResourceLocation name = new ResourceLocation(Reference.MOD_ID, "entity_bit");
+		EntityRegistry.registerModEntity(name, EntityBit.class, name.toString(), 0, ExtraBitManipulation.instance, 64, 3, false);
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ChiselsAndBits.getItems().itemBlockBit, new BehaviorProjectileDispense()
+		{
+			@Override
+			protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack s
