@@ -51,4 +51,12 @@ public class ProxyCommon implements IGuiHandler
 		BlocksExtraBitManipulation.blocksInit();
 		ItemsExtraBitManipulation.itemsInit(event);
 		BaublesReferences.isLoaded = Loader.isModLoaded(BaublesReferences.MOD_ID);
-		JeiReference
+		JeiReferences.isLoaded = Loader.isModLoaded(JeiReferences.MOD_ID);
+		MorePlayerModelsReference.isLoaded = Loader.isModLoaded(MorePlayerModelsReference.MOD_ID);
+		CustomNPCsReferences.isLoaded = Loader.isModLoaded(CustomNPCsReferences.MOD_ID);
+		ConfigHandlerExtraBitManipulation.setUpConfigs(event.getModConfigurationDirectory());
+		MinecraftForge.EVENT_BUS.register(new ConfigHandlerExtraBitManipulation());
+		MinecraftForge.EVENT_BUS.register(new ItemsExtraBitManipulation());
+		MinecraftForge.EVENT_BUS.register(new BlocksExtraBitManipulation());
+		MinecraftForge.EVENT_BUS.register(new RecipesExtraBitManipulation());
+		MinecraftForge.EVENT_BUS.register(new ChiseledArmorSlotsEv
