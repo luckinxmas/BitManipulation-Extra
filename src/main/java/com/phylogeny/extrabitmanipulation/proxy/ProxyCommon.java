@@ -89,4 +89,24 @@ public class ProxyCommon implements IGuiHandler
 		return new ContainerHeldItem(player, 60, 137);
 	}
 	
-	public static ContainerPlayerInventory createArm
+	public static ContainerPlayerInventory createArmorContainer(EntityPlayer player)
+	{
+		return new ContainerPlayerInventory(player, 57, 148);
+	}
+	
+	public static ContainerPlayerArmorSlots createArmorSlotsContainer(EntityPlayer player)
+	{
+		return new ContainerPlayerArmorSlots(player.inventory, !player.world.isRemote, player);
+	}
+	
+	@Override
+	public Object getServerGuiElement(int id, EntityPlayer player, World world, int unused0, int unused1, int unused2)
+	{
+		if (openBitMappingGui(id, player.getHeldItemMainhand()))
+			return createBitMappingContainer(player);
+		
+		if (id == GuiIDs.CHISELED_ARMOR.getID())
+			return createArmorContainer(player);
+		
+		if (id == GuiIDs.CHISELED_ARMOR_SLOTS.getID())
+			return createArmo
