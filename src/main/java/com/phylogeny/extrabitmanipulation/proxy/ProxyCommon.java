@@ -109,4 +109,26 @@ public class ProxyCommon implements IGuiHandler
 			return createArmorContainer(player);
 		
 		if (id == GuiIDs.CHISELED_ARMOR_SLOTS.getID())
-			return createArmo
+			return createArmorSlotsContainer(player);
+		
+		return null;
+	}
+	
+	@Override
+	public Object getClientGuiElement(int id, EntityPlayer player, World world, int unused0, int unused1, int unused2)
+	{
+		if (openBitMappingGui(id, player.getHeldItemMainhand()))
+			return new GuiBitMapping(player, ItemStackHelper.isDesignStack(player.getHeldItemMainhand()));
+		
+		if (id == GuiIDs.CHISELED_ARMOR.getID())
+			return new GuiChiseledArmor(player);
+		
+		if (id == GuiIDs.CHISELED_ARMOR_SLOTS.getID())
+			return new GuiInventoryArmorSlots(createArmorSlotsContainer(player));
+		
+		return null;
+	}
+	
+	private boolean openBitMappingGui(int id, ItemStack stack)
+	{
+		return id == GuiIDs.BIT_MAPPING.getID() && (ItemStackHelper.isModelingToolStack(st
