@@ -131,4 +131,7 @@ public class ProxyCommon implements IGuiHandler
 	
 	private boolean openBitMappingGui(int id, ItemStack stack)
 	{
-		return id == GuiIDs.BIT_MAPPING.getID() && (ItemStackHelper.isModelingToolStack(st
+		return id == GuiIDs.BIT_MAPPING.getID() && (ItemStackHelper.isModelingToolStack(stack) || ItemStackHelper.isDesignStack(stack));
+	}
+	
+}
