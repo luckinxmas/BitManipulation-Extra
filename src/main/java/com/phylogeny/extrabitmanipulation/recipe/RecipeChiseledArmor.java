@@ -33,3 +33,19 @@ public class RecipeChiseledArmor extends ShapelessOreRecipe
 	{
 		ResourceLocation name = item.getRegistryName();
 		return name != null ? name.toString().substring(name.toString().indexOf(":") + 1).replace("_", "") : "";
+	}
+	
+	@Override
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv)
+	{
+		NonNullList<ItemStack> remainingItems = NonNullList.<ItemStack>withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+		for (int i = 0; i < remainingItems.size(); i++)
+		{
+			ItemStack stack = inv.getStackInSlot(i);
+			if (stack.getItem() instanceof ItemChisel)
+			{
+				ItemStack chiselRemaining = stack.copy();
+				EntityPlayer player = ForgeHooks.getCraftingPlayer();
+				if (chiselRemaining.attemptDamageItem(bitCost, rand, player instanceof EntityPlayerMP ? (EntityPlayerMP) player : null))
+				{
+					ForgeEventFactory.onPlayerDestroyItem(p
