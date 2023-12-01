@@ -15,4 +15,21 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import com.phylogeny.extrabi
+import com.phylogeny.extrabitmanipulation.reference.Reference;
+
+public class RecipeChiseledArmor extends ShapelessOreRecipe
+{
+	private Random rand = new Random();
+	private int bitCost;
+	
+	public RecipeChiseledArmor(NonNullList<Ingredient> ingredients, Item output, Item input, int bitCost)
+	{
+		super(null, ingredients, new ItemStack(output));
+		this.bitCost = bitCost;
+		setRegistryName(Reference.MOD_ID, "chiseledarmor" + "_chisel" + "+" + getItemName(input) + "=" + getItemName(output));
+	}
+	
+	private String getItemName(Item item)
+	{
+		ResourceLocation name = item.getRegistryName();
+		return name != null ? name.toString().substring(name.toString().indexOf(":") + 1).replace("_", "") : "";
