@@ -48,4 +48,14 @@ public class RecipeChiseledArmor extends ShapelessOreRecipe
 				EntityPlayer player = ForgeHooks.getCraftingPlayer();
 				if (chiselRemaining.attemptDamageItem(bitCost, rand, player instanceof EntityPlayerMP ? (EntityPlayerMP) player : null))
 				{
-					ForgeEventFactory.onPlayerDestroyItem(p
+					ForgeEventFactory.onPlayerDestroyItem(player, stack, null);
+					chiselRemaining = ItemStack.EMPTY;
+				}
+				remainingItems.set(i, chiselRemaining);
+				break;
+			}
+		}
+		return remainingItems;
+	}
+	
+}
