@@ -18,4 +18,8 @@ public class Cube extends SymmetricalShape
 	
 	private boolean isPointInsideisCube(float x, float y, float z, float semiDiameter)
 	{
-		return x <= centerX + semiDiameter && x >= centerX 
+		return x <= centerX + semiDiameter && x >= centerX - semiDiameter && y <= centerY + semiDiameter
+				&& y >= centerY - semiDiameter && z <= centerZ + semiDiameter && z >= centerZ - semiDiameter;
+	}
+	
+}
