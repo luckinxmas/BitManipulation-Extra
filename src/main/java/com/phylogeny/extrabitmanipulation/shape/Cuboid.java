@@ -13,3 +13,11 @@ public class Cuboid extends AsymmetricalShape
 		float z = getBitPosZ(pos, j, k);
 		boolean inShape = isPointInsideisCuboid(x, y, z, a, b, c);
 		return sculptHollowShape ? inShape && !isPointInsideisCuboid(x, y, z, aInset, bInset, cInset) : inShape;
+	}
+	
+	private boolean isPointInsideisCuboid(float x, float y, float z, float a, float b, float c)
+	{
+		return x <= centerX + a && x >= centerX - a && y <= centerY + b && y >= centerY - b && z <= centerZ + c && z >= centerZ - c;
+	}
+	
+}
