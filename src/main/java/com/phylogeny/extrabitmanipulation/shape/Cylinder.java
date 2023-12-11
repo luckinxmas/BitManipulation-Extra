@@ -30,4 +30,9 @@ public class Cylinder extends SymmetricalShape
 				&& (openEnds || !(isPointOffLine(y, centerY, semiDiameterInset)))) : inShape;
 	}
 	
-	private boolea
+	private boolean isPointInCircle(float semiDiameter, float dist)
+	{
+		return dist <= semiDiameter;
+	}
+	
+}
