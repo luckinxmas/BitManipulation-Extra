@@ -18,4 +18,24 @@ public abstract class SlopedAsymmetricalShape extends AsymmetricalShape
 		cInset2 = this.b - (float) ((Math.sqrt(this.c * this.c + hsq) * wallThickness) / this.c);
 		float bInset2 = Math.max(aInset2, cInset2);
 		insetMax = this.centerY + bInset;
-		insetMin = this.centerY - 
+		insetMin = this.centerY - bInset;
+		insetMax2 = this.centerY + bInset2;
+		insetMin2 = this.centerY - bInset2;
+	}
+	
+	@Override
+	public boolean isPointInsideShape(BlockPos pos, int i, int j, int k)
+	{
+		float y = getBitPosY(pos, i, j, k);
+		if (isPointOffLine(y, centerY, b))
+			return false;
+		
+		float dx = getBitPosDiffX(pos, i, j, centerX);
+		float dz = getBitPosDiffZ(pos, j, k, centerZ);
+		boolean inShape = isPointIn2DShape(y, b, b, dx, dz);
+		return sculptHollowShape ? inShape && !(isPointIn2DShape(y, aInset2, cInset2, dx, dz) && !isPointOffLine(y)) : inShape;
+	}
+	
+	protected boolean isPointOffLine(float val)
+	{
+		return inverted ? (!openEnds && val > 
