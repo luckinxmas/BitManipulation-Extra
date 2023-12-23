@@ -38,4 +38,9 @@ public abstract class SlopedAsymmetricalShape extends AsymmetricalShape
 	
 	protected boolean isPointOffLine(float val)
 	{
-		return inverted ? (!openEnds && val > 
+		return inverted ? (!openEnds && val > insetMax) || val < insetMin2 : (!openEnds && val < insetMin) || val > insetMax2;
+	}
+	
+	protected abstract boolean isPointIn2DShape(float val, float semiDiameter1, float semiDiameter2, float dv1, float dv2);
+	
+}
