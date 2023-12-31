@@ -17,4 +17,8 @@ public abstract class SymmetricalShape extends Shape
 	@Override
 	protected AxisAlignedBB getBoundingBox()
 	{
-		return new AxisAlignedBB(centerX - semiDiameter, centerY - semiDiameter, centerZ - 
+		return new AxisAlignedBB(centerX - semiDiameter, centerY - semiDiameter, centerZ - semiDiameter,
+				centerX + semiDiameter, centerY + semiDiameter, centerZ + semiDiameter);
+	}
+	
+}
