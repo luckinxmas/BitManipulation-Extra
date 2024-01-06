@@ -11,4 +11,16 @@ keybinding.extrabitmanipulation.chiseledarmor.slots=Open Chiseled Armor Vanity S
 keybinding.extrabitmanipulation.design=Edit Chisel Design
 keybinding.extrabitmanipulation.throw.bit=Throw Bit
 keybinding.extrabitmanipulation.throw.bit.bitbag=Throw Bit From Bit Bag
-keybinding.extrabit
+keybinding.extrabitmanipulation.shift=Bit Tool SHIFT Replacement
+keybinding.extrabitmanipulation.control=Bit Tool CONTROL Replacement
+keybinding.extrabitmanipulation.alt=Bit Tool ALT Replacement
+
+tile.extrabitmanipulation:bodypart_template.name=Bodypart Template
+
+item.extrabitmanipulation:diamond_nugget.name=Diamond Nugget
+item.extrabitmanipulation:bit_wrench.name=Bit Wrench
+item.extrabitmanipulation:sculpting_loop.name=Curved Sculpting Wire
+item.extrabitmanipulation:sculpting_square.name=Straight Sculpting Wire
+item.extrabitmanipulation:sculpting_spade_curved.name=Curved Sculpting Spade
+item.extrabitmanipulation:sculpting_spade_squared.name=Flat Sculpting Spade
+item.extrabitman
