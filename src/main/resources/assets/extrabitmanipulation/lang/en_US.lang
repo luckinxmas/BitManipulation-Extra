@@ -23,4 +23,13 @@ item.extrabitmanipulation:sculpting_loop.name=Curved Sculpting Wire
 item.extrabitmanipulation:sculpting_square.name=Straight Sculpting Wire
 item.extrabitmanipulation:sculpting_spade_curved.name=Curved Sculpting Spade
 item.extrabitmanipulation:sculpting_spade_squared.name=Flat Sculpting Spade
-item.extrabitman
+item.extrabitmanipulation:modeling_tool.name=Modeling Tool
+item.extrabitmanipulation:modeling_tool_head.name=Modeling Tool Head
+item.extrabitmanipulation:bit_wrench_head.name=Bit Wrench Head
+item.extrabitmanipulation:sculpting_loop_head.name=Curved Sculpting Wire Head
+item.extrabitmanipulation:sculpting_square_head.name=Straight Sculpting Wire Head
+item.extrabitmanipulation:sculpting_spade_curved_head.name=Curved Sculpting Spade Head
+item.extrabitmanipulation:sculpting_spade_squared_head.name=Flat Sculpting Spade Head
+item.extrabitmanipulation:chiseled_helmet.name=Chiseled Diamond Helmet
+item.extrabitmanipulation:chiseled_chestplate.name=Chiseled Diamond Chestplate
+item.extrabitmanipulation:chiseled_leggings
