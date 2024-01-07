@@ -32,4 +32,15 @@ item.extrabitmanipulation:sculpting_spade_curved_head.name=Curved Sculpting Spad
 item.extrabitmanipulation:sculpting_spade_squared_head.name=Flat Sculpting Spade Head
 item.extrabitmanipulation:chiseled_helmet.name=Chiseled Diamond Helmet
 item.extrabitmanipulation:chiseled_chestplate.name=Chiseled Diamond Chestplate
-item.extrabitmanipulation:chiseled_leggings
+item.extrabitmanipulation:chiseled_leggings.name=Chiseled Diamond Leggings
+item.extrabitmanipulation:chiseled_boots.name=Chiseled Diamond Boots
+item.extrabitmanipulation:chiseled_helmet_iron.name=Chiseled Iron Helmet
+item.extrabitmanipulation:chiseled_chestplate_iron.name=Chiseled Iron Chestplate
+item.extrabitmanipulation:chiseled_leggings_iron.name=Chiseled Iron Leggings
+item.extrabitmanipulation:chiseled_boots_iron.name=Chiseled Iron Boots
+
+jei.extrabitmanipulation.category.shape=C&B Sculpting Shapes
+jei.extrabitmanipulation.category.model=Modeling
+jei.extrabitmanipulation.category.chiseled_armor=Chiseled Armor
+jei.extrabitmanipulation.shape.name.ellipsoid=Ellipsoid
+jei.extrabitmani
