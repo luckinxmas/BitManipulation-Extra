@@ -61,4 +61,9 @@ jei.extrabitmanipulation.chiseled_armor.name.collection=Block Collection
 jei.extrabitmanipulation.chiseled_armor.name.chiseled_armor_gui=Chiseled Armor GUI
 jei.extrabitmanipulation.chiseled_armor.name.chiseled_armor_slots_gui=Vanity Slots
 jei.extrabitmanipulation.chiseled_armor.tooltip.chiseled_helmet= Example of a 1:4\nscale helmet model
-jei.extrabitmanipulation.chiseled_armo
+jei.extrabitmanipulation.chiseled_armor.tooltip.creation= Settings the\nhead template
+jei.extrabitmanipulation.chiseled_armor.tooltip.collection= Collecting the\nchiseled blocks 
+jei.extrabitmanipulation.chiseled_armor.tooltip.chiseled_armor_gui= All render data can\nbe modified in the GUI\n    §b(add any item)
+jei.extrabitmanipulation.chiseled_armor.tooltip.chiseled_armor_slots_gui=Click the helmet icon (if displayed) in the survival player inventory or press @ to access
+jei.extrabitmanipulation.chiseled_armor.text.chiseled_helmet=Render items and blocks as moving parts of armor pieces.
+jei.extrabitmanipulation.chiseled_armor.text.creation=To import copies of blocks from the world, start by setting a body
