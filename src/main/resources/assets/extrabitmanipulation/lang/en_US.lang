@@ -54,4 +54,11 @@ jei.extrabitmanipulation.shape.name.open=Open
 jei.extrabitmanipulation.shape.tooltip=   Chisels & Bits\n Sculpting Shapes\n  §bSpades Add Bits\n §bWires Remove Bits
 jei.extrabitmanipulation.model.name.village=Village
 jei.extrabitmanipulation.model.name.village_model=Model of Village
-jei.extrabitmanipu
+jei.extrabitmanipulation.model.tooltip=   Create Chisels & Bits\nBlock Models of the World
+jei.extrabitmanipulation.chiseled_armor.name.chiseled_helmet=Chiseled Armor
+jei.extrabitmanipulation.chiseled_armor.name.creation=Template Creation
+jei.extrabitmanipulation.chiseled_armor.name.collection=Block Collection
+jei.extrabitmanipulation.chiseled_armor.name.chiseled_armor_gui=Chiseled Armor GUI
+jei.extrabitmanipulation.chiseled_armor.name.chiseled_armor_slots_gui=Vanity Slots
+jei.extrabitmanipulation.chiseled_armor.tooltip.chiseled_helmet= Example of a 1:4\nscale helmet model
+jei.extrabitmanipulation.chiseled_armo
