@@ -43,4 +43,15 @@ jei.extrabitmanipulation.category.shape=C&B Sculpting Shapes
 jei.extrabitmanipulation.category.model=Modeling
 jei.extrabitmanipulation.category.chiseled_armor=Chiseled Armor
 jei.extrabitmanipulation.shape.name.ellipsoid=Ellipsoid
-jei.extrabitmani
+jei.extrabitmanipulation.shape.name.elliptic_cylinder=Elliptic Cylinder
+jei.extrabitmanipulation.shape.name.elliptic_cone=Elliptic Cone
+jei.extrabitmanipulation.shape.name.cuboid=Cuboid
+jei.extrabitmanipulation.shape.name.rectangular_pyramid=Rectangular Pyramid
+jei.extrabitmanipulation.shape.name.solid=Solid
+jei.extrabitmanipulation.shape.name.hollow=Hollow
+jei.extrabitmanipulation.shape.name.closed=Closed
+jei.extrabitmanipulation.shape.name.open=Open
+jei.extrabitmanipulation.shape.tooltip=   Chisels & Bits\n Sculpting Shapes\n  §bSpades Add Bits\n §bWires Remove Bits
+jei.extrabitmanipulation.model.name.village=Village
+jei.extrabitmanipulation.model.name.village_model=Model of Village
+jei.extrabitmanipu
