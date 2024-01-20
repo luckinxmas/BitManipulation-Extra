@@ -71,4 +71,8 @@ jei.extrabitmanipulation.chiseled_armor.text.collection=Once your model is creat
 jei.extrabitmanipulation.chiseled_armor.text.chiseled_armor_gui=Items (and rendering operations to apply to them) of worn armor pieces can be added and modified by pressing @.
 jei.extrabitmanipulation.chiseled_armor.text.chiseled_armor_slots_gui=Armor worn in one of the added inventory vanity slots renders on the player, but doesn't take up an armor slot.
 
-jei.description.chiselsandbits:block_bit=Press Extra Bit Manipulation's Throw Bit key binding (default: R) to throw bits 
+jei.description.chiselsandbits:block_bit=Press Extra Bit Manipulation's Throw Bit key binding (default: R) to throw bits like snowballs. They can be deployed from vanilla dispensers, as well. Upon block collision, they place in the world, if possible. If not possible (or if thrown at entities) they drop as items.\nIf not disabled via config, bits with a material of lava ignite blocks/entities and bit with a material of water extinguish them. Throwing a water bit at a Blaze will damage it.
+
+jei.description.extrabitmanipulation:designs=Press Extra Bit Manipulation's Edit Chisel Design key binding (default: R) to see the block states in the design, preview the result up-close, and to remove bits or replace bits with different bits.
+
+jei.description.extrabitmanipulation:bit_wrench=This wrenc
