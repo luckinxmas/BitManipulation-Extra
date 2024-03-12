@@ -1,5 +1,6 @@
+
 {
-    "parent": "extrabitmanipulation:item/moving_part_left_leg_0",
+    "parent": "extrabitmanipulation:item/moving_part_right_leg_1",
     "textures": {
         "opaque": "minecraft:blocks/diamond_block"
     }
