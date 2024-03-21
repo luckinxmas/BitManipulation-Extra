@@ -1,5 +1,5 @@
 {
-    "parent": "extrabitmanipulation:item/moving_part_pelvis_0",
+    "parent": "extrabitmanipulation:item/moving_part_right_arm_0",
     "textures": {
         "opaque": "minecraft:blocks/iron_block"
     }
