@@ -43,4 +43,5 @@
 { "from": [4,12,12], "to": [12,15,12], "faces": { "north":  { "uv": [4,1,12,4], "texture": "#opaque" } } }
 ],
 "display": {
-"gui": { "rotation": [ 30, 45, 0 ], "scale": [ 0
+"gui": { "rotation": [ 30, 45, 0 ], "scale": [ 0.65, 0.65, 0.65 ] }
+} }
