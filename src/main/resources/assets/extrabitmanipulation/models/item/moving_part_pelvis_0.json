@@ -55,4 +55,9 @@
 { "from": [2,11,11], "to": [14,16,11], "faces": { "south":  { "uv": [2,0,14,5], "texture": "#opaque" } } },
 { "from": [2,11,5], "to": [14,16,5], "faces": { "north":  { "uv": [2,0,14,5], "texture": "#opaque" } } },
 { "from": [3,11,10], "to": [6,12,10], "faces": { "north":  { "uv": [10,4,13,5], "texture": "#opaque" } } },
-{ "from": [10,11,10], "to": [13,12,10], "faces
+{ "from": [10,11,10], "to": [13,12,10], "faces": { "north":  { "uv": [3,4,6,5], "texture": "#opaque" } } },
+{ "from": [3,12,10], "to": [13,16,10], "faces": { "north":  { "uv": [3,0,13,4], "texture": "#opaque" } } }
+],
+"display": {
+"gui": { "rotation": [ 30, 45, 0 ], "scale": [ 0.65, 0.65, 0.65 ] }
+} }
