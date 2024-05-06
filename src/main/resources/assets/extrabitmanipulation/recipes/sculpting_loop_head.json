@@ -1,9 +1,10 @@
+
 {
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
-		"   ",
-		"DDD",
-		"DD "
+		" D ",
+		"D D",
+		" D "
 	],
 	"key": {
 		"D": {
@@ -12,6 +13,6 @@
 		}
 	},
 	"result": {
-		"item": "extrabitmanipulation:modeling_tool_head"
+		"item": "extrabitmanipulation:sculpting_loop_head"
 	}
 }

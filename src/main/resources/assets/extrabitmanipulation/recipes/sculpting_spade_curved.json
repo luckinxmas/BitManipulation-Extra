@@ -1,0 +1,9 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" H",
+		"I "
+	],
+	"key": {
+		"H": {
+			"item": "extrabitmanipulation:sculpting_spade_curved_head"
