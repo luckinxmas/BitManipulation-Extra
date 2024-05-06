@@ -6,13 +6,13 @@
 	],
 	"key": {
 		"H": {
-			"item": "extrabitmanipulation:sculpting_spade_curved_head"
+			"item": "extrabitmanipulation:sculpting_spade_squared_head"
 		},
 		"I": {
 			"item": "minecraft:iron_ingot"
 		}
 	},
 	"result": {
-		"item": "extrabitmanipulation:sculpting_spade_curved"
+		"item": "extrabitmanipulation:sculpting_spade_squared"
 	}
 }
