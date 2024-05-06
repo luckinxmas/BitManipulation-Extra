@@ -7,3 +7,11 @@
 	],
 	"key": {
 		"D": {
+			"type": "forge:ore_dict",
+			"ore": "nuggetDiamond"
+		}
+	},
+	"result": {
+		"item": "extrabitmanipulation:sculpting_square_head"
+	}
+}
