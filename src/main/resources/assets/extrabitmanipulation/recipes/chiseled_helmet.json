@@ -1,0 +1,12 @@
+
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "extrabitmanipulation:chiseled_helmet"
+		}
+	],
+	"result": {
+		"item": "extrabitmanipulation:chiseled_helmet"
+	}
+}

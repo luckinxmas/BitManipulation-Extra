@@ -7,3 +7,12 @@
 		" D "
 	],
 	"key": {
+		"D": {
+			"type": "forge:ore_dict",
+			"ore": "nuggetDiamond"
+		}
+	},
+	"result": {
+		"item": "extrabitmanipulation:bit_wrench_head"
+	}
+}
