@@ -18,4 +18,5 @@
 { "from": [3,0,10], "to": [6,11,10], "faces": { "north":  { "uv": [10,5,13,16], "texture": "#opaque" } } }
 ],
 "display": {
-"gui": { "rotation": [ 30, 45, 0 ], "scale":
+"gui": { "rotation": [ 30, 45, 0 ], "scale": [ 0.65, 0.65, 0.65 ] }
+} }
