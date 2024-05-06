@@ -1,2 +1,6 @@
 {
-    "pare
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "extrabitmanipulation:items/sculpting_spade_squared"
+    }
+}
